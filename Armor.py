@@ -1,5 +1,6 @@
 import math
 import imageio
+import numpy as np
 
 from PIL import Image, ImageDraw
 from typing import Optional
@@ -62,10 +63,7 @@ def GetFixedHex(baseHex):
 
 def GetRBGFromHex(baseHex):
     color = list(int(baseHex[i:i+2], 16) for i in (0, 2, 4))
-    r = color[0]
-    g = color[1]
-    b = color[2]
-    return [r, g, b]
+    return color
 
 def GetHexFromRGB(rgb):
     return '%02x%02x%02x' % tuple(rgb)
@@ -325,3 +323,50 @@ def ApplyColorTint(
             tinted.putpixel((x, y), (new_r, new_g, new_b, orig_a))
 
     return tinted
+
+def MixHexList(startHex, hexList):
+    startRGB = GetRBGFromHex(startHex)
+    rgbList = []
+    for hex in hexList:
+        rgb = GetRBGFromHex(hex)
+        rgbList.append(rgb)
+    result = MixRGBList(startRGB, rgbList)
+    return GetHexFromRGB(result)
+def MixRGBList(startRGB, rgbList):
+    if len(rgbList) > 8:
+        colorList = rgbList[:8]
+        remainingList = rgbList[8:]
+        startRGB = MixRGBList(startRGB, colorList)
+        return MixRGBList(startRGB, remainingList)
+
+    redSum = greenSum = blueSum = 0
+    maxSum = 0
+    itemCount = 0
+
+    redSum += startRGB[0]
+    greenSum += startRGB[1]
+    blueSum += startRGB[2]
+    maxSum += max(startRGB)
+    itemCount += 1
+
+    for rgb in rgbList:
+        red, green, blue = rgb
+        redSum += red
+        greenSum += green
+        blueSum += blue
+        maxSum += max(rgb)
+        itemCount += 1
+
+    redAverage = int(np.float32(redSum) / np.float32(itemCount))
+    greenAverage = int(np.float32(greenSum) / np.float32(itemCount))
+    blueAverage = int(np.float32(blueSum) / np.float32(itemCount))
+
+    overall = np.float32(maxSum) / np.float32(itemCount)
+    maxRGB = max(redAverage, greenAverage, blueAverage)
+    base = np.float32(overall) / np.float32(maxRGB)
+
+    red = int(redAverage * base)
+    green = int(greenAverage * base)
+    blue = int(blueAverage * base)
+
+    return [red, green, blue]
