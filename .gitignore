@@ -1,4 +1,6 @@
 /.idea
+/.venv
 /Output
 /PSD
 BotToken
+/__pycache__
