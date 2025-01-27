@@ -1,3 +1,4 @@
+import io
 import math
 import imageio
 import numpy as np
@@ -21,7 +22,7 @@ def CreateColorSquare(colors):
         x0, y0 = col * 100, row * 100
         x1, y1 = x0 + 99, y0 + 99
 
-        draw.rectangle([x0, y0, x1, y1], fill=tuple(color))
+        draw.rectangle((x0, y0, x1, y1), fill=tuple(color))
 
     return image
 
@@ -53,8 +54,8 @@ def GetFixedHex(baseHex):
         baseHex = GetHexFromRGB(baseHex)
 
     baseHex = baseHex.lower().strip()
-    if baseHex in stringToColorTypeDict:
-        baseHex = stringToColorTypeDict[baseHex].value[1]
+    if baseHex in stringToColorDict:
+        baseHex = stringToColorDict[baseHex].value[1]
 
     baseHex = baseHex.upper().replace(',', '')
     baseHex = baseHex.lstrip('#').strip()
@@ -68,7 +69,7 @@ def GetRBGFromHex(baseHex):
 def GetHexFromRGB(rgb):
     return '%02x%02x%02x' % tuple(rgb)
 
-def CreateArmorSetImage(armorType, hexList, displayType, versionType = VersionType._1_8_9, imageSpacing = 20, imageSize = 128):
+def CreateArmorSetImage(armorType, hexList, shapeType, versionType = VersionType._1_8_9, imageSpacing = 20, imageSize = 128):
     if armorType not in itemDict:
         raise ValueError(f"Invalid armor type '{armorType}'")
 
@@ -110,7 +111,7 @@ def CreateArmorSetImage(armorType, hexList, displayType, versionType = VersionTy
 
     image = None
     animatedFiles = []
-    if displayType == DisplayType.Vertical:
+    if shapeType == ShapeType.Vertical:
         width = max([image.width for image in croppedImageList])
         height = sum([image.height for image in croppedImageList]) + (len(armorImages) - 1) * imageSpacing
 
@@ -126,12 +127,13 @@ def CreateArmorSetImage(armorType, hexList, displayType, versionType = VersionTy
                 animatedFiles.append([croppedImage, armorPaths[i], x_offset, 0, 0, y])
 
             armorName = armorPaths[i].lower()
-            if "helmet" in armorPaths[i].lower() and "leather" not in armorName:
+            disallowedNames = ["leather", "angler", "chainmail", "gold", "iron", "diamond"]
+            if "helmet" in armorName and not any(item in armorName for item in disallowedNames):
                 tempItemSpacing = tempItemSpacing // 2
 
             y += croppedImage.height + tempItemSpacing
 
-    elif displayType == DisplayType.Horizontal:
+    elif shapeType == ShapeType.Horizontal:
         width = sum([image.width for image in croppedImageList]) + (len(armorImages) - 1) * imageSpacing
         height = max([image.height for image in croppedImageList])
         image = Image.new("RGBA", (width, height), (0, 0, 0, 0))
@@ -151,7 +153,7 @@ def CreateArmorSetImage(armorType, hexList, displayType, versionType = VersionTy
 
             x += croppedImage.width + tempItemSpacing
 
-    elif displayType == DisplayType.Square:
+    elif shapeType == ShapeType.Square:
         num_images = len(croppedImageList)
         grid_size = math.ceil(math.sqrt(num_images))
         max_width = max([image.width for image in croppedImageList])
@@ -327,8 +329,8 @@ def ApplyColorTint(
 def MixHexList(startHex, hexList):
     startRGB = GetRBGFromHex(startHex)
     rgbList = []
-    for hex in hexList:
-        rgb = GetRBGFromHex(hex)
+    for baseHex in hexList:
+        rgb = GetRBGFromHex(baseHex)
         rgbList.append(rgb)
     result = MixRGBList(startRGB, rgbList)
     return GetHexFromRGB(result)
@@ -370,3 +372,145 @@ def MixRGBList(startRGB, rgbList):
     blue = int(blueAverage * base)
 
     return [red, green, blue]
+
+def GetCombinedArmorSetBuffer(armorType, hexList, shapeType, versionType = VersionType._1_8_9, imageSpacing = 20, imageSize = 128):
+    armorSet, colors = CreateArmorSetImage(
+        armorType=armorType,
+        hexList=hexList,
+        versionType=versionType,
+        shapeType=shapeType,
+        imageSpacing=imageSpacing,
+        imageSize=imageSize
+    )
+
+    buffer = io.BytesIO()
+    filePath = "armorSet.png"
+    if type(armorSet) == list:
+        filePath = "armorSet.webp"
+        armorSet[0].save(
+            buffer,
+            save_all=True,
+            append_images=armorSet[1:],
+            duration=225,
+            loop=0,
+            quality=100,
+            method=3,
+            format="WEBP",
+            lossless=True
+        )
+    else:
+        armorSet.save(
+            buffer,
+            format="PNG",
+            quality=100,
+            # method=3,
+            lossless=True
+        )
+
+    buffer.seek(0)
+    return buffer, filePath, colors
+
+def GetColorStatusType(baseHex):
+    if baseHex in stringToColorDict:
+        matchingTypes = set()
+        for name, color in Color.__members__.items():
+            if color.value[1] == baseHex:
+                matchingTypes.add(color.value[2])
+
+        matchingTypes = list(matchingTypes)
+
+        validTypes = [
+            ColorType.PureDye,
+            ColorType.TrueDye,
+            ColorType.Crystal,
+            ColorType.Armor,
+            ColorType.HypixelDye
+        ]
+
+        if any(item in matchingTypes for item in validTypes):
+            return matchingTypes
+        elif ColorType.Fairy in matchingTypes:
+            fairyData = allFairyHexes[stringToColorDict[baseHex]]
+            return matchingTypes, fairyData
+
+    return [ColorType._None]
+
+def GetColorStatusText(colorHex):
+    if colorHex is  None:
+        raise ValueError("Hex is not set.")
+
+    typeString = ""
+    explanationString = ""
+
+    colorHex = GetFixedHex(colorHex)
+    colorStatus = GetColorStatusType(colorHex)
+
+    if type(colorStatus) == tuple:
+        colorType = colorStatus[0][0]
+        if colorType == ColorType.Fairy:
+            fairyList = colorStatus[1][0]
+            ogFairyList = colorStatus[1][1]
+
+            if len(fairyList) > 0:
+                typeString = "Fairy"
+
+                explanationString += "**Fairy** when applied to "
+                if fairyList == ["All"]:
+                    explanationString += "any armor piece."
+                else:
+                    explanationString += "the following pieces: "
+                    for i, armorPiece in enumerate(fairyList):
+                        if i == 0:
+                            explanationString += f"**{armorPiece}**"
+                            continue
+                        explanationString += f", **{armorPiece}**"
+
+            if len(ogFairyList) > 0:
+                if len(fairyList) > 0:
+                    typeString += " or OG Fairy"
+                    explanationString += "\n"
+                else:
+                    typeString = "OG Fairy"
+
+                explanationString += "**OG Fairy** when applied to "
+                if ogFairyList == ["All"]:
+                    explanationString += "any armor piece."
+                else:
+                    explanationString += "the following pieces: "
+                    for i, armorPiece in enumerate(ogFairyList):
+                        if i == 0:
+                            explanationString += f"**{armorPiece}**"
+                            continue
+                        explanationString += f", **{armorPiece}**"
+
+    else:
+        typeString = "likely exotic"
+        if ColorType.Armor in colorStatus:
+            matchingArmorString = ""
+            for name, color in Color.__members__.items():
+                if color.value[1] == colorHex and color.value[2] == ColorType.Armor:
+                    if matchingArmorString:
+                        matchingArmorString += ", "
+
+                    matchingArmorString += f"{color.value[0]}"
+                    if not any(item in name for item in ["Helmet", "Chestplate", "Leggings", "Boots"]):
+                        matchingArmorString += " Armor"
+
+            if ColorType.PureDye in colorStatus:
+                typeString = "a pure color"
+                explanationString = f"It is likely **exotic** unless it's applied to any of the following armors:\n**{matchingArmorString}**"
+            else:
+                typeString = "likely exotic"
+                explanationString += f"Unless it's applied to any of the following armors:\n**{matchingArmorString}**"
+
+        elif ColorType.PureDye in colorStatus:
+            typeString = "a pure color"
+
+        elif ColorType.Crystal in colorStatus:
+            typeString = "Crystal dyed"
+
+        elif ColorType.HypixelDye in colorStatus:
+            colorEnum = stringToColorDict[colorHex]
+            typeString = f"{colorEnum.value[0]} dyed"
+
+    return typeString, explanationString

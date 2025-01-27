@@ -44,11 +44,23 @@ for itemKey in itemDict:
             image.close()
         except:
             print(f"Missing image for '{itemKey}' - '{imagePath}'")
+#
+# startHex = "DDE4F0"  # Hex code as an integer
+# rgbList = ["7fcc19"]
+# # startHex = "7fcc19"  # Hex code as an integer
+# # rgbList = ["6699d8", "993333", "4c4c4c", "334cb2", "e5e533", "7fcc19", "4c7f99", "ffffff"]
+#
+# result = MixHexList(startHex, rgbList)
+# print(f"Combined Color: #{result}")
 
-startHex = "DDE4F0"  # Hex code as an integer
-rgbList = ["7fcc19"]
-# startHex = "7fcc19"  # Hex code as an integer
-# rgbList = ["6699d8", "993333", "4c4c4c", "334cb2", "e5e533", "7fcc19", "4c7f99", "ffffff"]
+# print(GetColorStatusText(colorHex="660033"))
+# print(GetColorStatusText(colorHex="e5ccff"))
+# print(GetColorStatusText(colorHex="FF3399"))
+# print(GetColorStatusText(colorHex="1f0030"))
+# print(GetColorStatusText(colorHex="7fcc19"))
+# print(GetColorStatusText(colorHex="606060"))
+# print(GetColorStatusText(colorHex="191919"))
+# print(GetColorStatusText(colorHex="702963"))
+# print(GetColorStatusText(colorHex="7fcc20"))
 
-result = MixHexList(startHex, rgbList)
-print(f"Combined Color: #{result}")
+print(stringToArmorTypeDict)
