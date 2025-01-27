@@ -7,6 +7,8 @@ from Armor import *
 
 # TODO: off pure checker command
 # TODO: command aliases
+# TODO: celestial wither goggle image is weird (eyes closed)
+# TODO: why is cyberpunk wither goggles so goddamn slow, problem with combined frames not original gif
 
 class Client(commands.Bot):
     async def on_ready(self):
@@ -74,7 +76,9 @@ mixCommandOutputVersionDescription = 'Enter the armor version. (e.g., 1.8.9, 1.1
 helpCommandDescription = 'Displays information about the bot.'
 
 # !add dm control https://discord.com/developers/docs/interactions/application-commands
-@client.tree.command(name='color', description=colorCommandDescription)
+@client.tree.command(name='color', description=colorCommandDescription, extras={"contexts": [0, 1, 2], "integration_types": [0, 1]})
+@app_commands.allowed_installs(guilds=True, users=True)
+@app_commands.allowed_contexts(guilds=True, dms=True, private_channels=True)
 @app_commands.describe(colors=colorCommandColorsDescription)
 async def displayColor(interaction, colors: str):
     originalHexList = re.split(r'(\s)', colors)
@@ -99,11 +103,15 @@ async def displayColor(interaction, colors: str):
     discordFile = discord.File(buffer, filename="colorSquare.png")
     await interaction.response.send_message(f"**{colorString}**", file=discordFile)
 @client.tree.command(name='colour', description=colorCommandDescription)
+@app_commands.allowed_installs(guilds=True, users=True)
+@app_commands.allowed_contexts(guilds=True, dms=True, private_channels=True)
 @app_commands.describe(colors=colorCommandColorsDescription)
 async def displayColour(interaction: discord.Interaction, colors: str):
     await displayColor.callback(interaction, colors)
 
 @client.tree.command(name='armor', description=armorCommandDescription)
+@app_commands.allowed_installs(guilds=True, users=True)
+@app_commands.allowed_contexts(guilds=True, dms=True, private_channels=True)
 @app_commands.autocomplete(armor=armor_type_autocomplete, colors=armor_color_type_autocomplete)
 @app_commands.choices(shape=shape_choices, version=armor_version_choices)
 @app_commands.describe(
@@ -174,6 +182,8 @@ async def displayArmor(interaction, colors: str = None, armor: str = None, shape
     discordFile = discord.File(buffer, filename=filePath)
     await interaction.response.send_message(f"**{colorString}**", file=discordFile)
 @client.tree.command(name='armour', description=armorCommandDescription)
+@app_commands.allowed_installs(guilds=True, users=True)
+@app_commands.allowed_contexts(guilds=True, dms=True, private_channels=True)
 @app_commands.autocomplete(armor=armor_type_autocomplete, colors=armor_color_type_autocomplete)
 @app_commands.choices(shape=shape_choices, version=armor_version_choices)
 @app_commands.describe(
@@ -355,6 +365,8 @@ async def displayMix(
     await interaction.response.send_message(f"**{colorString}**", file=discordFile)
 
 @client.tree.command(name='help', description=helpCommandDescription)
+@app_commands.allowed_installs(guilds=True, users=True)
+@app_commands.allowed_contexts(guilds=True, dms=True, private_channels=True)
 async def helpCommand(interaction):
     embed = discord.Embed(
         title = "Rainbow",
@@ -404,6 +416,8 @@ async def helpCommand(interaction):
     await interaction.response.send_message(embed=embed)
 
 @client.tree.command(name='exotic', description=exoticCommandDescription)
+@app_commands.allowed_installs(guilds=True, users=True)
+@app_commands.allowed_contexts(guilds=True, dms=True, private_channels=True)
 @app_commands.describe(color=exoticCommandColorDescription)
 async def displayColorStatusExotic(interaction, color: str):
     fixedHex = GetFixedHex(color)
@@ -422,10 +436,14 @@ async def displayColorStatusExotic(interaction, color: str):
 
     await interaction.response.send_message(embed=embed)
 @client.tree.command(name='crystal', description=exoticCommandDescription)
+@app_commands.allowed_installs(guilds=True, users=True)
+@app_commands.allowed_contexts(guilds=True, dms=True, private_channels=True)
 @app_commands.describe(color=exoticCommandColorDescription)
 async def displayColorStatusCrystal(interaction, color: str):
     await displayColorStatusExotic.callback(interaction, color)
 @client.tree.command(name='fairy', description=exoticCommandDescription)
+@app_commands.allowed_installs(guilds=True, users=True)
+@app_commands.allowed_contexts(guilds=True, dms=True, private_channels=True)
 @app_commands.describe(color=exoticCommandColorDescription)
 async def displayColorStatusCrystal(interaction, color: str):
     await displayColorStatusExotic.callback(interaction, color)

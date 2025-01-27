@@ -405,28 +405,44 @@ class ArmorType(Enum):
     Boots = "Boots"
     Holy = "Holy"
     HolyBaby = "Holy Baby"
+    BabyHoly = HolyBaby
     HolyShimmer = "Holy Shimmer"
+    ShimmerHoly = HolyShimmer
     Old = "Old"
     OldBaby = "Old Baby"
+    BabyOld = OldBaby
     OldShimmer = "Old Shimmer"
+    ShimmerOld = OldShimmer
     Protector = "Protector"
     ProtectorBaby = "Protector Baby"
+    BabyProtector = ProtectorBaby
     ProtectorShimmer = "Protector Shimmer"
+    ShimmerProtector = ProtectorShimmer
     Strong = "Strong"
     StrongBaby = "Strong Baby"
+    BabyStrong = StrongBaby
     StrongShimmer = "Strong Shimmer"
+    ShimmerStrong = StrongShimmer
     Superior = "Superior"
     SuperiorBaby = "Superior Baby"
+    BabySuperior = SuperiorBaby
     SuperiorShimmer = "Superior Shimmer"
+    ShimmerSuperior = SuperiorShimmer
     Unstable = "Unstable"
     UnstableBaby = "Unstable Baby"
+    BabyUnstable = UnstableBaby
     UnstableShimmer = "Unstable Shimmer"
+    ShimmerUnstable = UnstableShimmer
     Wise = "Wise"
     WiseBaby = "Wise Baby"
+    BabyWise = WiseBaby
     WiseShimmer = "Wise Shimmer"
+    ShimmerWise = WiseShimmer
     Young = "Young"
     YoungBaby = "Young Baby"
+    BabyYoung = YoungBaby
     YoungShimmer = "Young Shimmer"
+    ShimmerYoung = YoungShimmer
     Angler = "Angler"
     Pack = "Pack"
     Bat = "Bat"
@@ -482,6 +498,26 @@ class ArmorType(Enum):
     Gold = "Gold"
     Diamond = "Diamond"
 
+    Mushroom = "Mushroom"
+    Pumpkin = "Pumpkin"
+    FarmSuit = "Farm Suit"
+    FarmArmor = "Farm Armor"
+    Speedster = "Speedster"
+    Cactus = "Cactus"
+    Miner = "Miner"
+    Prospecting = Miner
+    Growth = "Growth"
+    GuardianChestplate = "Guardian Chestplate"
+    Guardian = GuardianChestplate
+    CreeperPants = "Creeper Pants"
+    Creeper = CreeperPants
+    MonsterHunter = "Monster Hunter"
+    MH = MonsterHunter
+    MonsterRaider = "Monster Raider"
+    ArmorOfMagma = "Armor of Magma"
+    Magma = ArmorOfMagma
+    Emerald = "Emerald"
+
     def __str__(self):
         return self.value
 
@@ -524,8 +560,9 @@ def PopulateStringDictionaries():
 PopulateStringDictionaries()
 
 baseArmorSet = ["LeatherChestplate.png", "LeatherLeggings.png", "LeatherBoots.png"]
+fullArmorSet = ["LeatherHelmet.png", "LeatherChestplate.png", "LeatherLeggings.png", "LeatherBoots.png"]
 itemDict = {
-    ArmorType.FullSet: (["LeatherHelmet.png", "LeatherChestplate.png", "LeatherLeggings.png", "LeatherBoots.png"], [Color.Leather.value[1], Color.Leather.value[1], Color.Leather.value[1], Color.Leather.value[1]]),
+    ArmorType.FullSet: (fullArmorSet, [Color.Leather.value[1], Color.Leather.value[1], Color.Leather.value[1], Color.Leather.value[1]]),
     ArmorType.Helmet: (["LeatherHelmet.png"], [Color.Leather.value[1]]),
     ArmorType.Chestplate: (["LeatherChestplate.png"], [Color.Leather.value[1]]),
     ArmorType.Leggings: (["LeatherLeggings.png"], [Color.Leather.value[1]]),
@@ -608,4 +645,19 @@ itemDict = {
     ArmorType.Iron: (["IronHelmet.webp", "IronChestplate.webp", "IronLeggings.webp", "IronBoots.webp"], ["", "", "", ""]),
     ArmorType.Gold: (["GoldHelmet.webp", "GoldChestplate.webp", "GoldLeggings.webp", "GoldBoots.webp"], ["", "", "", ""]),
     ArmorType.Diamond: (["DiamondHelmet.webp", "DiamondChestplate.webp", "DiamondLeggings.webp", "DiamondBoots.webp"], ["", "", "", ""]),
+
+    ArmorType.Mushroom: (fullArmorSet, [*([Color.Mushroom.value[1]] * 4)]),
+    ArmorType.Pumpkin: (fullArmorSet, [*([Color.Pumpkin.value[1]] * 4)]),
+    ArmorType.FarmSuit: (fullArmorSet, [*([Color.FarmSuit.value[1]] * 4)]),
+    ArmorType.FarmArmor: (fullArmorSet, [*([Color.FarmArmor.value[1]] * 4)]),
+    ArmorType.Speedster: (fullArmorSet, [*([Color.Speedster.value[1]] * 4)]),
+    ArmorType.Cactus: (fullArmorSet, [*([Color.Cactus.value[1]] * 4)]),
+    ArmorType.Prospecting: (fullArmorSet, [*([Color.Prospecting.value[1]] * 4)]),
+    ArmorType.Growth: (fullArmorSet, [*([Color.Growth.value[1]] * 4)]),
+    ArmorType.GuardianChestplate: (["LeatherChestplate.png"], [Color.GuardianChestplate.value[1]]),
+    ArmorType.CreeperPants: (["LeatherLeggings.png"], [Color.CreeperPants.value[1]]),
+    ArmorType.MonsterHunter: (["IronHelmet.webp", "LeatherChestplate.png", "LeatherLeggings.png", "IronBoots.webp"], ["", Color.GuardianChestplate.value[1], Color.CreeperPants.value[1], ""]),
+    ArmorType.MonsterRaider: (["IronHelmet.webp", "LeatherChestplate.png", "LeatherLeggings.png", "LeatherBoots.png"], ["", Color.GuardianChestplate.value[1], Color.CreeperPants.value[1], Color.Tarantula.value[1]]),
+    ArmorType.ArmorOfMagma: (fullArmorSet, [*([Color.ArmorOfMagma.value[1]] * 4)]),
+    ArmorType.Emerald: (fullArmorSet, [*([Color.Emerald.value[1]] * 4)]),
 }
