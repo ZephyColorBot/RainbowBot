@@ -50,8 +50,32 @@ async def armor_color_type_autocomplete(interaction: discord.Interaction, curren
         for option in list(Color) if current.lower() in str(option.value[0]).lower()
     ][:25]
 
-@client.tree.command(name='color', description='Generate hex code images.')
-@app_commands.describe(colors="Enter a list of hex codes separated by spaces (e.g., #334CB2 #191919)")
+colorCommandDescription = 'Generate hex code images.'
+colorCommandColorsDescription = 'Enter a list of hex codes separated by spaces (e.g., #334CB2 #191919)'
+
+armorCommandDescription = 'Displays an armor set with the given hex color(s).'
+armorCommandColorsDescription = 'Enter a list of hex codes separated by spaces (e.g., #334CB2 #191919)'
+armorCommandArmorDescription = 'Enter the armor type. (e.g., Superior, Young Baby)'
+armorCommandShapeDescription = 'Enter the armor shape. (e.g., Vertical, Horizontal, Square)'
+armorCommandVersionDescription = 'Enter the armor version. (e.g., 1.8.9, 1.14+)'
+
+exoticCommandDescription = 'Checks the type of a given hex.'
+exoticCommandColorDescription = 'Enter a hex code.'
+
+mixCommandDescription = 'Mixes the given hexes and displays the result.'
+mixCommandColorsDescription = 'Enter a list of hex codes, they will be combined one by one. (Same as crafting after each dye)'
+mixCommandCraftingSequence1Description = 'Enter a list of hex codes, they will be combined in one crafting step.'
+mixCommandCraftingSequence2Description = 'Enter a list of hex codes, they will be combined in two crafting steps.'
+mixCommandCraftingSequence3Description = 'Enter a list of hex codes, they will be combined in three crafting steps.'
+mixCommandOutputArmorDescription = 'Enter the armor type. (e.g., Superior, Young Baby)'
+mixCommandOutputShapeDescription = 'Enter the armor shape. (e.g., Vertical, Horizontal, Square)'
+mixCommandOutputVersionDescription = 'Enter the armor version. (e.g., 1.8.9, 1.14+)'
+
+helpCommandDescription = 'Displays information about the bot.'
+
+!add dm control https://discord.com/developers/docs/interactions/application-commands
+@client.tree.command(name='color', description=colorCommandDescription)
+@app_commands.describe(colors=colorCommandColorsDescription)
 async def displayColor(interaction, colors: str):
     originalHexList = re.split(r'(\s)', colors)
     originalHexList = [x for i, x in enumerate(originalHexList) if i % 2 == 0]
@@ -74,15 +98,19 @@ async def displayColor(interaction, colors: str):
 
     discordFile = discord.File(buffer, filename="colorSquare.png")
     await interaction.response.send_message(f"**{colorString}**", file=discordFile)
+@client.tree.command(name='colour', description=colorCommandDescription)
+@app_commands.describe(colors=colorCommandColorsDescription)
+async def displayColour(interaction: discord.Interaction, colors: str):
+    await displayColor.callback(interaction, colors)
 
-@client.tree.command(name='armor', description='Displays an armor set with the given hex color(s).')
+@client.tree.command(name='armor', description=armorCommandDescription)
 @app_commands.autocomplete(armor=armor_type_autocomplete, colors=armor_color_type_autocomplete)
 @app_commands.choices(shape=shape_choices, version=armor_version_choices)
 @app_commands.describe(
-    colors="Enter a list of hex codes separated by spaces (e.g., #334CB2 #191919)",
-    armor="Enter the armor type. (e.g., Superior, Young Baby)",
-    shape="Enter the armor shape. (e.g., Vertical, Horizontal, Square)",
-    version="Enter the armor version. (e.g., 1.8.9, 1.14+)"
+    colors=armorCommandColorsDescription,
+    armor=armorCommandArmorDescription,
+    shape=armorCommandShapeDescription,
+    version=armorCommandVersionDescription
 )
 async def displayArmor(interaction, colors: str = None, armor: str = None, shape: str = None, version: str = None):
     if colors is None and armor is None:
@@ -145,18 +173,29 @@ async def displayArmor(interaction, colors: str = None, armor: str = None, shape
 
     discordFile = discord.File(buffer, filename=filePath)
     await interaction.response.send_message(f"**{colorString}**", file=discordFile)
+@client.tree.command(name='armour', description=armorCommandDescription)
+@app_commands.autocomplete(armor=armor_type_autocomplete, colors=armor_color_type_autocomplete)
+@app_commands.choices(shape=shape_choices, version=armor_version_choices)
+@app_commands.describe(
+    colors=armorCommandColorsDescription,
+    armor=armorCommandArmorDescription,
+    shape=armorCommandShapeDescription,
+    version=armorCommandVersionDescription
+)
+async def displayArmour(interaction, colors: str = None, armor: str = None, shape: str = None, version: str = None):
+    await displayArmor.callback(interaction, colors, armor, shape, version)
 
-@client.tree.command(name='mix', description='Mixes the given hexes and displays the result.')
+@client.tree.command(name='mix', description=mixCommandColorsDescription)
 @app_commands.autocomplete(colors=armor_color_type_autocomplete, craftingsequence1=armor_color_type_autocomplete, craftingsequence2=armor_color_type_autocomplete, craftingsequence3=armor_color_type_autocomplete, outputarmor=armor_type_autocomplete)
 @app_commands.choices(outputshape=shape_choices, outputversion=armor_version_choices)
 @app_commands.describe(
-    colors="Enter a list of hex codes, they will be combined one by one. (Same as crafting after each dye)",
-    craftingsequence1="Enter a list of hex codes, they will be combined in one crafting step.",
-    craftingsequence2="Enter a list of hex codes, they will be combined in two crafting steps.",
-    craftingsequence3="Enter a list of hex codes, they will be combined in three crafting steps.",
-    outputarmor="Enter the armor type. (e.g., Superior, Young Baby)",
-    outputshape="Enter the armor shape. (e.g., Vertical, Horizontal, Square)",
-    outputversion="Enter the armor version. (e.g., 1.8.9, 1.14+)"
+    colors=mixCommandColorsDescription,
+    craftingsequence1=mixCommandCraftingSequence1Description,
+    craftingsequence2=mixCommandCraftingSequence2Description,
+    craftingsequence3=mixCommandCraftingSequence3Description,
+    outputarmor=mixCommandOutputArmorDescription,
+    outputshape=mixCommandOutputShapeDescription,
+    outputversion=mixCommandOutputVersionDescription
 )
 async def displayMix(
         interaction: discord.Interaction,
@@ -289,7 +328,7 @@ async def displayMix(
     discordFile = discord.File(buffer, filename=filePath)
     await interaction.response.send_message(f"**{colorString}**", file=discordFile)
 
-@client.tree.command(name='help', description='Displays information about the bot.')
+@client.tree.command(name='help', description=helpCommandDescription)
 async def helpCommand(interaction):
     embed = discord.Embed(
         title = "Rainbow",
@@ -338,9 +377,9 @@ async def helpCommand(interaction):
 
     await interaction.response.send_message(embed=embed)
 
-@client.tree.command(name='exotic', description='Checks the type of a given hex.')
-@app_commands.describe(color="Enter a hex code.")
-async def displayColorStatus(interaction, color: str):
+@client.tree.command(name='exotic', description=exoticCommandDescription)
+@app_commands.describe(color=exoticCommandColorDescription)
+async def displayColorStatusExotic(interaction, color: str):
     fixedHex = GetFixedHex(color)
     statusString, explanationString = GetColorStatusText(fixedHex)
 
@@ -356,6 +395,14 @@ async def displayColorStatus(interaction, color: str):
     embed.timestamp = interaction.created_at
 
     await interaction.response.send_message(embed=embed)
+@client.tree.command(name='crystal', description=exoticCommandDescription)
+@app_commands.describe(color=exoticCommandColorDescription)
+async def displayColorStatusCrystal(interaction, color: str):
+    await displayColorStatusExotic.callback(interaction, color)
+@client.tree.command(name='fairy', description=exoticCommandDescription)
+@app_commands.describe(color=exoticCommandColorDescription)
+async def displayColorStatusCrystal(interaction, color: str):
+    await displayColorStatusExotic.callback(interaction, color)
 
 with open('BotToken') as file:
     client.run(file.read().strip())
