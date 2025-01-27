@@ -65,7 +65,15 @@ class Color(Enum):
     White = PureWhite
     PureBlack = ("Black", "191919", ColorType.PureDye)
     Black = PureBlack
+
     TrueBlack = ("TrueBlack", "000000", ColorType.TrueDye)
+    TrueRed = ("TrueRed", "FF0000", ColorType.TrueDye)
+    TrueOrange = ("TrueOrange", "FF7F00", ColorType.TrueDye)
+    TrueYellow = ("TrueYellow", "FFFF00", ColorType.TrueDye)
+    TrueGreen = ("TrueGreen", "00FF00", ColorType.TrueDye)
+    TrueBlue = ("TrueBlue", "0000FF", ColorType.TrueDye)
+    TruePurple = ("TruePurple", "7F00FF", ColorType.TrueDye)
+    TruePink = ("TruePink", "FF00FF", ColorType.TrueDye)
 
     TrueLeather = ("Leather", "A06540", ColorType.TrueDye)
     Leather = TrueLeather
@@ -136,6 +144,23 @@ class Color(Enum):
     ElegantTuxedoBoots = ("Elegant Tuxedo Boots", "191919", ColorType.Armor)
     Werewolf = ("Werewolf", "1D1105", ColorType.Armor)
     Reaper = ("Reaper", "1B1B1B", ColorType.Armor)
+
+    Mushroom = ("Mushroom", "FF0000", ColorType.Armor)
+    Pumpkin = ("Pumpkin", "EDAA36", ColorType.Armor)
+    FarmSuit = ("Farm Suit", "FFFF00", ColorType.Armor)
+    FarmArmor = ("Farm Armor", "FFD700", ColorType.Armor)
+    Speedster = ("Speedster", "E0FCF7", ColorType.Armor)
+    Cactus = ("Cactus", "00FF00", ColorType.Armor)
+    Miner = ("Miner", "7A7964", ColorType.Armor)
+    Prospecting = Miner
+    Growth = ("Growth", "00BE00", ColorType.Armor)
+    GuardianChestplate = ("Guardian Chestplate", "117391", ColorType.Armor)
+    Guardian = GuardianChestplate
+    CreeperPants = ("Creeper Pants", "7AE82C", ColorType.Armor)
+    Creeper = CreeperPants
+    ArmorOfMagma = ("Armor of Magma", "FF9300", ColorType.Armor)
+    Magma = ArmorOfMagma
+    Emerald = ("Emerald", "00FF00", ColorType.Armor)
 
     FF3399 = ("FF3399", "FF3399", ColorType.Fairy)
     F39 = FF3399
@@ -244,7 +269,7 @@ class Color(Enum):
     DungDye = ("Dung", "4F2A2A", ColorType.HypixelDye)
     Dung = DungDye
     EmeraldDye = ("Emerald", "50C878", ColorType.HypixelDye)
-    Emerald = EmeraldDye
+    # Emerald = EmeraldDye
     FlameDye = ("Flame", "E25822", ColorType.HypixelDye)
     Flame = FlameDye
     FossilDye = ("Fossil", "866F12", ColorType.HypixelDye)

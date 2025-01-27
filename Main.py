@@ -73,7 +73,7 @@ mixCommandOutputVersionDescription = 'Enter the armor version. (e.g., 1.8.9, 1.1
 
 helpCommandDescription = 'Displays information about the bot.'
 
-!add dm control https://discord.com/developers/docs/interactions/application-commands
+# !add dm control https://discord.com/developers/docs/interactions/application-commands
 @client.tree.command(name='color', description=colorCommandDescription)
 @app_commands.describe(colors=colorCommandColorsDescription)
 async def displayColor(interaction, colors: str):
@@ -185,11 +185,10 @@ async def displayArmor(interaction, colors: str = None, armor: str = None, shape
 async def displayArmour(interaction, colors: str = None, armor: str = None, shape: str = None, version: str = None):
     await displayArmor.callback(interaction, colors, armor, shape, version)
 
-@client.tree.command(name='mix', description=mixCommandColorsDescription)
-@app_commands.autocomplete(colors=armor_color_type_autocomplete, craftingsequence1=armor_color_type_autocomplete, craftingsequence2=armor_color_type_autocomplete, craftingsequence3=armor_color_type_autocomplete, outputarmor=armor_type_autocomplete)
+@client.tree.command(name='advancedmix', description=mixCommandColorsDescription)
+@app_commands.autocomplete(craftingsequence1=armor_color_type_autocomplete, craftingsequence2=armor_color_type_autocomplete, craftingsequence3=armor_color_type_autocomplete, outputarmor=armor_type_autocomplete)
 @app_commands.choices(outputshape=shape_choices, outputversion=armor_version_choices)
 @app_commands.describe(
-    colors=mixCommandColorsDescription,
     craftingsequence1=mixCommandCraftingSequence1Description,
     craftingsequence2=mixCommandCraftingSequence2Description,
     craftingsequence3=mixCommandCraftingSequence3Description,
@@ -197,6 +196,33 @@ async def displayArmour(interaction, colors: str = None, armor: str = None, shap
     outputshape=mixCommandOutputShapeDescription,
     outputversion=mixCommandOutputVersionDescription
 )
+async def displayAdvancedMix(
+        interaction: discord.Interaction,
+        craftingsequence1: str,
+        craftingsequence2: str = None,
+        craftingsequence3: str = None,
+        outputarmor: str = None,
+        outputshape: str = None,
+        outputversion: str = None):
+    await displayMix(interaction, None, craftingsequence1, craftingsequence2, craftingsequence3, outputarmor, outputshape, outputversion)
+
+@client.tree.command(name='mix', description=mixCommandColorsDescription)
+@app_commands.autocomplete(colors=armor_color_type_autocomplete, outputarmor=armor_type_autocomplete)
+@app_commands.choices(outputshape=shape_choices, outputversion=armor_version_choices)
+@app_commands.describe(
+    colors=mixCommandColorsDescription,
+    outputarmor=mixCommandOutputArmorDescription,
+    outputshape=mixCommandOutputShapeDescription,
+    outputversion=mixCommandOutputVersionDescription
+)
+async def displaySimpleMix(
+        interaction: discord.Interaction,
+        colors: str,
+        outputarmor: str = None,
+        outputshape: str = None,
+        outputversion: str = None):
+    await displayMix(interaction, colors, None, None, None, outputarmor, outputshape, outputversion)
+
 async def displayMix(
         interaction: discord.Interaction,
         colors: str = None,
@@ -403,6 +429,51 @@ async def displayColorStatusCrystal(interaction, color: str):
 @app_commands.describe(color=exoticCommandColorDescription)
 async def displayColorStatusCrystal(interaction, color: str):
     await displayColorStatusExotic.callback(interaction, color)
+
+@client.tree.command(name='comparearmor', description=colorCommandDescription)
+@app_commands.describe()
+async def displayCompareArmor(
+        interaction,
+        color1: str,
+        color2: str,
+        color3: str = None,
+        color4: str = None,
+        color5: str = None,
+        armor1: str = None,
+        armor2: str = None,
+        armor3: str = None,
+        armor4: str = None,
+        armor5: str = None,
+        shape: str = None,
+        version: str = None
+):
+    fixedHex = GetFixedHex("7fcc19")
+    statusString, explanationString = GetColorStatusText(fixedHex)
+
+    embed = discord.Embed(
+        title = f"__**#{fixedHex}**__ is {statusString}.",
+        description = f"{explanationString}",
+        color = discord.Color(int(f"0x{fixedHex}", 16))
+    )
+    embed.add_field(name = "", value = "", inline = False)
+
+    buffer, filePath, colors = GetCombinedArmorSetBuffer(
+        armorType=ArmorType.YoungBaby,
+        hexList=[fixedHex],
+        versionType=VersionType._1_8_9,
+        shapeType=ShapeType.Vertical,
+        imageSpacing=20,
+        imageSize=128
+    )
+
+    file = discord.File(buffer, filename="image.png")
+    embed.set_image(url="attachment://image.png")
+
+    # embed.set_image(url=f"https://blargbot.xyz/color/{fixedHex}")
+    embed.set_footer(text="Made by zeph.y", icon_url="https://cdn.discordapp.com/avatars/1000919610251558993/7c7d0e2f2d831a5241b9053fd0ca6fd1.webp")
+    embed.timestamp = interaction.created_at
+
+    await interaction.response.send_message(file=file, embed=embed)
 
 with open('BotToken') as file:
     client.run(file.read().strip())
