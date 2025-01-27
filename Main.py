@@ -493,5 +493,17 @@ async def displayCompareArmor(
 
     await interaction.response.send_message(file=file, embed=embed)
 
+@client.tree.command(name='updatecolors', description=)
+@app_commands.allowed_installs(guilds=True, users=True)
+@app_commands.allowed_contexts(guilds=True, dms=True, private_channels=True)
+async def displayColorStatusCrystal(interaction, color: str):
+    await displayColorStatusExotic.callback(interaction, color)
+
+@client.tree.command(name='updatearmors', description=)
+@app_commands.allowed_installs(guilds=True, users=True)
+@app_commands.allowed_contexts(guilds=True, dms=True, private_channels=True)
+async def displayColorStatusCrystal(interaction, color: str):
+    await displayColorStatusExotic.callback(interaction, color)
+
 with open('BotToken') as file:
     client.run(file.read().strip())

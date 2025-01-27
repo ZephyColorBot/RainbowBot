@@ -63,4 +63,51 @@ for itemKey in itemDict:
 # print(GetColorStatusText(colorHex="702963"))
 # print(GetColorStatusText(colorHex="7fcc20"))
 
-print(stringToArmorTypeDict)
+# print(stringToArmorTypeDict)
+
+def UpdateColors(filePath):
+    with open(filePath, 'r') as file:
+        line = file.read().strip()
+        if not line:
+            raise ValueError("File is empty.")
+
+        colorsJson = json.loads(line)
+
+        # if colorName in colorDict:
+        #     colorDict[colorName] = colorHex
+        # else:
+        print(f"Color JSON '{colorsJson}'")
+
+colorData = {
+    name: {
+        "colorName": value.value[0],
+        "colorHex": value.value[1],
+        "colorType": value.value[2].value,
+    }
+    for name, value in Color.__members__.items()
+}
+armorTypesData = {
+    name: {
+        "armorName": value.value,
+    }
+    for name, value in ArmorType.__members__.items()
+}
+armorSetsData = {
+    name.value: {
+        "armorImageList": value[0],
+        "armorColorList": value[1],
+    }
+    for name, value in itemDict.items()
+}
+for name, value in itemDict.items():
+    print(type(name.value), "|", type(value[0]), "|", type(value[1]))
+with open("Load/Colors.json", "w") as file:
+    file.write(json.dumps(colorData, indent=4))
+with open("Load/ArmorTypes.json", "w") as file:
+    file.write(json.dumps(armorTypesData, indent=4))
+with open("Load/ArmorSets.json", "w") as file:
+    for item in armorSetsData:
+        print(type(item))
+    file.write(json.dumps(armorSetsData, indent=4))
+
+# UpdateColors("Load/Colors.json")

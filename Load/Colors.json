@@ -1,0 +1,1442 @@
+{
+    "PureRed": {
+        "colorName": "Red",
+        "colorHex": "993333",
+        "colorType": "Pure"
+    },
+    "Red": {
+        "colorName": "Red",
+        "colorHex": "993333",
+        "colorType": "Pure"
+    },
+    "PureOrange": {
+        "colorName": "Orange",
+        "colorHex": "D87F33",
+        "colorType": "Pure"
+    },
+    "Orange": {
+        "colorName": "Orange",
+        "colorHex": "D87F33",
+        "colorType": "Pure"
+    },
+    "PureYellow": {
+        "colorName": "Yellow",
+        "colorHex": "E5E533",
+        "colorType": "Pure"
+    },
+    "Yellow": {
+        "colorName": "Yellow",
+        "colorHex": "E5E533",
+        "colorType": "Pure"
+    },
+    "PureLime": {
+        "colorName": "Lime",
+        "colorHex": "7FCC19",
+        "colorType": "Pure"
+    },
+    "Lime": {
+        "colorName": "Lime",
+        "colorHex": "7FCC19",
+        "colorType": "Pure"
+    },
+    "PureDarkGreen": {
+        "colorName": "DarkGreen",
+        "colorHex": "667F33",
+        "colorType": "Pure"
+    },
+    "DarkGreen": {
+        "colorName": "DarkGreen",
+        "colorHex": "667F33",
+        "colorType": "Pure"
+    },
+    "PureGreen": {
+        "colorName": "DarkGreen",
+        "colorHex": "667F33",
+        "colorType": "Pure"
+    },
+    "Green": {
+        "colorName": "DarkGreen",
+        "colorHex": "667F33",
+        "colorType": "Pure"
+    },
+    "PureDG": {
+        "colorName": "DarkGreen",
+        "colorHex": "667F33",
+        "colorType": "Pure"
+    },
+    "DG": {
+        "colorName": "DarkGreen",
+        "colorHex": "667F33",
+        "colorType": "Pure"
+    },
+    "PureLightBlue": {
+        "colorName": "LightBlue",
+        "colorHex": "6699D8",
+        "colorType": "Pure"
+    },
+    "LightBlue": {
+        "colorName": "LightBlue",
+        "colorHex": "6699D8",
+        "colorType": "Pure"
+    },
+    "PureLB": {
+        "colorName": "LightBlue",
+        "colorHex": "6699D8",
+        "colorType": "Pure"
+    },
+    "LB": {
+        "colorName": "LightBlue",
+        "colorHex": "6699D8",
+        "colorType": "Pure"
+    },
+    "PureCyan": {
+        "colorName": "Cyan",
+        "colorHex": "4C7F99",
+        "colorType": "Pure"
+    },
+    "Cyan": {
+        "colorName": "Cyan",
+        "colorHex": "4C7F99",
+        "colorType": "Pure"
+    },
+    "PureDarkBlue": {
+        "colorName": "DarkBlue",
+        "colorHex": "334CB2",
+        "colorType": "Pure"
+    },
+    "DarkBlue": {
+        "colorName": "DarkBlue",
+        "colorHex": "334CB2",
+        "colorType": "Pure"
+    },
+    "PureBlue": {
+        "colorName": "DarkBlue",
+        "colorHex": "334CB2",
+        "colorType": "Pure"
+    },
+    "Blue": {
+        "colorName": "DarkBlue",
+        "colorHex": "334CB2",
+        "colorType": "Pure"
+    },
+    "PureDB": {
+        "colorName": "DarkBlue",
+        "colorHex": "334CB2",
+        "colorType": "Pure"
+    },
+    "DB": {
+        "colorName": "DarkBlue",
+        "colorHex": "334CB2",
+        "colorType": "Pure"
+    },
+    "PurePink": {
+        "colorName": "Pink",
+        "colorHex": "F27FA5",
+        "colorType": "Pure"
+    },
+    "Pink": {
+        "colorName": "Pink",
+        "colorHex": "F27FA5",
+        "colorType": "Pure"
+    },
+    "PureMagenta": {
+        "colorName": "Magenta",
+        "colorHex": "B24CD8",
+        "colorType": "Pure"
+    },
+    "Magenta": {
+        "colorName": "Magenta",
+        "colorHex": "B24CD8",
+        "colorType": "Pure"
+    },
+    "PurePurple": {
+        "colorName": "Purple",
+        "colorHex": "7F3FB2",
+        "colorType": "Pure"
+    },
+    "Purple": {
+        "colorName": "Purple",
+        "colorHex": "7F3FB2",
+        "colorType": "Pure"
+    },
+    "PureBrown": {
+        "colorName": "Brown",
+        "colorHex": "664C33",
+        "colorType": "Pure"
+    },
+    "Brown": {
+        "colorName": "Brown",
+        "colorHex": "664C33",
+        "colorType": "Pure"
+    },
+    "PureLightGrey": {
+        "colorName": "LightGray",
+        "colorHex": "999999",
+        "colorType": "Pure"
+    },
+    "LightGrey": {
+        "colorName": "LightGray",
+        "colorHex": "999999",
+        "colorType": "Pure"
+    },
+    "PureLightGray": {
+        "colorName": "LightGray",
+        "colorHex": "999999",
+        "colorType": "Pure"
+    },
+    "LightGray": {
+        "colorName": "LightGray",
+        "colorHex": "999999",
+        "colorType": "Pure"
+    },
+    "PureGray": {
+        "colorName": "LightGray",
+        "colorHex": "999999",
+        "colorType": "Pure"
+    },
+    "Gray": {
+        "colorName": "LightGray",
+        "colorHex": "999999",
+        "colorType": "Pure"
+    },
+    "PureGrey": {
+        "colorName": "LightGray",
+        "colorHex": "999999",
+        "colorType": "Pure"
+    },
+    "Grey": {
+        "colorName": "LightGray",
+        "colorHex": "999999",
+        "colorType": "Pure"
+    },
+    "PureDarkGrey": {
+        "colorName": "DarkGray",
+        "colorHex": "4C4C4C",
+        "colorType": "Pure"
+    },
+    "DarkGrey": {
+        "colorName": "DarkGray",
+        "colorHex": "4C4C4C",
+        "colorType": "Pure"
+    },
+    "PureDarkGray": {
+        "colorName": "DarkGray",
+        "colorHex": "4C4C4C",
+        "colorType": "Pure"
+    },
+    "DarkGray": {
+        "colorName": "DarkGray",
+        "colorHex": "4C4C4C",
+        "colorType": "Pure"
+    },
+    "PureWhite": {
+        "colorName": "White",
+        "colorHex": "FFFFFF",
+        "colorType": "Pure"
+    },
+    "White": {
+        "colorName": "White",
+        "colorHex": "FFFFFF",
+        "colorType": "Pure"
+    },
+    "PureBlack": {
+        "colorName": "Black",
+        "colorHex": "191919",
+        "colorType": "Pure"
+    },
+    "Black": {
+        "colorName": "Black",
+        "colorHex": "191919",
+        "colorType": "Pure"
+    },
+    "TrueBlack": {
+        "colorName": "TrueBlack",
+        "colorHex": "000000",
+        "colorType": "True"
+    },
+    "TrueRed": {
+        "colorName": "TrueRed",
+        "colorHex": "FF0000",
+        "colorType": "True"
+    },
+    "TrueOrange": {
+        "colorName": "TrueOrange",
+        "colorHex": "FF7F00",
+        "colorType": "True"
+    },
+    "TrueYellow": {
+        "colorName": "TrueYellow",
+        "colorHex": "FFFF00",
+        "colorType": "True"
+    },
+    "TrueGreen": {
+        "colorName": "TrueGreen",
+        "colorHex": "00FF00",
+        "colorType": "True"
+    },
+    "TrueBlue": {
+        "colorName": "TrueBlue",
+        "colorHex": "0000FF",
+        "colorType": "True"
+    },
+    "TruePurple": {
+        "colorName": "TruePurple",
+        "colorHex": "7F00FF",
+        "colorType": "True"
+    },
+    "TruePink": {
+        "colorName": "TruePink",
+        "colorHex": "FF00FF",
+        "colorType": "True"
+    },
+    "TrueLeather": {
+        "colorName": "Leather",
+        "colorHex": "A06540",
+        "colorType": "True"
+    },
+    "Leather": {
+        "colorName": "Leather",
+        "colorHex": "A06540",
+        "colorType": "True"
+    },
+    "TrueMint": {
+        "colorName": "Mint",
+        "colorHex": "86D28D",
+        "colorType": "True"
+    },
+    "Mint": {
+        "colorName": "Mint",
+        "colorHex": "86D28D",
+        "colorType": "True"
+    },
+    "TrueMaroon": {
+        "colorName": "Maroon",
+        "colorHex": "592626",
+        "colorType": "True"
+    },
+    "Maroon": {
+        "colorName": "Maroon",
+        "colorHex": "592626",
+        "colorType": "True"
+    },
+    "TrueNavy": {
+        "colorName": "Navy",
+        "colorHex": "263265",
+        "colorType": "True"
+    },
+    "Navy": {
+        "colorName": "Navy",
+        "colorHex": "263265",
+        "colorType": "True"
+    },
+    "TrueIce": {
+        "colorName": "Ice",
+        "colorHex": "B2CCEB",
+        "colorType": "True"
+    },
+    "Ice": {
+        "colorName": "Ice",
+        "colorHex": "B2CCEB",
+        "colorType": "True"
+    },
+    "TrueGold": {
+        "colorName": "Gold",
+        "colorHex": "DEB233",
+        "colorType": "True"
+    },
+    "Gold": {
+        "colorName": "Gold",
+        "colorHex": "DEB233",
+        "colorType": "True"
+    },
+    "Holy": {
+        "colorName": "Holy",
+        "colorHex": "47D147",
+        "colorType": "Armor"
+    },
+    "Old": {
+        "colorName": "Old",
+        "colorHex": "F0E6AA",
+        "colorType": "Armor"
+    },
+    "Protector": {
+        "colorName": "Protector",
+        "colorHex": "99978B",
+        "colorType": "Armor"
+    },
+    "StrongChestplate": {
+        "colorName": "Strong Chestplate",
+        "colorHex": "D91E41",
+        "colorType": "Armor"
+    },
+    "StrongLeggings": {
+        "colorName": "Strong Leggings",
+        "colorHex": "E09419",
+        "colorType": "Armor"
+    },
+    "StrongBoots": {
+        "colorName": "Strong Boots",
+        "colorHex": "F0D124",
+        "colorType": "Armor"
+    },
+    "Superior": {
+        "colorName": "Superior",
+        "colorHex": "F2DF11",
+        "colorType": "Armor"
+    },
+    "SuperiorBoots": {
+        "colorName": "Superior Boots",
+        "colorHex": "F25D18",
+        "colorType": "Armor"
+    },
+    "Unstable": {
+        "colorName": "Unstable",
+        "colorHex": "B212E3",
+        "colorType": "Armor"
+    },
+    "Wise": {
+        "colorName": "Wise",
+        "colorHex": "29F0E9",
+        "colorType": "Armor"
+    },
+    "Young": {
+        "colorName": "Young",
+        "colorHex": "DDE4F0",
+        "colorType": "Armor"
+    },
+    "Angler": {
+        "colorName": "Angler",
+        "colorHex": "0B004F",
+        "colorType": "Armor"
+    },
+    "PackHelmet": {
+        "colorName": "Pack Helmet",
+        "colorHex": "FFFFFF",
+        "colorType": "Armor"
+    },
+    "PackChestplate": {
+        "colorName": "Pack Chestplate",
+        "colorHex": "FF0000",
+        "colorType": "Armor"
+    },
+    "Bat": {
+        "colorName": "Bat",
+        "colorHex": "000000",
+        "colorType": "Armor"
+    },
+    "Biohazard": {
+        "colorName": "Biohazard",
+        "colorHex": "FFAC00",
+        "colorType": "Armor"
+    },
+    "Blaze": {
+        "colorName": "Blaze",
+        "colorHex": "F7DA33",
+        "colorType": "Armor"
+    },
+    "FrozenBlaze": {
+        "colorName": "Frozen Blaze",
+        "colorHex": "A0DAEF",
+        "colorType": "Armor"
+    },
+    "Goblin": {
+        "colorName": "Goblin",
+        "colorHex": "37B042",
+        "colorType": "Armor"
+    },
+    "Glacite": {
+        "colorName": "Glacite",
+        "colorHex": "03FCF8",
+        "colorType": "Armor"
+    },
+    "GoldorChestplate": {
+        "colorName": "Goldor Chestplate",
+        "colorHex": "45413C",
+        "colorType": "Armor"
+    },
+    "GoldorLeggings": {
+        "colorName": "Goldor Leggings",
+        "colorHex": "65605A",
+        "colorType": "Armor"
+    },
+    "GoldorBoots": {
+        "colorName": "Goldor Boots",
+        "colorHex": "88837E",
+        "colorType": "Armor"
+    },
+    "Lapis": {
+        "colorName": "Lapis",
+        "colorHex": "0000FF",
+        "colorType": "Armor"
+    },
+    "Leaflet": {
+        "colorName": "Leaflet",
+        "colorHex": "4DCC4D",
+        "colorType": "Armor"
+    },
+    "MaxorChestplate": {
+        "colorName": "Maxor Chestplate",
+        "colorHex": "4A14B7",
+        "colorType": "Armor"
+    },
+    "MaxorLeggings": {
+        "colorName": "Maxor Leggings",
+        "colorHex": "5D2FB9",
+        "colorType": "Armor"
+    },
+    "MaxorBoots": {
+        "colorName": "Maxor Boots",
+        "colorHex": "8969C8",
+        "colorType": "Armor"
+    },
+    "NecromancerLordChestplate": {
+        "colorName": "Necromancer Lord Chestplate",
+        "colorHex": "000000",
+        "colorType": "Armor"
+    },
+    "NecromancerLordLeggings": {
+        "colorName": "Necromancer Lord Leggings",
+        "colorHex": "370147",
+        "colorType": "Armor"
+    },
+    "NecromancerLordBoots": {
+        "colorName": "Necromancer Lord Boots",
+        "colorHex": "400352",
+        "colorType": "Armor"
+    },
+    "NecronChestplate": {
+        "colorName": "Necron Chestplate",
+        "colorHex": "E7413C",
+        "colorType": "Armor"
+    },
+    "NecronLeggings": {
+        "colorName": "Necron Leggings",
+        "colorHex": "E75C3C",
+        "colorType": "Armor"
+    },
+    "NecronBoots": {
+        "colorName": "Necron Boots",
+        "colorHex": "E76E3C",
+        "colorType": "Armor"
+    },
+    "RisingSunLeggings": {
+        "colorName": "Rising Sun Leggings",
+        "colorHex": "DEBC15",
+        "colorType": "Armor"
+    },
+    "RisingSunBoots": {
+        "colorName": "Rising Sun Boots",
+        "colorHex": "9F8609",
+        "colorType": "Armor"
+    },
+    "ShadowAssassin": {
+        "colorName": "Shadow Assassin",
+        "colorHex": "000000",
+        "colorType": "Armor"
+    },
+    "Shark": {
+        "colorName": "Shark",
+        "colorHex": "002CA6",
+        "colorType": "Armor"
+    },
+    "SnowSuit": {
+        "colorName": "Snow Suit",
+        "colorHex": "FFFFFF",
+        "colorType": "Armor"
+    },
+    "Sponge": {
+        "colorName": "Sponge",
+        "colorHex": "FFDC51",
+        "colorType": "Armor"
+    },
+    "Spooky": {
+        "colorName": "Spooky",
+        "colorHex": "606060",
+        "colorType": "Armor"
+    },
+    "StormChestplate": {
+        "colorName": "Storm Chestplate",
+        "colorHex": "1793C4",
+        "colorType": "Armor"
+    },
+    "StormLeggings": {
+        "colorName": "Storm Leggings",
+        "colorHex": "17A8C4",
+        "colorType": "Armor"
+    },
+    "StormBoots": {
+        "colorName": "Storm Boots",
+        "colorHex": "1CD4E4",
+        "colorType": "Armor"
+    },
+    "Tarantula": {
+        "colorName": "Tarantula",
+        "colorHex": "000000",
+        "colorType": "Armor"
+    },
+    "CheapTuxedoChestplate": {
+        "colorName": "Cheap Tuxedo Chestplate",
+        "colorHex": "383838",
+        "colorType": "Armor"
+    },
+    "CheapTuxedoLeggings": {
+        "colorName": "Cheap Tuxedo Leggings",
+        "colorHex": "C7C7C7",
+        "colorType": "Armor"
+    },
+    "CheapTuxedoBoots": {
+        "colorName": "Cheap Tuxedo Boots",
+        "colorHex": "383838",
+        "colorType": "Armor"
+    },
+    "FancyTuxedoChestplate": {
+        "colorName": "Fancy Tuxedo Chestplate",
+        "colorHex": "332A2A",
+        "colorType": "Armor"
+    },
+    "FancyTuxedoLeggings": {
+        "colorName": "Fancy Tuxedo Leggings",
+        "colorHex": "d4d4d4",
+        "colorType": "Armor"
+    },
+    "FancyTuxedoBoots": {
+        "colorName": "Fancy Tuxedo Boots",
+        "colorHex": "332A2A",
+        "colorType": "Armor"
+    },
+    "ElegantTuxedoChestplate": {
+        "colorName": "Elegant Tuxedo Chestplate",
+        "colorHex": "191919",
+        "colorType": "Armor"
+    },
+    "ElegantTuxedoLeggings": {
+        "colorName": "Elegant Tuxedo Leggings",
+        "colorHex": "FEFDFC",
+        "colorType": "Armor"
+    },
+    "ElegantTuxedoBoots": {
+        "colorName": "Elegant Tuxedo Boots",
+        "colorHex": "191919",
+        "colorType": "Armor"
+    },
+    "Werewolf": {
+        "colorName": "Werewolf",
+        "colorHex": "1D1105",
+        "colorType": "Armor"
+    },
+    "Reaper": {
+        "colorName": "Reaper",
+        "colorHex": "1B1B1B",
+        "colorType": "Armor"
+    },
+    "Mushroom": {
+        "colorName": "Mushroom",
+        "colorHex": "FF0000",
+        "colorType": "Armor"
+    },
+    "Pumpkin": {
+        "colorName": "Pumpkin",
+        "colorHex": "EDAA36",
+        "colorType": "Armor"
+    },
+    "FarmSuit": {
+        "colorName": "Farm Suit",
+        "colorHex": "FFFF00",
+        "colorType": "Armor"
+    },
+    "FarmArmor": {
+        "colorName": "Farm Armor",
+        "colorHex": "FFD700",
+        "colorType": "Armor"
+    },
+    "Speedster": {
+        "colorName": "Speedster",
+        "colorHex": "E0FCF7",
+        "colorType": "Armor"
+    },
+    "Cactus": {
+        "colorName": "Cactus",
+        "colorHex": "00FF00",
+        "colorType": "Armor"
+    },
+    "Miner": {
+        "colorName": "Miner",
+        "colorHex": "7A7964",
+        "colorType": "Armor"
+    },
+    "Prospecting": {
+        "colorName": "Miner",
+        "colorHex": "7A7964",
+        "colorType": "Armor"
+    },
+    "Growth": {
+        "colorName": "Growth",
+        "colorHex": "00BE00",
+        "colorType": "Armor"
+    },
+    "GuardianChestplate": {
+        "colorName": "Guardian Chestplate",
+        "colorHex": "117391",
+        "colorType": "Armor"
+    },
+    "Guardian": {
+        "colorName": "Guardian Chestplate",
+        "colorHex": "117391",
+        "colorType": "Armor"
+    },
+    "CreeperPants": {
+        "colorName": "Creeper Pants",
+        "colorHex": "7AE82C",
+        "colorType": "Armor"
+    },
+    "Creeper": {
+        "colorName": "Creeper Pants",
+        "colorHex": "7AE82C",
+        "colorType": "Armor"
+    },
+    "ArmorOfMagma": {
+        "colorName": "Armor of Magma",
+        "colorHex": "FF9300",
+        "colorType": "Armor"
+    },
+    "Magma": {
+        "colorName": "Armor of Magma",
+        "colorHex": "FF9300",
+        "colorType": "Armor"
+    },
+    "Emerald": {
+        "colorName": "Emerald",
+        "colorHex": "00FF00",
+        "colorType": "Armor"
+    },
+    "FF3399": {
+        "colorName": "FF3399",
+        "colorHex": "FF3399",
+        "colorType": "Fairy"
+    },
+    "F39": {
+        "colorName": "FF3399",
+        "colorHex": "FF3399",
+        "colorType": "Fairy"
+    },
+    "FF007F": {
+        "colorName": "FF007F",
+        "colorHex": "FF007F",
+        "colorType": "Fairy"
+    },
+    "_660033": {
+        "colorName": "660033",
+        "colorHex": "660033",
+        "colorType": "Fairy"
+    },
+    "_603": {
+        "colorName": "660033",
+        "colorHex": "660033",
+        "colorType": "Fairy"
+    },
+    "_99004C": {
+        "colorName": "99004C",
+        "colorHex": "99004C",
+        "colorType": "Fairy"
+    },
+    "CC0066": {
+        "colorName": "CC0066",
+        "colorHex": "CC0066",
+        "colorType": "Fairy"
+    },
+    "C06": {
+        "colorName": "CC0066",
+        "colorHex": "CC0066",
+        "colorType": "Fairy"
+    },
+    "FF66B2": {
+        "colorName": "FF66B2",
+        "colorHex": "FF66B2",
+        "colorType": "Fairy"
+    },
+    "FF99CC": {
+        "colorName": "FF99CC",
+        "colorHex": "FF99CC",
+        "colorType": "Fairy"
+    },
+    "F9C": {
+        "colorName": "FF99CC",
+        "colorHex": "FF99CC",
+        "colorType": "Fairy"
+    },
+    "FFCCE5": {
+        "colorName": "FFCCE5",
+        "colorHex": "FFCCE5",
+        "colorType": "Fairy"
+    },
+    "_660066": {
+        "colorName": "660066",
+        "colorHex": "660066",
+        "colorType": "Fairy"
+    },
+    "_606": {
+        "colorName": "660066",
+        "colorHex": "660066",
+        "colorType": "Fairy"
+    },
+    "_990099": {
+        "colorName": "990099",
+        "colorHex": "990099",
+        "colorType": "Fairy"
+    },
+    "_909": {
+        "colorName": "990099",
+        "colorHex": "990099",
+        "colorType": "Fairy"
+    },
+    "CC00CC": {
+        "colorName": "CC00CC",
+        "colorHex": "CC00CC",
+        "colorType": "Fairy"
+    },
+    "C0C": {
+        "colorName": "CC00CC",
+        "colorHex": "CC00CC",
+        "colorType": "Fairy"
+    },
+    "FF00FF": {
+        "colorName": "FF00FF",
+        "colorHex": "FF00FF",
+        "colorType": "Fairy"
+    },
+    "F0F": {
+        "colorName": "FF00FF",
+        "colorHex": "FF00FF",
+        "colorType": "Fairy"
+    },
+    "FF33FF": {
+        "colorName": "FF33FF",
+        "colorHex": "FF33FF",
+        "colorType": "Fairy"
+    },
+    "F3F": {
+        "colorName": "FF33FF",
+        "colorHex": "FF33FF",
+        "colorType": "Fairy"
+    },
+    "FF66FF": {
+        "colorName": "FF66FF",
+        "colorHex": "FF66FF",
+        "colorType": "Fairy"
+    },
+    "F6F": {
+        "colorName": "FF66FF",
+        "colorHex": "FF66FF",
+        "colorType": "Fairy"
+    },
+    "FF99FF": {
+        "colorName": "FF99FF",
+        "colorHex": "FF99FF",
+        "colorType": "Fairy"
+    },
+    "F9F": {
+        "colorName": "FF99FF",
+        "colorHex": "FF99FF",
+        "colorType": "Fairy"
+    },
+    "FFCCFF": {
+        "colorName": "FFCCFF",
+        "colorHex": "FFCCFF",
+        "colorType": "Fairy"
+    },
+    "E5CCFF": {
+        "colorName": "E5CCFF",
+        "colorHex": "E5CCFF",
+        "colorType": "Fairy"
+    },
+    "ECF": {
+        "colorName": "E5CCFF",
+        "colorHex": "E5CCFF",
+        "colorType": "Fairy"
+    },
+    "CC99FF": {
+        "colorName": "CC99FF",
+        "colorHex": "CC99FF",
+        "colorType": "Fairy"
+    },
+    "C9F": {
+        "colorName": "CC99FF",
+        "colorHex": "CC99FF",
+        "colorType": "Fairy"
+    },
+    "B266FF": {
+        "colorName": "B266FF",
+        "colorHex": "B266FF",
+        "colorType": "Fairy"
+    },
+    "B6F": {
+        "colorName": "B266FF",
+        "colorHex": "B266FF",
+        "colorType": "Fairy"
+    },
+    "_9933FF": {
+        "colorName": "9933FF",
+        "colorHex": "9933FF",
+        "colorType": "Fairy"
+    },
+    "_93F": {
+        "colorName": "9933FF",
+        "colorHex": "9933FF",
+        "colorType": "Fairy"
+    },
+    "_7F00FF": {
+        "colorName": "7F00FF",
+        "colorHex": "7F00FF",
+        "colorType": "Fairy"
+    },
+    "_6600CC": {
+        "colorName": "6600CC",
+        "colorHex": "6600CC",
+        "colorType": "Fairy"
+    },
+    "_60C": {
+        "colorName": "6600CC",
+        "colorHex": "6600CC",
+        "colorType": "Fairy"
+    },
+    "_4C0099": {
+        "colorName": "4C0099",
+        "colorHex": "4C0099",
+        "colorType": "Fairy"
+    },
+    "_330066": {
+        "colorName": "330066",
+        "colorHex": "330066",
+        "colorType": "Fairy"
+    },
+    "_306": {
+        "colorName": "330066",
+        "colorHex": "330066",
+        "colorType": "Fairy"
+    },
+    "FCF3FF": {
+        "colorName": "FCF3FF",
+        "colorHex": "FCF3FF",
+        "colorType": "Crystal"
+    },
+    "FCF": {
+        "colorName": "FCF3FF",
+        "colorHex": "FCF3FF",
+        "colorType": "Crystal"
+    },
+    "EFE1F5": {
+        "colorName": "EFE1F5",
+        "colorHex": "EFE1F5",
+        "colorType": "Crystal"
+    },
+    "EFE": {
+        "colorName": "EFE1F5",
+        "colorHex": "EFE1F5",
+        "colorType": "Crystal"
+    },
+    "E5D1ED": {
+        "colorName": "E5D1ED",
+        "colorHex": "E5D1ED",
+        "colorType": "Crystal"
+    },
+    "E5D": {
+        "colorName": "E5D1ED",
+        "colorHex": "E5D1ED",
+        "colorType": "Crystal"
+    },
+    "D9C1E3": {
+        "colorName": "D9C1E3",
+        "colorHex": "D9C1E3",
+        "colorType": "Crystal"
+    },
+    "D9C": {
+        "colorName": "D9C1E3",
+        "colorHex": "D9C1E3",
+        "colorType": "Crystal"
+    },
+    "C6A3D4": {
+        "colorName": "C6A3D4",
+        "colorHex": "C6A3D4",
+        "colorType": "Crystal"
+    },
+    "C6A": {
+        "colorName": "C6A3D4",
+        "colorHex": "C6A3D4",
+        "colorType": "Crystal"
+    },
+    "B88BC9": {
+        "colorName": "B88BC9",
+        "colorHex": "B88BC9",
+        "colorType": "Crystal"
+    },
+    "B88B": {
+        "colorName": "B88BC9",
+        "colorHex": "B88BC9",
+        "colorType": "Crystal"
+    },
+    "BOOB": {
+        "colorName": "B88BC9",
+        "colorHex": "B88BC9",
+        "colorType": "Crystal"
+    },
+    "BOOBS": {
+        "colorName": "B88BC9",
+        "colorHex": "B88BC9",
+        "colorType": "Crystal"
+    },
+    "A875BD": {
+        "colorName": "A875BD",
+        "colorHex": "A875BD",
+        "colorType": "Crystal"
+    },
+    "A87": {
+        "colorName": "A875BD",
+        "colorHex": "A875BD",
+        "colorType": "Crystal"
+    },
+    "_9C64B3": {
+        "colorName": "9C64B3",
+        "colorHex": "9C64B3",
+        "colorType": "Crystal"
+    },
+    "_9C6": {
+        "colorName": "9C64B3",
+        "colorHex": "9C64B3",
+        "colorType": "Crystal"
+    },
+    "_8E51A6": {
+        "colorName": "8E51A6",
+        "colorHex": "8E51A6",
+        "colorType": "Crystal"
+    },
+    "_8E5": {
+        "colorName": "8E51A6",
+        "colorHex": "8E51A6",
+        "colorType": "Crystal"
+    },
+    "_7E4196": {
+        "colorName": "7E4196",
+        "colorHex": "7E4196",
+        "colorType": "Crystal"
+    },
+    "_7E4": {
+        "colorName": "7E4196",
+        "colorHex": "7E4196",
+        "colorType": "Crystal"
+    },
+    "_6A2C82": {
+        "colorName": "6A2C82",
+        "colorHex": "6A2C82",
+        "colorType": "Crystal"
+    },
+    "_6A2": {
+        "colorName": "6A2C82",
+        "colorHex": "6A2C82",
+        "colorType": "Crystal"
+    },
+    "_63237D": {
+        "colorName": "63237D",
+        "colorHex": "63237D",
+        "colorType": "Crystal"
+    },
+    "_632": {
+        "colorName": "63237D",
+        "colorHex": "63237D",
+        "colorType": "Crystal"
+    },
+    "_5D1C78": {
+        "colorName": "5D1C78",
+        "colorHex": "5D1C78",
+        "colorType": "Crystal"
+    },
+    "_5D1": {
+        "colorName": "5D1C78",
+        "colorHex": "5D1C78",
+        "colorType": "Crystal"
+    },
+    "_46085E": {
+        "colorName": "46085E",
+        "colorHex": "46085E",
+        "colorType": "Crystal"
+    },
+    "_460": {
+        "colorName": "46085E",
+        "colorHex": "46085E",
+        "colorType": "Crystal"
+    },
+    "_1F0030": {
+        "colorName": "1F0030",
+        "colorHex": "1F0030",
+        "colorType": "Crystal"
+    },
+    "_1F0": {
+        "colorName": "1F0030",
+        "colorHex": "1F0030",
+        "colorType": "Crystal"
+    },
+    "Bleach": {
+        "colorName": "Leather",
+        "colorHex": "A06540",
+        "colorType": "True"
+    },
+    "Bleached": {
+        "colorName": "Leather",
+        "colorHex": "A06540",
+        "colorType": "True"
+    },
+    "AquamarineDye": {
+        "colorName": "Aquamarine",
+        "colorHex": "7FFFD4",
+        "colorType": "Dye"
+    },
+    "Aquamarine": {
+        "colorName": "Aquamarine",
+        "colorHex": "7FFFD4",
+        "colorType": "Dye"
+    },
+    "ArchfiendDye": {
+        "colorName": "Archfiend",
+        "colorHex": "B80036",
+        "colorType": "Dye"
+    },
+    "Archfiend": {
+        "colorName": "Archfiend",
+        "colorHex": "B80036",
+        "colorType": "Dye"
+    },
+    "BingoBlueDye": {
+        "colorName": "BingoBlue",
+        "colorHex": "002FA7",
+        "colorType": "Dye"
+    },
+    "BingoBlue": {
+        "colorName": "BingoBlue",
+        "colorHex": "002FA7",
+        "colorType": "Dye"
+    },
+    "BoneDye": {
+        "colorName": "Bone",
+        "colorHex": "E3DAC9",
+        "colorType": "Dye"
+    },
+    "Bone": {
+        "colorName": "Bone",
+        "colorHex": "E3DAC9",
+        "colorType": "Dye"
+    },
+    "BrickRedDye": {
+        "colorName": "BrickRed",
+        "colorHex": "CB4154",
+        "colorType": "Dye"
+    },
+    "BrickRed": {
+        "colorName": "BrickRed",
+        "colorHex": "CB4154",
+        "colorType": "Dye"
+    },
+    "ByzantiumDye": {
+        "colorName": "Byzantium",
+        "colorHex": "702963",
+        "colorType": "Dye"
+    },
+    "Byzantium": {
+        "colorName": "Byzantium",
+        "colorHex": "702963",
+        "colorType": "Dye"
+    },
+    "CarmineDye": {
+        "colorName": "Carmine",
+        "colorHex": "960018",
+        "colorType": "Dye"
+    },
+    "Carmine": {
+        "colorName": "Carmine",
+        "colorHex": "960018",
+        "colorType": "Dye"
+    },
+    "CeladonDye": {
+        "colorName": "Celadon",
+        "colorHex": "ACE1AF",
+        "colorType": "Dye"
+    },
+    "Celadon": {
+        "colorName": "Celadon",
+        "colorHex": "ACE1AF",
+        "colorType": "Dye"
+    },
+    "CelesteDye": {
+        "colorName": "Celeste",
+        "colorHex": "B2FFFF",
+        "colorType": "Dye"
+    },
+    "Celeste": {
+        "colorName": "Celeste",
+        "colorHex": "B2FFFF",
+        "colorType": "Dye"
+    },
+    "ChocolateDye": {
+        "colorName": "Chocolate",
+        "colorHex": "7B3F00",
+        "colorType": "Dye"
+    },
+    "Chocolate": {
+        "colorName": "Chocolate",
+        "colorHex": "7B3F00",
+        "colorType": "Dye"
+    },
+    "CopperDye": {
+        "colorName": "Copper",
+        "colorHex": "B87333",
+        "colorType": "Dye"
+    },
+    "Copper": {
+        "colorName": "Copper",
+        "colorHex": "B87333",
+        "colorType": "Dye"
+    },
+    "CyclamenDye": {
+        "colorName": "Cyclamen",
+        "colorHex": "F56FA1",
+        "colorType": "Dye"
+    },
+    "Cyclamen": {
+        "colorName": "Cyclamen",
+        "colorHex": "F56FA1",
+        "colorType": "Dye"
+    },
+    "DarkPurpleDye": {
+        "colorName": "DarkPurple",
+        "colorHex": "301934",
+        "colorType": "Dye"
+    },
+    "DarkPurple": {
+        "colorName": "DarkPurple",
+        "colorHex": "301934",
+        "colorType": "Dye"
+    },
+    "DungDye": {
+        "colorName": "Dung",
+        "colorHex": "4F2A2A",
+        "colorType": "Dye"
+    },
+    "Dung": {
+        "colorName": "Dung",
+        "colorHex": "4F2A2A",
+        "colorType": "Dye"
+    },
+    "EmeraldDye": {
+        "colorName": "Emerald",
+        "colorHex": "50C878",
+        "colorType": "Dye"
+    },
+    "FlameDye": {
+        "colorName": "Flame",
+        "colorHex": "E25822",
+        "colorType": "Dye"
+    },
+    "Flame": {
+        "colorName": "Flame",
+        "colorHex": "E25822",
+        "colorType": "Dye"
+    },
+    "FossilDye": {
+        "colorName": "Fossil",
+        "colorHex": "866F12",
+        "colorType": "Dye"
+    },
+    "Fossil": {
+        "colorName": "Fossil",
+        "colorHex": "866F12",
+        "colorType": "Dye"
+    },
+    "FrostbittenDye": {
+        "colorName": "Frostbitten",
+        "colorHex": "09D8EB",
+        "colorType": "Dye"
+    },
+    "Frostbitten": {
+        "colorName": "Frostbitten",
+        "colorHex": "09D8EB",
+        "colorType": "Dye"
+    },
+    "HollyDye": {
+        "colorName": "Holly",
+        "colorHex": "3C6746",
+        "colorType": "Dye"
+    },
+    "Holly": {
+        "colorName": "Holly",
+        "colorHex": "3C6746",
+        "colorType": "Dye"
+    },
+    "IcebergDye": {
+        "colorName": "Iceberg",
+        "colorHex": "71A6D2",
+        "colorType": "Dye"
+    },
+    "Iceberg": {
+        "colorName": "Iceberg",
+        "colorHex": "71A6D2",
+        "colorType": "Dye"
+    },
+    "JadeDye": {
+        "colorName": "Jade",
+        "colorHex": "00A86B",
+        "colorType": "Dye"
+    },
+    "Jade": {
+        "colorName": "Jade",
+        "colorHex": "00A86B",
+        "colorType": "Dye"
+    },
+    "LividDye": {
+        "colorName": "Livid",
+        "colorHex": "CEB7AA",
+        "colorType": "Dye"
+    },
+    "Livid": {
+        "colorName": "Livid",
+        "colorHex": "CEB7AA",
+        "colorType": "Dye"
+    },
+    "MangoDye": {
+        "colorName": "Mango",
+        "colorHex": "FDBE02",
+        "colorType": "Dye"
+    },
+    "Mango": {
+        "colorName": "Mango",
+        "colorHex": "FDBE02",
+        "colorType": "Dye"
+    },
+    "MatchaDye": {
+        "colorName": "Matcha",
+        "colorHex": "74A12E",
+        "colorType": "Dye"
+    },
+    "Matcha": {
+        "colorName": "Matcha",
+        "colorHex": "74A12E",
+        "colorType": "Dye"
+    },
+    "MidnightDye": {
+        "colorName": "Midnight",
+        "colorHex": "50216C",
+        "colorType": "Dye"
+    },
+    "Midnight": {
+        "colorName": "Midnight",
+        "colorHex": "50216C",
+        "colorType": "Dye"
+    },
+    "MochaDye": {
+        "colorName": "Mocha",
+        "colorHex": "967969",
+        "colorType": "Dye"
+    },
+    "Mocha": {
+        "colorName": "Mocha",
+        "colorHex": "967969",
+        "colorType": "Dye"
+    },
+    "NadeshikoDye": {
+        "colorName": "Nadeshiko",
+        "colorHex": "F6ADC6",
+        "colorType": "Dye"
+    },
+    "Nadeshiko": {
+        "colorName": "Nadeshiko",
+        "colorHex": "F6ADC6",
+        "colorType": "Dye"
+    },
+    "NecronDye": {
+        "colorName": "Necron",
+        "colorHex": "E7413C",
+        "colorType": "Dye"
+    },
+    "Necron": {
+        "colorName": "Necron",
+        "colorHex": "E7413C",
+        "colorType": "Dye"
+    },
+    "NyanzaDye": {
+        "colorName": "Nyanza",
+        "colorHex": "E9FFDB",
+        "colorType": "Dye"
+    },
+    "Nyanza": {
+        "colorName": "Nyanza",
+        "colorHex": "E9FFDB",
+        "colorType": "Dye"
+    },
+    "PearlescentDye": {
+        "colorName": "Pearlescent",
+        "colorHex": "115555",
+        "colorType": "Dye"
+    },
+    "Pearlescent": {
+        "colorName": "Pearlescent",
+        "colorHex": "115555",
+        "colorType": "Dye"
+    },
+    "PeltDye": {
+        "colorName": "Pelt",
+        "colorHex": "50414C",
+        "colorType": "Dye"
+    },
+    "Pelt": {
+        "colorName": "Pelt",
+        "colorHex": "50414C",
+        "colorType": "Dye"
+    },
+    "PeriwinkleDye": {
+        "colorName": "Periwinkle",
+        "colorHex": "CCCCFF",
+        "colorType": "Dye"
+    },
+    "Periwinkle": {
+        "colorName": "Periwinkle",
+        "colorHex": "CCCCFF",
+        "colorType": "Dye"
+    },
+    "SangriaDye": {
+        "colorName": "Sangria",
+        "colorHex": "D40808",
+        "colorType": "Dye"
+    },
+    "Sangria": {
+        "colorName": "Sangria",
+        "colorHex": "D40808",
+        "colorType": "Dye"
+    },
+    "SecretDye": {
+        "colorName": "Secret",
+        "colorHex": "7D7D7D",
+        "colorType": "Dye"
+    },
+    "Secret": {
+        "colorName": "Secret",
+        "colorHex": "7D7D7D",
+        "colorType": "Dye"
+    },
+    "WildStrawberryDye": {
+        "colorName": "WildStrawberry",
+        "colorHex": "FF43A4",
+        "colorType": "Dye"
+    },
+    "WildStrawberry": {
+        "colorName": "WildStrawberry",
+        "colorHex": "FF43A4",
+        "colorType": "Dye"
+    },
+    "TentacleDye": {
+        "colorName": "Tentacle",
+        "colorHex": "324D6C",
+        "colorType": "Dye"
+    },
+    "Tentacle": {
+        "colorName": "Tentacle",
+        "colorHex": "324D6C",
+        "colorType": "Dye"
+    }
+}
