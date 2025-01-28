@@ -164,7 +164,6 @@ def CreateArmorSetImage(
     lastHex = None
     for armorHexes in enumerate(armorType[1]):
         armorHex = armorHexes[1].strip()
-        # armorColorHex = HexColor(hex=armorHex)
         if not armorHex or armorHex == "":
             finalHexColorList.append(None)
             continue
@@ -197,7 +196,6 @@ def CreateArmorSetImage(
     for i, croppedImage in enumerate(croppedImageList):
         armorName = armorPaths[i].lower()
         if "helmet" in armorName and not any(item in armorName for item in disallowedNames):
-            ! TODO: test this on horizontal
             heightOffset = imageSpacing // 2
             break
 
@@ -237,12 +235,12 @@ def CreateArmorSetImage(
             if "a_" in armorPaths[i].lower():
                 animatedFiles.append([croppedImage, armorPaths[i], 0, y_offset, x, 0])
 
-            tempItemSpacing = imageSpacing
-            armorName = armorPaths[i].lower()
-            if "helmet" in armorName and not any(item in armorName for item in disallowedNames):
-                tempItemSpacing = imageSpacing // 2
+            # tempItemSpacing = imageSpacing
+            # armorName = armorPaths[i].lower()
+            # if "helmet" in armorName and not any(item in armorName for item in disallowedNames):
+            #     tempItemSpacing = imageSpacing // 2
 
-            x += croppedImage.width + tempItemSpacing
+            x += croppedImage.width + imageSpacing
 
     elif shapeType == ShapeType.Square:
         num_images = len(croppedImageList)
@@ -695,10 +693,13 @@ def RGBIntToCielab(rgbInt: int):
 def HexColorToCielab(hexColor: HexColor):
     return RGBIntToCielab(hexColor.GetRGBInt())
 
-def GetHexDifference(hexColor1: HexColor, hexColor2: HexColor):
+def GetVisualDifference(hexColor1: HexColor, hexColor2: HexColor):
     targetLab = HexColorToCielab(hexColor1)
     pieceLab = HexColorToCielab(hexColor2)
 
+    return math.sqrt(sum((targetLab[i] - pieceLab[i]) ** 2 for i in range(3)))
+
+def GetAbsoluteDifference(hexColor1: HexColor, hexColor2: HexColor):
     rgb1 = hexColor1.GetRGBList()
     rgb2 = hexColor2.GetRGBList()
 
@@ -707,5 +708,10 @@ def GetHexDifference(hexColor1: HexColor, hexColor2: HexColor):
     blueDifference = abs(rgb1[2] - rgb2[2])
 
     absoluteDifference = redDifference + greenDifference + blueDifference
-    eulerDistance = math.sqrt(sum((targetLab[i] - pieceLab[i]) ** 2 for i in range(3)))
-    return absoluteDifference, eulerDistance
+    return absoluteDifference
+
+def GetHexDifference(hexColor1: HexColor, hexColor2: HexColor):
+    absoluteDifference = GetAbsoluteDifference(hexColor1, hexColor2)
+    visualDifference = GetVisualDifference(hexColor1, hexColor2)
+
+    return absoluteDifference, visualDifference

@@ -360,6 +360,24 @@ allCrystalHexes = [
     Color._46085E,
     Color._1F0030
 ]
+allPureDyeHexes = [
+    Color.PureRed,
+    Color.PureOrange,
+    Color.PureYellow,
+    Color.PureLime,
+    Color.PureDarkGreen,
+    Color.PureLightBlue,
+    Color.PureCyan,
+    Color.PureDarkBlue,
+    Color.PurePink,
+    Color.PureMagenta,
+    Color.PurePurple,
+    Color.PureBrown,
+    Color.PureLightGrey,
+    Color.PureDarkGrey,
+    Color.PureWhite,
+    Color.PureBlack
+]
 
 class ItemType(Enum):
     Helmet = "Helmet"
@@ -399,6 +417,7 @@ class ShapeType(Enum):
 
 class ArmorType(Enum):
     FullSet = "Full Set"
+    Full = FullSet
     Helmet = "Helmet"
     Chestplate = "Chestplate"
     Leggings = "Leggings"
@@ -416,8 +435,12 @@ class ArmorType(Enum):
     Protector = "Protector"
     ProtectorBaby = "Protector Baby"
     BabyProtector = ProtectorBaby
+    ProtBaby = ProtectorBaby
+    BabyProt = ProtectorBaby
     ProtectorShimmer = "Protector Shimmer"
     ShimmerProtector = ProtectorShimmer
+    ProtShimmer = ProtectorShimmer
+    ShimmerProt = ProtectorShimmer
     Strong = "Strong"
     StrongBaby = "Strong Baby"
     BabyStrong = StrongBaby
@@ -425,14 +448,22 @@ class ArmorType(Enum):
     ShimmerStrong = StrongShimmer
     Superior = "Superior"
     SuperiorBaby = "Superior Baby"
+    BabySup = SuperiorBaby
+    SupBaby = SuperiorBaby
     BabySuperior = SuperiorBaby
     SuperiorShimmer = "Superior Shimmer"
     ShimmerSuperior = SuperiorShimmer
+    SupShimmer = SuperiorShimmer
+    ShimmerSup = SuperiorShimmer
     Unstable = "Unstable"
     UnstableBaby = "Unstable Baby"
     BabyUnstable = UnstableBaby
+    BabyUnst = UnstableBaby
+    UnstBaby = UnstableBaby
     UnstableShimmer = "Unstable Shimmer"
     ShimmerUnstable = UnstableShimmer
+    UnstShimmer = UnstableShimmer
+    ShimmerUnst = UnstableShimmer
     Wise = "Wise"
     WiseBaby = "Wise Baby"
     BabyWise = WiseBaby
@@ -450,7 +481,9 @@ class ArmorType(Enum):
     Blaze = "Blaze"
     FrozenBlaze = "Frozen Blaze"
     FrozenBlazeIcicle = "Frozen Blaze Icicle"
+    FB = FrozenBlaze
     CloverHelmet = "Clover Helmet"
+    Clover = CloverHelmet
     Glacite = "Glacite"
     Goblin = "Goblin"
     GoblinBaby = "Goblin Baby"
@@ -458,47 +491,75 @@ class ArmorType(Enum):
     GoldorCelesital = "Goldor Celesital"
     Lapis = "Lapis"
     Leaflet = "Leaflet"
+    Leaf = Leaflet
     Maxor = "Maxor"
     MaxorCelesital = "Maxor Celesital"
     Necron = "Necron"
     NecronCelesital = "Necron Celesital"
     NecromancerLord = "Necromancer Lord"
+    NecroLord = NecromancerLord
+    Necromancer = NecromancerLord
     RacingHelmet = "Racing Helmet"
+    Racing = RacingHelmet
     RisingSun = "Rising Sun"
     ShadowAssassin = "Shadow Assassin"
     ShadowAssassinAdmiral = "Shadow Assassin Admiral"
     ShadowAssassinCrimson = "Shadow Assassin Crimson"
     ShadowAssassinMuave = "Shadow Assassin Muave"
+    SA = ShadowAssassin
+    SAAdmiral = ShadowAssassinAdmiral
+    SACrimson = ShadowAssassinCrimson
+    SAMuave = ShadowAssassinMuave
     Shark = "Shark"
     SnowSuit = "Snow Suit"
     SnowSuitSnowglobe = "Snow Suit Snowglobe"
+    Snow = SnowSuit
+    Snowglobe = SnowSuitSnowglobe
     SpaceHelmet = "Space Helmet"
+    Space = SpaceHelmet
     Sponge = "Sponge"
     Spooky = "Spooky"
     Storm = "Storm"
     StormCelesital = "Storm Celesital"
     Tarantula = "Tarantula"
+    Tara = Tarantula
     Tuxedo = "Tuxedo"
+    Tux = Tuxedo
     Werewolf = "Werewolf"
     WardenHelmet = "Warden Helmet"
+    Warden = WardenHelmet
 
     ReaperMask = "Reaper Mask"
     ReaperMaskSpirit = "Reaper Mask Spirit"
+    Reaper = ReaperMask
+    ReaperSpirit = ReaperMaskSpirit
+    SpiritReaper = ReaperMaskSpirit
     WitherGoggles = "Wither Goggles"
     WitherGogglesCorrupt = "Corrupt Wither Goggles"
     WitherGogglesCelestial = "Celestial Wither Goggles"
     WitherGogglesCyberpunk = "Cyberpunk Wither Goggles"
     TarantulaBlackWidow = "Tarantula Black Widow"
+    TaraBlackWidow = TarantulaBlackWidow
     WardenHelmetTrueWarden = "True Warden"
+    TrueWarden = WardenHelmetTrueWarden
+    WardenTrueWarden = WardenHelmetTrueWarden
     DiverHelmetPuffer = "Puffer Fish Diver Helmet"
+    Puffer = DiverHelmetPuffer
+    DiverPuffer = DiverHelmetPuffer
     MastiffHelmetPuppy = "Puppy Mastiff Helmet"
+    Puppy = MastiffHelmetPuppy
+    MastiffPuppy = MastiffHelmetPuppy
     PerfectHelmetReinforced = "Reinforced Perfect Helmet"
+    Reinforced = PerfectHelmetReinforced
+    PerfectReinforced = PerfectHelmetReinforced
     Chainmail = "Chainmail"
+    Chain = Chainmail
     Iron = "Iron"
     Gold = "Gold"
     Diamond = "Diamond"
 
     Mushroom = "Mushroom"
+    Mush = Mushroom
     Pumpkin = "Pumpkin"
     FarmSuit = "Farm Suit"
     FarmArmor = "Farm Armor"
