@@ -549,6 +549,8 @@ async def displayHexDifference(interaction, color1: str, color2: str):
     hexColor1 = HexColor(color1)
     hexColor2 = HexColor(color2)
 
+    hex1 = hexColor1.GetHexCode()
+    hex2 = hexColor2.GetHexCode()
     rgb1 = hexColor1.GetRGBList()
     rgb2 = hexColor2.GetRGBList()
 
@@ -556,7 +558,26 @@ async def displayHexDifference(interaction, color1: str, color2: str):
     absoluteDifferenceString = f"{absoluteDifference}"
     eulerDistanceString = f"{eulerDistance:.2f}"
 
-    await interaction.response.send_message(f"**{color1}** ({rgb1}) and **{color2}** ({rgb2}) have an absolute difference of **{absoluteDifferenceString}** and an Euler distance of **{eulerDistanceString}**.")
+    explanationString = f"**{color1}** ({rgb1}) and **{color2}** ({rgb2}) have an absolute difference of **{absoluteDifferenceString}** and an Euler distance of **{eulerDistanceString}**."
+
+    colorSquare = CreateColorSquare([hexColor1, hexColor2])
+    buffer = io.BytesIO()
+    colorSquare.save(buffer, "PNG")
+    buffer.seek(0)
+    discordFile = discord.File(buffer, filename="colorSquare.png")
+
+    embed = discord.Embed(
+        title = f"__**#{hex1} vs. {hex2}**__",
+        description = f"{explanationString}",
+        color = discord.Color(int(f"0x{hex1}", 16))
+    )
+    embed.add_field(name = "", value = "", inline = False)
+
+    embed.set_image(url=f"attachment://colorSquare.png")
+    embed.set_footer(text="Made by zeph.y", icon_url="https://cdn.discordapp.com/avatars/1000919610251558993/7c7d0e2f2d831a5241b9053fd0ca6fd1.webp")
+    embed.timestamp = interaction.created_at
+
+    await interaction.response.send_message(embed=embed, file=discordFile)
 
 with open('BotToken') as file:
     client.run(file.read().strip())
