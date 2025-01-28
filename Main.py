@@ -6,9 +6,6 @@ from discord import app_commands
 from Armor import *
 
 # TODO: off pure checker command
-# TODO: command aliases
-# TODO: celestial wither goggle image is weird (eyes closed)
-# TODO: why is cyberpunk wither goggles so goddamn slow, problem with combined frames not original gif
 
 class Client(commands.Bot):
     async def on_ready(self):
@@ -75,11 +72,14 @@ mixCommandOutputVersionDescription = 'Enter the armor version. (e.g., 1.8.9, 1.1
 
 helpCommandDescription = 'Displays information about the bot.'
 
-# !add dm control https://discord.com/developers/docs/interactions/application-commands
+hexDifferenceCommandDescription = 'Displays the absolute and euclidian difference between two hexes.'
+hexDifferenceCommandColor1Description = 'Enter the first hex code.'
+hexDifferenceCommandColor2Description = 'Enter the second hex code.'
+
 @client.tree.command(name='color', description=colorCommandDescription, extras={"contexts": [0, 1, 2], "integration_types": [0, 1]})
+@app_commands.describe(colors=colorCommandColorsDescription)
 @app_commands.allowed_installs(guilds=True, users=True)
 @app_commands.allowed_contexts(guilds=True, dms=True, private_channels=True)
-@app_commands.describe(colors=colorCommandColorsDescription)
 async def displayColor(interaction, colors: str):
     originalHexList = re.split(r'(\s)', colors)
     originalHexList = [x for i, x in enumerate(originalHexList) if i % 2 == 0]
@@ -87,13 +87,12 @@ async def displayColor(interaction, colors: str):
     colorList = []
     colorString = ""
     for baseHex in originalHexList:
-        fixedHex = GetFixedHex(baseHex)
-        hexRGB = GetRBGFromHex(fixedHex)
-        colorList.append(hexRGB)
+        hexColor = HexColor(baseHex)
+        colorList.append(hexColor)
 
         if colorString != "":
             colorString += ", "
-        colorString += f"#{fixedHex}"
+        colorString += f"#{hexColor.GetHexCode()}"
 
     buffer = io.BytesIO()
     image = CreateColorSquare(colorList)
@@ -103,17 +102,17 @@ async def displayColor(interaction, colors: str):
     discordFile = discord.File(buffer, filename="colorSquare.png")
     await interaction.response.send_message(f"**{colorString}**", file=discordFile)
 @client.tree.command(name='colour', description=colorCommandDescription)
+@app_commands.describe(colors=colorCommandColorsDescription)
 @app_commands.allowed_installs(guilds=True, users=True)
 @app_commands.allowed_contexts(guilds=True, dms=True, private_channels=True)
-@app_commands.describe(colors=colorCommandColorsDescription)
 async def displayColour(interaction: discord.Interaction, colors: str):
     await displayColor.callback(interaction, colors)
 
 @client.tree.command(name='armor', description=armorCommandDescription)
+@app_commands.choices(shape=shape_choices, version=armor_version_choices)
+@app_commands.autocomplete(armor=armor_type_autocomplete, colors=armor_color_type_autocomplete)
 @app_commands.allowed_installs(guilds=True, users=True)
 @app_commands.allowed_contexts(guilds=True, dms=True, private_channels=True)
-@app_commands.autocomplete(armor=armor_type_autocomplete, colors=armor_color_type_autocomplete)
-@app_commands.choices(shape=shape_choices, version=armor_version_choices)
 @app_commands.describe(
     colors=armorCommandColorsDescription,
     armor=armorCommandArmorDescription,
@@ -162,9 +161,7 @@ async def displayArmor(interaction, colors: str = None, armor: str = None, shape
         originalHexList = [x for i, x in enumerate(originalHexList) if i % 2 == 0]
 
         for baseHex in originalHexList:
-            fixedHex = GetFixedHex(baseHex)
-            hexRGB = GetRBGFromHex(fixedHex)
-            colorList.append(hexRGB)
+            colorList.append(HexColor(baseHex))
 
     buffer, filePath, colors = GetCombinedArmorSetBuffer(
         armorType=armorEnum,
@@ -177,15 +174,15 @@ async def displayArmor(interaction, colors: str = None, armor: str = None, shape
     for baseHex in colors:
         if colorString != "":
             colorString += ", "
-        colorString += f"#{GetFixedHex(baseHex)}"
+        colorString += f"#{baseHex.GetHexCode()}"
 
     discordFile = discord.File(buffer, filename=filePath)
     await interaction.response.send_message(f"**{colorString}**", file=discordFile)
 @client.tree.command(name='armour', description=armorCommandDescription)
+@app_commands.choices(shape=shape_choices, version=armor_version_choices)
+@app_commands.autocomplete(armor=armor_type_autocomplete, colors=armor_color_type_autocomplete)
 @app_commands.allowed_installs(guilds=True, users=True)
 @app_commands.allowed_contexts(guilds=True, dms=True, private_channels=True)
-@app_commands.autocomplete(armor=armor_type_autocomplete, colors=armor_color_type_autocomplete)
-@app_commands.choices(shape=shape_choices, version=armor_version_choices)
 @app_commands.describe(
     colors=armorCommandColorsDescription,
     armor=armorCommandArmorDescription,
@@ -196,8 +193,10 @@ async def displayArmour(interaction, colors: str = None, armor: str = None, shap
     await displayArmor.callback(interaction, colors, armor, shape, version)
 
 @client.tree.command(name='advancedmix', description=mixCommandColorsDescription)
-@app_commands.autocomplete(craftingsequence1=armor_color_type_autocomplete, craftingsequence2=armor_color_type_autocomplete, craftingsequence3=armor_color_type_autocomplete, outputarmor=armor_type_autocomplete)
 @app_commands.choices(outputshape=shape_choices, outputversion=armor_version_choices)
+@app_commands.autocomplete(craftingsequence1=armor_color_type_autocomplete, craftingsequence2=armor_color_type_autocomplete, craftingsequence3=armor_color_type_autocomplete, outputarmor=armor_type_autocomplete)
+@app_commands.allowed_installs(guilds=True, users=True)
+@app_commands.allowed_contexts(guilds=True, dms=True, private_channels=True)
 @app_commands.describe(
     craftingsequence1=mixCommandCraftingSequence1Description,
     craftingsequence2=mixCommandCraftingSequence2Description,
@@ -217,8 +216,10 @@ async def displayAdvancedMix(
     await displayMix(interaction, None, craftingsequence1, craftingsequence2, craftingsequence3, outputarmor, outputshape, outputversion)
 
 @client.tree.command(name='mix', description=mixCommandColorsDescription)
-@app_commands.autocomplete(colors=armor_color_type_autocomplete, outputarmor=armor_type_autocomplete)
 @app_commands.choices(outputshape=shape_choices, outputversion=armor_version_choices)
+@app_commands.autocomplete(colors=armor_color_type_autocomplete, outputarmor=armor_type_autocomplete)
+@app_commands.allowed_installs(guilds=True, users=True)
+@app_commands.allowed_contexts(guilds=True, dms=True, private_channels=True)
 @app_commands.describe(
     colors=mixCommandColorsDescription,
     outputarmor=mixCommandOutputArmorDescription,
@@ -256,7 +257,7 @@ async def displayMix(
         raise ValueError("Error: Cannot combine colors with crafting sequences.")
 
     inputColorList = []
-    finalRGB = None
+    finalHex = None
     colorString = ""
     if colors is None:
         if craftingsequence1 is not None:
@@ -278,23 +279,22 @@ async def displayMix(
                 colorString += "\n"
             colorString += f"__Step {i+1}:__ "
 
-            hexList = []
+            hexColorList = []
             tempColorString = ""
             for baseHex in colorList:
-                fixedHex = GetFixedHex(baseHex)
-                hexRGB = GetRBGFromHex(fixedHex)
-                hexList.append(hexRGB)
+                hexColor = HexColor(baseHex)
+                hexColorList.append(hexColor)
 
                 if tempColorString != "":
                     tempColorString += " + "
-                tempColorString += f"#{GetFixedHex(baseHex)}"
+                tempColorString += f"#{hexColor.GetHexCode()}"
 
             colorString += tempColorString
 
-            if finalRGB is None:
-                finalRGB = MixRGBList(hexList[0], hexList[1:])
+            if finalHex is None:
+                finalHex = MixHexColorList(hexColorList[0], hexColorList[1:])
             else:
-                finalRGB = MixRGBList(finalRGB, hexList)
+                finalHex = MixHexColorList(finalHex, hexColorList)
     else:
         colorSplit = re.split(r'(\s)', colors)
         inputColorList += [[x for i, x in enumerate(colorSplit) if i % 2 == 0]]
@@ -302,21 +302,20 @@ async def displayMix(
         for colorList in inputColorList:
             hexList = []
             for baseHex in colorList:
-                fixedHex = GetFixedHex(baseHex)
-                hexRGB = GetRBGFromHex(fixedHex)
-                hexList.append(hexRGB)
+                hexColor = HexColor(baseHex)
+                hexList.append(hexColor)
 
             for baseHex in hexList:
                 if colorString != "":
                     colorString += " + "
-                colorString += f"#{GetFixedHex(baseHex)}"
+                colorString += f"#{baseHex.GetHexCode()}"
 
-                if finalRGB is None:
-                    finalRGB = baseHex
+                if finalHex is None:
+                    finalHex = baseHex
                 else:
-                    finalRGB = MixRGBList(finalRGB, [baseHex])
+                    finalHex = MixHexColorList(finalHex, [baseHex])
 
-    colorString += f" = #{GetFixedHex(finalRGB)}"
+    colorString += f" = #{finalHex.GetHexCode()}"
     if outputarmor is not None or outputshape is not None or outputversion is not None:
         if outputarmor is None:
             outputarmor = "Full Set"
@@ -348,7 +347,7 @@ async def displayMix(
 
         buffer, filePath, colors = GetCombinedArmorSetBuffer(
             armorType=armorEnum,
-            hexList=[finalRGB],
+            hexList=[finalHex.GetRGBList()],
             versionType=versionEnum,
             shapeType=shapeEnum,
             imageSpacing=20,
@@ -357,7 +356,7 @@ async def displayMix(
     else:
         filePath = "colorSquare.png"
         buffer = io.BytesIO()
-        image = CreateColorSquare([finalRGB])
+        image = CreateColorSquare([finalHex])
         image.save(buffer, "PNG")
         buffer.seek(0)
 
@@ -416,94 +415,148 @@ async def helpCommand(interaction):
     await interaction.response.send_message(embed=embed)
 
 @client.tree.command(name='exotic', description=exoticCommandDescription)
+@app_commands.describe(color=exoticCommandColorDescription)
 @app_commands.allowed_installs(guilds=True, users=True)
 @app_commands.allowed_contexts(guilds=True, dms=True, private_channels=True)
-@app_commands.describe(color=exoticCommandColorDescription)
 async def displayColorStatusExotic(interaction, color: str):
-    fixedHex = GetFixedHex(color)
-    statusString, explanationString = GetColorStatusText(fixedHex)
+    hexColor = HexColor(color)
+    statusString, explanationString = GetColorStatusText(hexColor)
 
     embed = discord.Embed(
-        title = f"__**#{fixedHex}**__ is {statusString}.",
+        title = f"__**#{hexColor.GetHexCode()}**__ is {statusString}.",
         description = f"{explanationString}",
-        color = discord.Color(int(f"0x{fixedHex}", 16))
+        color = discord.Color(int(f"0x{hexColor.GetHexCode()}", 16))
     )
     embed.add_field(name = "", value = "", inline = False)
 
-    embed.set_image(url=f"https://blargbot.xyz/color/{fixedHex}")
+    embed.set_image(url=f"https://blargbot.xyz/color/{hexColor.GetHexCode()}")
     embed.set_footer(text="Made by zeph.y", icon_url="https://cdn.discordapp.com/avatars/1000919610251558993/7c7d0e2f2d831a5241b9053fd0ca6fd1.webp")
     embed.timestamp = interaction.created_at
 
     await interaction.response.send_message(embed=embed)
 @client.tree.command(name='crystal', description=exoticCommandDescription)
+@app_commands.describe(color=exoticCommandColorDescription)
 @app_commands.allowed_installs(guilds=True, users=True)
 @app_commands.allowed_contexts(guilds=True, dms=True, private_channels=True)
-@app_commands.describe(color=exoticCommandColorDescription)
 async def displayColorStatusCrystal(interaction, color: str):
     await displayColorStatusExotic.callback(interaction, color)
 @client.tree.command(name='fairy', description=exoticCommandDescription)
+@app_commands.describe(color=exoticCommandColorDescription)
 @app_commands.allowed_installs(guilds=True, users=True)
 @app_commands.allowed_contexts(guilds=True, dms=True, private_channels=True)
-@app_commands.describe(color=exoticCommandColorDescription)
 async def displayColorStatusCrystal(interaction, color: str):
     await displayColorStatusExotic.callback(interaction, color)
 
 @client.tree.command(name='comparearmor', description=colorCommandDescription)
-@app_commands.describe()
+@app_commands.allowed_installs(guilds=True, users=True)
+@app_commands.allowed_contexts(guilds=True, dms=True, private_channels=True)
 async def displayCompareArmor(
         interaction,
-        color1: str,
-        color2: str,
-        color3: str = None,
-        color4: str = None,
-        color5: str = None,
-        armor1: str = None,
-        armor2: str = None,
-        armor3: str = None,
-        armor4: str = None,
-        armor5: str = None,
+        armorcolor1: str,
+        armorcolor2: str,
+        armorcolor3: str = None,
+        armorcolor4: str = None,
+        armorcolor5: str = None,
+        armortype1: str = None,
+        armortype2: str = None,
+        armortype3: str = None,
+        armortype4: str = None,
+        armortype5: str = None,
         shape: str = None,
         version: str = None
 ):
-    fixedHex = GetFixedHex("7fcc19")
-    statusString, explanationString = GetColorStatusText(fixedHex)
+    inputArmorColorListList = [armorcolor1, armorcolor2, armorcolor3, armorcolor4, armorcolor5]
+    inputArmorTypeList = [armortype1, armortype2, armortype3, armortype4, armortype5]
 
-    embed = discord.Embed(
-        title = f"__**#{fixedHex}**__ is {statusString}.",
-        description = f"{explanationString}",
-        color = discord.Color(int(f"0x{fixedHex}", 16))
-    )
-    embed.add_field(name = "", value = "", inline = False)
+    if shape is None:
+        shape = "Vertical"
+    if version is None:
+        version = "1.8.9"
 
-    buffer, filePath, colors = GetCombinedArmorSetBuffer(
-        armorType=ArmorType.YoungBaby,
-        hexList=[fixedHex],
-        versionType=VersionType._1_8_9,
-        shapeType=ShapeType.Vertical,
-        imageSpacing=20,
-        imageSize=128
-    )
+    if type(shape) == str:
+        shape = shape.lower().replace(' ', '').strip()
+    if type(version) == str:
+        version = version.lower().replace(' ', '').strip()
 
-    file = discord.File(buffer, filename="image.png")
-    embed.set_image(url="attachment://image.png")
+    if shape not in stringToShapeTypeDict:
+        await interaction.response.send_message(f"Invalid shape type '{shape}'")
+        return
+    if version not in stringToVersionTypeDict:
+        await interaction.response.send_message(f"Invalid version type '{version}'")
+        return
 
-    # embed.set_image(url=f"https://blargbot.xyz/color/{fixedHex}")
-    embed.set_footer(text="Made by zeph.y", icon_url="https://cdn.discordapp.com/avatars/1000919610251558993/7c7d0e2f2d831a5241b9053fd0ca6fd1.webp")
-    embed.timestamp = interaction.created_at
+    shapeEnum = stringToShapeTypeDict[shape]
+    versionEnum = stringToVersionTypeDict[version]
 
-    await interaction.response.send_message(file=file, embed=embed)
+    finalImageList = []
+    for i in range(5):
+        if inputArmorColorListList[i] is None and inputArmorTypeList[i] is None:
+            continue
 
-@client.tree.command(name='updatecolors', description=)
+        hexList = []
+        if inputArmorColorListList[i] is not None:
+            colorSplit = re.split(r'(\s)', inputArmorColorListList[i])
+            colorSplit = [x for i, x in enumerate(colorSplit) if i % 2 == 0]
+
+            for baseHex in colorSplit:
+                hexList.append(HexColor(baseHex))
+
+        if inputArmorTypeList[i] is None:
+            armorEnum = ArmorType.FullSet
+        elif inputArmorTypeList[i] in stringToArmorTypeDict:
+            armorEnum = stringToArmorTypeDict[inputArmorTypeList[i].lower().replace(' ', '').strip()]
+        else:
+            await interaction.response.send_message(f"Invalid armor type '{inputArmorTypeList[i]}'")
+            return
+
+        ! TODO: make this work on horizontal
+
+        buffer, filePath, colors = GetCombinedArmorSetBuffer(
+            armorType=armorEnum,
+            hexList=hexList,
+            versionType=versionEnum,
+            shapeType=shapeEnum,
+            imageSpacing=20,
+            imageSize=128
+        )
+        finalImageList.append((buffer, filePath, colors))
+
+    if len(finalImageList) == 0:
+        await interaction.response.send_message("Please provide at least one armor color or armor type.")
+        return
+
+    resultImage = Image.new(mode='RGBA', size=(0, 0), color=(0, 0, 0, 0))
+    armorSpacing = 20
+    for i, imageData in enumerate(finalImageList):
+        buffer, filePath, colors = imageData
+
+        if i != 0:
+            resultImage = MergeImagesHorizontal(resultImage, Image.new(mode='RGBA', size=(armorSpacing, 0), color=(0, 0, 0, 0)))
+        resultImage = MergeImagesHorizontal(resultImage, Image.open(buffer))
+
+    buffer = io.BytesIO()
+    resultImage.save(buffer, "PNG")
+    buffer.seek(0)
+
+    discordFile = discord.File(buffer, filename=f"armorComparison.png")
+    await interaction.response.send_message(file=discordFile)
+
+@client.tree.command(name='hexdifference', description=hexDifferenceCommandDescription)
+@app_commands.describe(color1=hexDifferenceCommandColor1Description, color2=hexDifferenceCommandColor2Description)
 @app_commands.allowed_installs(guilds=True, users=True)
 @app_commands.allowed_contexts(guilds=True, dms=True, private_channels=True)
-async def displayColorStatusCrystal(interaction, color: str):
-    await displayColorStatusExotic.callback(interaction, color)
+async def displayHexDifference(interaction, color1: str, color2: str):
+    hexColor1 = HexColor(color1)
+    hexColor2 = HexColor(color2)
 
-@client.tree.command(name='updatearmors', description=)
-@app_commands.allowed_installs(guilds=True, users=True)
-@app_commands.allowed_contexts(guilds=True, dms=True, private_channels=True)
-async def displayColorStatusCrystal(interaction, color: str):
-    await displayColorStatusExotic.callback(interaction, color)
+    rgb1 = hexColor1.GetRGBList()
+    rgb2 = hexColor2.GetRGBList()
+
+    absoluteDifference, eulerDistance = GetHexDifference(hexColor1, hexColor2)
+    absoluteDifferenceString = f"{absoluteDifference}"
+    eulerDistanceString = f"{eulerDistance:.2f}"
+
+    await interaction.response.send_message(f"**{color1}** ({rgb1}) and **{color2}** ({rgb2}) have an absolute difference of **{absoluteDifferenceString}** and an Euler distance of **{eulerDistanceString}**.")
 
 with open('BotToken') as file:
     client.run(file.read().strip())

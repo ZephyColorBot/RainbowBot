@@ -517,6 +517,7 @@ class ArmorType(Enum):
     ArmorOfMagma = "Armor of Magma"
     Magma = ArmorOfMagma
     Emerald = "Emerald"
+    GodAngler = "God Angler"
 
     def __str__(self):
         return self.value
@@ -625,14 +626,14 @@ itemDict = {
     ArmorType.Spooky: (["SpookyHelmet.webp", *baseArmorSet], ["", *([Color.Spooky.value[1]] * 3)]),
     ArmorType.Storm: (["StormHelmet.webp", *baseArmorSet], ["", Color.StormChestplate.value[1], Color.StormLeggings.value[1], Color.StormBoots.value[1]]),
     ArmorType.StormCelesital: (["StormHelmetCelestial.webp", *baseArmorSet], ["", Color.StormChestplate.value[1], Color.StormLeggings.value[1], Color.StormBoots.value[1]]),
-    ArmorType.Tarantula: (["LeatherHelmet.png", "ChainmailChestplate.webp", "LeatherLeggings.png", "ChainmailBoots.webp"], [Color.Tarantula.value[1], "", Color.Tarantula.value[1], ""]),
+    ArmorType.Tarantula: (["LeatherHelmet.png", "ChainmailChestplate.webp", "LeatherLeggings.png", "IronBoots.webp"], [Color.Tarantula.value[1], "", Color.Tarantula.value[1], ""]),
     ArmorType.Tuxedo: ([*baseArmorSet], [Color.CheapTuxedoChestplate.value[1], Color.CheapTuxedoLeggings.value[1], Color.CheapTuxedoBoots.value[1]]),
     ArmorType.WardenHelmet: (["WardenHelmet.webp", *baseArmorSet], ["", *([Color.White.value[1]] * 3)]),
     ArmorType.Werewolf: (["WerewolfHelmet.webp", *baseArmorSet], ["", *([Color.Werewolf.value[1]] * 3)]),
 
     ArmorType.ReaperMask: (["ReaperMask.webp", *baseArmorSet], ["", *([Color.Reaper.value[1]] * 3)]),
     ArmorType.ReaperMaskSpirit: (["ReaperMaskSpirit.webp", *baseArmorSet], ["", *([Color.Reaper.value[1]] * 3)]),
-    ArmorType.TarantulaBlackWidow: (["TarantulaHelmetBlackWidow.webp", "ChainmailChestplate.webp", "LeatherLeggings.png", "ChainmailBoots.webp"], ["", "", Color.Tarantula.value[1], ""]),
+    ArmorType.TarantulaBlackWidow: (["TarantulaHelmetBlackWidow.webp", "ChainmailChestplate.webp", "LeatherLeggings.png", "IronBoots.webp"], ["", "", Color.Tarantula.value[1], ""]),
     ArmorType.WardenHelmetTrueWarden: (["WardenHelmetTrueWarden.webp", *baseArmorSet], ["", *([Color.TentacleDye.value[1]] * 3)]),
     ArmorType.WitherGoggles: (["WitherGoggles.webp", *baseArmorSet], ["", Color.StormChestplate.value[1], Color.StormLeggings.value[1], Color.StormBoots.value[1]]),
     ArmorType.WitherGogglesCorrupt: (["WitherGogglesCorrupt.webp", *baseArmorSet], ["", Color.StormChestplate.value[1], Color.StormLeggings.value[1], Color.StormBoots.value[1]]),
@@ -660,4 +661,5 @@ itemDict = {
     ArmorType.MonsterRaider: (["IronHelmet.webp", "LeatherChestplate.png", "LeatherLeggings.png", "LeatherBoots.png"], ["", Color.GuardianChestplate.value[1], Color.CreeperPants.value[1], Color.Tarantula.value[1]]),
     ArmorType.ArmorOfMagma: (fullArmorSet, [*([Color.ArmorOfMagma.value[1]] * 4)]),
     ArmorType.Emerald: (fullArmorSet, [*([Color.Emerald.value[1]] * 4)]),
+    ArmorType.GodAngler: (["DiamondHelmet.webp", *baseArmorSet], ["", "4F3B49", "595536", "461E3A"]),
 }

@@ -1,34 +1,128 @@
-
 import io
-import json
 import math
 import imageio
 import numpy as np
 
 from PIL import Image, ImageDraw
-from typing import Optional
 from Constants import *
 
-def CreateColorSquare(colors):
-    side = math.ceil(math.sqrt(len(colors)))
-    rows = math.ceil(len(colors) / side)
-    width = side * 100
-    height = rows * 100
+class HexColor:
+    hexCode: str = None
+    RGBList: list[int] = None
+
+    def __str__(self):
+        return f"Hex: {self.hexCode}, RGB: {self.RGBList}"
+
+    def __init__(self, hex: str = None, rgb: list = None):
+        if (hex is None or not hex) and (rgb is None or not rgb):
+            raise ValueError("Hex code or RGB list must be set.")
+
+        if hex is not None:
+            if type(hex) is not str:
+                raise ValueError("Hex code must be a string.")
+            self.hexCode = self.GetFixedHex(hex)
+        if rgb is not None:
+            if type(rgb) is not list:
+                raise ValueError("RGB list must be a list.")
+            if len(rgb) != 3:
+                raise ValueError("RGB list must have 3 values.")
+            self.RGBList = rgb
+
+        if self.hexCode is None:
+            self.hexCode = self.GetHexFromRGB(self.RGBList)
+        if self.RGBList is None:
+            self.RGBList = self.GetRBGFromHex(self.hexCode)
+
+    def GetHexCode(self):
+        if self.hexCode is None and self.RGBList is None:
+            raise ValueError("Hex code or RGB list must be set.")
+
+        if self.hexCode is not None:
+            return self.hexCode
+        return self.GetHexFromRGB(self.RGBList)
+    def GetRGBList(self):
+        return self.RGBList
+    def GetRGBInt(self):
+        return self.RGBList[0] << 16 | self.RGBList[1] << 8 | self.RGBList[2]
+
+    def GetFixedHex(self):
+        if self.hexCode is None and self.RGBList is None:
+            raise ValueError("Hex code or RGB list must be set.")
+
+        if self.hexCode is not None:
+            return self.GetFixedHex(self.hexCode)
+        if self.RGBList is not None:
+            return self.GetHexFromRGB(self.RGBList)
+
+    @staticmethod
+    def GetFixedHex(hexCode: str):
+        if hexCode is None:
+            raise ValueError("Hex code must be set.")
+
+        if type(hexCode) is list:
+            hexCode = HexColor.GetHexFromRGB(hexCode)
+
+        hexCode = hexCode.lower().strip()
+        if hexCode in stringToColorDict:
+            hexCode = stringToColorDict[hexCode].value[1]
+
+        hexCode = hexCode.upper().replace(',', '')
+        hexCode = hexCode.lstrip('#').strip()
+        hexCode = hexCode.rjust(6, '0')
+        return hexCode
+
+    @staticmethod
+    def GetRBGFromHex(hexCode: str):
+        if hexCode is None:
+            raise ValueError("Hex code must be set.")
+        if type(hexCode) is not str:
+            raise ValueError("Hex code must be a string.")
+
+        return list(int(hexCode[i:i+2], 16) for i in (0, 2, 4))
+
+    @staticmethod
+    def GetHexFromRGB(rgb: list[int]):
+        if rgb is None:
+            raise ValueError("RGB list must be set.")
+        if type(rgb) is not list:
+            raise ValueError("RGB list must be a list.")
+
+        return '%02x%02x%02x' % tuple(rgb)
+
+    @staticmethod
+    def GetIntFromRGB(rgb: list[int]):
+        if rgb is None:
+            raise ValueError("RGB list must be set.")
+        if type(rgb) is not list:
+            raise ValueError("RGB list must be a list.")
+
+        return rgb[0] << 16 | rgb[1] << 8 | rgb[2]
+
+def CreateColorSquare(
+        hexColorList: list[HexColor],
+        imageSize: int = 128
+):
+    side = math.ceil(math.sqrt(len(hexColorList)))
+    rows = math.ceil(len(hexColorList) / side)
+    width = side * imageSize
+    height = rows * imageSize
 
     image = Image.new("RGBA", (width, height), color=(0, 0, 0, 0))
     draw = ImageDraw.Draw(image)
 
-    for i, color in enumerate(colors):
+    for i, color in enumerate(hexColorList):
         row = i // side
         col = i % side
-        x0, y0 = col * 100, row * 100
-        x1, y1 = x0 + 99, y0 + 99
+        x0, y0 = col * imageSize, row * imageSize
+        x1, y1 = x0 + imageSize - 1, y0 + imageSize - 1
 
-        draw.rectangle((x0, y0, x1, y1), fill=tuple(color))
+        draw.rectangle((x0, y0, x1, y1), fill=tuple(color.GetRGBList()))
 
     return image
 
-def GetOverlayImage(imagePath):
+def GetOverlayImage(
+        imagePath: str
+):
     if imagePath is None:
         return None
 
@@ -49,29 +143,14 @@ def GetOverlayImage(imagePath):
 
     return None
 
-def GetFixedHex(baseHex):
-    if baseHex is None:
-        return "000000"
-    if type(baseHex) is list:
-        baseHex = GetHexFromRGB(baseHex)
-
-    baseHex = baseHex.lower().strip()
-    if baseHex in stringToColorDict:
-        baseHex = stringToColorDict[baseHex].value[1]
-
-    baseHex = baseHex.upper().replace(',', '')
-    baseHex = baseHex.lstrip('#').strip()
-    baseHex = baseHex.rjust(6, '0')
-    return baseHex
-
-def GetRBGFromHex(baseHex):
-    color = list(int(baseHex[i:i+2], 16) for i in (0, 2, 4))
-    return color
-
-def GetHexFromRGB(rgb):
-    return '%02x%02x%02x' % tuple(rgb)
-
-def CreateArmorSetImage(armorType, hexList, shapeType, versionType = VersionType._1_8_9, imageSpacing = 20, imageSize = 128):
+def CreateArmorSetImage(
+        armorType: ArmorType,
+        hexList: list[HexColor],
+        shapeType: ShapeType = ShapeType.Vertical,
+        versionType: VersionType = VersionType._1_8_9,
+        imageSpacing = 20,
+        imageSize = 128
+):
     if armorType not in itemDict:
         raise ValueError(f"Invalid armor type '{armorType}'")
 
@@ -80,29 +159,31 @@ def CreateArmorSetImage(armorType, hexList, shapeType, versionType = VersionType
 
     imageSpacing *= math.ceil(imageSize / 128)
 
-    finalHexList = []
+    finalHexColorList = []
     i = 0
     lastHex = None
     for armorHexes in enumerate(armorType[1]):
-        if not armorHexes[1]:
-            finalHexList.append(armorHexes[1])
+        armorHex = armorHexes[1].strip()
+        # armorColorHex = HexColor(hex=armorHex)
+        if not armorHex or armorHex == "":
+            finalHexColorList.append(None)
             continue
 
         i += 1
         if i <= len(hexList):
-            finalHexList.append(hexList[i - 1])
+            finalHexColorList.append(hexList[i - 1])
             lastHex = hexList[i - 1]
         else:
             if lastHex is not None:
-                finalHexList.append(lastHex)
+                finalHexColorList.append(lastHex)
             else:
-                finalHexList.append(armorHexes[1])
+                finalHexColorList.append(HexColor(hex=armorHex))
 
     # if len(finalHexList) != i:
     #     raise ValueError(f"Invalid number of hex codes for '{armorTypeString}'")
 
     armorPaths = [f"Images/{image}" for image in armorImages]
-    armorImages = [CreateArmorPieceImage(basePath=image, tintColor=finalHexList[i], versionType=versionType, imageSize=imageSize) for i, image in enumerate(armorPaths)]
+    armorImages = [CreateArmorPieceImage(basePath=image, overlayColor=finalHexColorList[i], versionType=versionType, imageSize=imageSize) for i, image in enumerate(armorPaths)]
 
     croppedImageList = []
     for armorImage in armorImages:
@@ -111,47 +192,55 @@ def CreateArmorSetImage(armorType, hexList, shapeType, versionType = VersionType
             croppedImage = armorImage.crop(bbox)
             croppedImageList.append(croppedImage)
 
+    heightOffset = 0
+    disallowedNames = ["leather", "angler", "chainmail", "gold", "iron", "diamond"]
+    for i, croppedImage in enumerate(croppedImageList):
+        armorName = armorPaths[i].lower()
+        if "helmet" in armorName and not any(item in armorName for item in disallowedNames):
+            ! TODO: test this on horizontal
+            heightOffset = imageSpacing // 2
+            break
+
     image = None
     animatedFiles = []
     if shapeType == ShapeType.Vertical:
         width = max([image.width for image in croppedImageList])
         height = sum([image.height for image in croppedImageList]) + (len(armorImages) - 1) * imageSpacing
 
-        image = Image.new("RGBA", (width, height), (0, 0, 0, 0))
+        image = Image.new("RGBA", (width, height - heightOffset), (0, 0, 0, 0))
 
         y = 0
         for i, croppedImage in enumerate(croppedImageList):
             x_offset = (width - croppedImage.width) // 2
             image.paste(croppedImage, (x_offset, y), croppedImage)
 
-            tempItemSpacing = imageSpacing
             if "a_" in armorPaths[i].lower():
                 animatedFiles.append([croppedImage, armorPaths[i], x_offset, 0, 0, y])
 
+            tempItemSpacing = imageSpacing
             armorName = armorPaths[i].lower()
-            disallowedNames = ["leather", "angler", "chainmail", "gold", "iron", "diamond"]
             if "helmet" in armorName and not any(item in armorName for item in disallowedNames):
-                tempItemSpacing = tempItemSpacing // 2
+                tempItemSpacing = imageSpacing // 2
 
             y += croppedImage.height + tempItemSpacing
 
     elif shapeType == ShapeType.Horizontal:
         width = sum([image.width for image in croppedImageList]) + (len(armorImages) - 1) * imageSpacing
         height = max([image.height for image in croppedImageList])
-        image = Image.new("RGBA", (width, height), (0, 0, 0, 0))
+        image = Image.new("RGBA", (width - heightOffset, height), (0, 0, 0, 0))
 
         x = 0
         for i, croppedImage in enumerate(croppedImageList):
             y_offset = (height - croppedImage.height) // 2
             image.paste(croppedImage, (x, y_offset), croppedImage)
 
-            tempItemSpacing = imageSpacing
             if "a_" in armorPaths[i].lower():
                 animatedFiles.append([croppedImage, armorPaths[i], 0, y_offset, x, 0])
 
+            tempItemSpacing = imageSpacing
             armorName = armorPaths[i].lower()
-            if "helmet" in armorPaths[i].lower() and "leather" not in armorName:
-                tempItemSpacing = tempItemSpacing // 2
+            if "helmet" in armorName and not any(item in armorName for item in disallowedNames):
+                tempItemSpacing = imageSpacing // 2
 
             x += croppedImage.width + tempItemSpacing
 
@@ -164,24 +253,11 @@ def CreateArmorSetImage(armorType, hexList, shapeType, versionType = VersionType
         square_size = grid_size * max(max_width, max_height) + (grid_size - 1) * imageSpacing
         image = Image.new("RGBA", (square_size, square_size), (0, 0, 0, 0))
 
-        # boot_index = None
-        # for i, armorPath in enumerate(armorPaths):
-        #     if "boot" in armorPath.lower():
-        #         boot_index = i
-        #         break
-
-        # total_rows = math.ceil(num_images / grid_size)
-        # grid_height = total_rows * (max_height + imageSpacing) - imageSpacing
-
         for i, croppedImage in enumerate(croppedImageList):
             row = i // grid_size
             col = i % grid_size
 
             x_offset = col * (max_width + imageSpacing) + (max_width - croppedImage.width) // 2
-
-            # if i == boot_index:
-            #     y_offset = grid_height - croppedImage.height
-            # else:
             y_offset = row * (max_height + imageSpacing) + (max_height - croppedImage.height) // 2
 
             image.paste(croppedImage, (x_offset, y_offset), croppedImage)
@@ -189,11 +265,18 @@ def CreateArmorSetImage(armorType, hexList, shapeType, versionType = VersionType
             if "a_" in armorPaths[i].lower():
                 animatedFiles.append([croppedImage, armorPaths[i], x_offset, y_offset, 0, 0])
 
+    animatedDuration = 0
     if len(animatedFiles) > 0:
         frames = []
         for animatedImage, armorPath, x_offset, y_offset, x, y in animatedFiles:
             reader = imageio.get_reader(armorPath)
+            i = -1
             for frame in reader:
+                i += 1
+                frameMeta = reader.get_meta_data(index=i)
+                frameDuration = frameMeta.get("duration", 0)
+                animatedDuration += frameDuration
+
                 frameImage = Image.fromarray(frame).resize((imageSize, imageSize)).convert("RGBA")
                 bbox = frameImage.getbbox()
                 if bbox:
@@ -206,12 +289,12 @@ def CreateArmorSetImage(armorType, hexList, shapeType, versionType = VersionType
         image = frames
 
     returnHexList = []
-    for baseHex in finalHexList:
+    for baseHex in finalHexColorList:
         if baseHex == "" or baseHex is None:
             continue
         returnHexList.append(baseHex)
 
-    return image, returnHexList
+    return image, returnHexList, animatedDuration
 
 def GetArmorPiecePath(itemType: ItemType) -> str:
     return f"Images/{itemType}.png"
@@ -235,12 +318,12 @@ def GetItemPathResolution(basePath, versionType, imageSize):
     return basePath
 
 def CreateArmorPieceImage(
-        itemType: Optional[ItemType] = None,
-        baseImage: Optional[Image.Image] = None,
-        overlayImage: Optional[Image.Image] = None,
-        basePath: Optional[str] = None,
-        overlayPath: Optional[str] = None,
-        tintColor: Optional[any] = None,
+        itemType: ItemType = None,
+        baseImage: Image.Image = None,
+        overlayImage: Image.Image = None,
+        basePath: str = None,
+        overlayPath: str = None,
+        overlayColor: HexColor|str = None,
         imageSize: int = 128,
         versionType: VersionType = VersionType._1_8_9
 ) -> Image.Image:
@@ -263,22 +346,22 @@ def CreateArmorPieceImage(
     if overlayImage is None and overlayPath is not None:
         overlayImage = Image.open(overlayPath).resize((imageSize, imageSize)).convert("RGBA")
 
-    if tintColor is None or tintColor == "":
+    if overlayColor is None or not overlayColor:
         return baseImage
-    elif type(tintColor) == str:
-        tintColor = GetRBGFromHex(GetFixedHex(tintColor))
+    # elif type(overlayColor) == str:
+    #     tintColor = GetRBGFromHex(GetFixedHex(tintColor))
 
-    tintedImage = ApplyColorTint(baseImage=baseImage, overlayColor=tintColor, imageSize=imageSize)
+    tintedImage = ApplyColorTint(baseImage=baseImage, overlayColor=overlayColor, imageSize=imageSize)
 
     if overlayImage is not None:
         tintedImage = AddImageOverlay(baseImage=tintedImage, overlayImage=overlayImage, imageSize=imageSize)
     return tintedImage
 
 def AddImageOverlay(
-    baseImage: Optional[Image.Image] = None,
-    overlayImage: Optional[Image.Image] = None,
-    basePath: Optional[str] = None,
-    overlayPath: Optional[str] = None,
+    baseImage: Image.Image = None,
+    overlayImage: Image.Image = None,
+    basePath: str = None,
+    overlayPath: str = None,
     imageSize: int = 128
 ) -> Image.Image:
     if baseImage is None and basePath is None:
@@ -299,9 +382,9 @@ def AddImageOverlay(
     return result_image
 
 def ApplyColorTint(
-    baseImage: Optional[Image.Image] = None,
-    basePath: Optional[str] = None,
-    overlayColor: Optional[any] = None,
+    baseImage: Image.Image = None,
+    basePath: str = None,
+    overlayColor: HexColor = None,
     imageSize: int = 128
 ) -> Image.Image:
     if baseImage is None and basePath is None:
@@ -311,9 +394,9 @@ def ApplyColorTint(
         baseImage = Image.open(basePath).resize((imageSize, imageSize)).convert("RGBA")
 
     if overlayColor is None:
-        overlayColor = [160, 101, 64]
+        overlayColor = HexColor("FFFFFF")
 
-    [r, g, b] = overlayColor
+    [r, g, b] = overlayColor.GetRGBList()
     tintImage = Image.new("RGBA", baseImage.size, (r, g, b, 255))
 
     tinted = Image.new("RGBA", baseImage.size)
@@ -328,14 +411,21 @@ def ApplyColorTint(
 
     return tinted
 
-def MixHexList(startHex, hexList):
-    startRGB = GetRBGFromHex(startHex)
+# def MixHexList(startHex, hexList):
+#     startRGB = GetRBGFromHex(startHex)
+#     rgbList = []
+#     for baseHex in hexList:
+#         rgb = GetRBGFromHex(baseHex)
+#         rgbList.append(rgb)
+#     result = MixRGBList(startRGB, rgbList)
+#     return GetHexFromRGB(result)
+def MixHexColorList(startHexColor, hexColorList):
+    startRGB = startHexColor.GetRGBList()
     rgbList = []
-    for baseHex in hexList:
-        rgb = GetRBGFromHex(baseHex)
-        rgbList.append(rgb)
+    for hexColor in hexColorList:
+        rgbList.append(hexColor.GetRGBList())
     result = MixRGBList(startRGB, rgbList)
-    return GetHexFromRGB(result)
+    return HexColor(rgb=result)
 def MixRGBList(startRGB, rgbList):
     if len(rgbList) > 8:
         colorList = rgbList[:8]
@@ -376,7 +466,7 @@ def MixRGBList(startRGB, rgbList):
     return [red, green, blue]
 
 def GetCombinedArmorSetBuffer(armorType, hexList, shapeType, versionType = VersionType._1_8_9, imageSpacing = 20, imageSize = 128):
-    armorSet, colors = CreateArmorSetImage(
+    armorSet, colors, duration = CreateArmorSetImage(
         armorType=armorType,
         hexList=hexList,
         versionType=versionType,
@@ -384,6 +474,8 @@ def GetCombinedArmorSetBuffer(armorType, hexList, shapeType, versionType = Versi
         imageSpacing=imageSpacing,
         imageSize=imageSize
     )
+    if duration > 0:
+        duration = int(duration / 1000)
 
     buffer = io.BytesIO()
     filePath = "armorSet.png"
@@ -393,7 +485,7 @@ def GetCombinedArmorSetBuffer(armorType, hexList, shapeType, versionType = Versi
             buffer,
             save_all=True,
             append_images=armorSet[1:],
-            duration=225,
+            duration=duration,
             loop=0,
             quality=100,
             method=3,
@@ -437,15 +529,15 @@ def GetColorStatusType(baseHex):
 
     return [ColorType._None]
 
-def GetColorStatusText(colorHex):
-    if colorHex is  None:
-        raise ValueError("Hex is not set.")
+def GetColorStatusText(hexColor):
+    if hexColor is  None:
+        raise ValueError("Hex color is not set.")
 
     typeString = ""
     explanationString = ""
 
-    colorHex = GetFixedHex(colorHex)
-    colorStatus = GetColorStatusType(colorHex)
+    fixedHex = hexColor.GetHexCode()
+    colorStatus = GetColorStatusType(fixedHex)
 
     if type(colorStatus) == tuple:
         colorType = colorStatus[0][0]
@@ -490,7 +582,7 @@ def GetColorStatusText(colorHex):
         if ColorType.Armor in colorStatus:
             matchingArmorString = ""
             for name, color in Color.__members__.items():
-                if color.value[1] == colorHex and color.value[2] == ColorType.Armor:
+                if color.value[1] == fixedHex and color.value[2] == ColorType.Armor:
                     if matchingArmorString:
                         matchingArmorString += ", "
 
@@ -512,7 +604,108 @@ def GetColorStatusText(colorHex):
             typeString = "Crystal dyed"
 
         elif ColorType.HypixelDye in colorStatus:
-            colorEnum = stringToColorDict[colorHex]
+            colorEnum = stringToColorDict[fixedHex]
             typeString = f"{colorEnum.value[0]} dyed"
 
     return typeString, explanationString
+
+def MergeImagesHorizontal(*images: Image.Image):
+    # Calculate the total width of the result image
+    total_width = sum(image.size[0] for image in images)
+    # Find the maximum height from all images
+    max_height = max(image.size[1] for image in images)
+
+    # Create a new image with the calculated dimensions (total width, max height)
+    result = Image.new(mode='RGBA', size=(total_width, max_height), color=(0, 0, 0, 0))
+
+    # Track the x-coordinate where the next image will be pasted
+    x_offset = 0
+
+    # Paste each image onto the result image, aligned at the bottom
+    for image in images:
+        width, height = image.size
+        result.paste(im=image, box=(x_offset, max_height - height))
+        x_offset += width  # Move the x_offset by the width of the current image
+
+    return result
+
+def MergeImagesVertical(image1: Image.Image, image2: Image.Image):
+    (width1, height1) = image1.size
+    (width2, height2) = image2.size
+
+    resultWidth = max(width1, width2)
+    resultHeight = height1 + height2
+
+    result = Image.new(mode='RGBA', size=(resultWidth, resultHeight), color=(0, 0, 0, 0))
+    result.paste(im=image1, box=(0, 0))
+    result.paste(im=image2, box=(0, height1))
+
+    return result
+
+def RGBToXYZ(rgbInt: int):
+    rgb = [
+        ((rgbInt >> 16) & 0xFF) / 255.0,
+        ((rgbInt >> 8) & 0xFF) / 255.0,
+        (rgbInt & 0xFF) / 255.0
+    ]
+
+    for i in range(len(rgb)):
+        value = rgb[i]
+        if value <= 0.04045:
+            rgb[i] = value / 12.92
+        else:
+            rgb[i] = math.pow((value + 0.055) / 1.055, 2.4)
+
+    xyzFactors = [
+        0.4124, 0.3576, 0.1805,
+        0.2126, 0.7152, 0.0722,
+        0.0193, 0.1192, 0.9505
+    ]
+
+    def DotProduct(factors: list[float], offset: int, rgb: list[float]):
+        return sum(factors[offset + i] * rgb[i] for i in range(3))
+
+    return [
+        DotProduct(xyzFactors, 0, rgb),
+        DotProduct(xyzFactors, 3, rgb),
+        DotProduct(xyzFactors, 6, rgb)
+    ]
+
+def XYZToCielab(x: float, y: float, z: float):
+    refX, refY, refZ = 0.95047, 1.0, 1.08883
+    x /= refX
+    y /= refY
+    z /= refZ
+
+    def ConvertToLab(t: float):
+        if t > 0.008856:
+            return math.pow(t, 1.0 / 3.0)
+        return 7.787 * t + 16.0
+
+    return [
+        116.0 * ConvertToLab(y) - 16.0,
+        500.0 * (ConvertToLab(x) - ConvertToLab(y)),
+        200.0 * (ConvertToLab(y) - ConvertToLab(z))
+    ]
+
+def RGBIntToCielab(rgbInt: int):
+    xyz = RGBToXYZ(rgbInt)
+    return XYZToCielab(xyz[0], xyz[1], xyz[2])
+
+def HexColorToCielab(hexColor: HexColor):
+    return RGBIntToCielab(hexColor.GetRGBInt())
+
+def GetHexDifference(hexColor1: HexColor, hexColor2: HexColor):
+    targetLab = HexColorToCielab(hexColor1)
+    pieceLab = HexColorToCielab(hexColor2)
+
+    rgb1 = hexColor1.GetRGBList()
+    rgb2 = hexColor2.GetRGBList()
+
+    redDifference = abs(rgb1[0] - rgb2[0])
+    greenDifference = abs(rgb1[1] - rgb2[1])
+    blueDifference = abs(rgb1[2] - rgb2[2])
+
+    absoluteDifference = redDifference + greenDifference + blueDifference
+    eulerDistance = math.sqrt(sum((targetLab[i] - pieceLab[i]) ** 2 for i in range(3)))
+    return absoluteDifference, eulerDistance
