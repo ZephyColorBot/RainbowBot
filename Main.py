@@ -727,6 +727,7 @@ async def displayDatabaseInfo(interaction, color: str = None, itemname: str = No
 
     hexColor = None
     itemID = None
+    descriptionTitle = ""
     if color is not None:
         try:
             hexColor = HexColor(hex=color)
@@ -782,7 +783,10 @@ async def displayDatabaseInfo(interaction, color: str = None, itemname: str = No
     embed.set_footer(text=footerText, icon_url=avatarLink)
     embed.timestamp = interaction.created_at
 
-    await interaction.response.send_message(file=discordFile, embed=embed)
+    if discordFile:
+        await interaction.response.send_message(embed=embed, file=discordFile)
+        return
+    await interaction.response.send_message(embed=embed)
 
 with open('BotToken') as file:
     LoadDatabase("Database/Combined-S.html")

@@ -82,9 +82,10 @@ def LoadDatabase(filePath):
                 continue
 
             baseHex, armorType, playerUUID = line.split(" ")
-            itemID = UpdateItemID(armorType)
-            if itemID is None:
-                print(f"Error: Invalid itemID '{armorType}'")
+            itemID = armorType.upper()
+            # itemID = UpdateItemID(armorType)
+            # if itemID is None:
+            #     print(f"Error: Invalid itemID '{armorType}'")
 
             hexColor = None
             try:
@@ -129,15 +130,13 @@ def GetDatabasePlayers(itemID: str = None, itemHex: str = None):
             else:
                 for itemID in itemDB[itemHex]:
                     players.add(itemDB[itemHex][itemID])
-                return players
 
     elif itemID is not None:
         for hexCode in itemDB:
             if itemID in itemDB[hexCode]:
                 players.add(itemDB[hexCode][itemID])
-        return players
 
-    return None
+    return list(players)
 
 def GetItemCount(itemID: str = None, itemHex: str = None):
     itemID = itemID.upper() if itemID is not None else None
@@ -199,3 +198,5 @@ def GetItemCount(itemID: str = None, itemHex: str = None):
 # print(3, UpdateItemID("FANCY_TUXEDO_CHEST"))
 # print(3, UpdateItemID("GOLDOR_LEGS"))
 # print(3, UpdateItemID("PACK"))
+
+# print(4, len(GetDatabasePlayers(itemHex="7fcc19", itemID="young_chestplate")))
