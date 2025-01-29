@@ -65,5 +65,5 @@ for itemKey in itemDict:
 
 # print(stringToArmorTypeDict)
 
-print(GetHexDifference(HexColor("fcbb07"), HexColor("ffbc0b")))
+print(GetHexDifference(HexColor(hex="fcbb07"), HexColor(hex="ffbc0b")))
 # print(calculate_lab_distance("fcbb07", "ffbc0b"))

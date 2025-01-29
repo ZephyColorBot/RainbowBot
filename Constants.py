@@ -1,5 +1,7 @@
 from enum import Enum
 
+longestArmorType = 0
+
 class ColorType(Enum):
     Exotic = "Exotic"
     PureDye = "Pure"
@@ -57,6 +59,7 @@ class Color(Enum):
     Gray = PureLightGrey
     PureGrey = PureLightGrey
     Grey = PureLightGrey
+    LG = PureLightGrey
     PureDarkGrey = ("DarkGray", "4C4C4C", ColorType.PureDye)
     DarkGrey = PureDarkGrey
     PureDarkGray = PureDarkGrey
@@ -91,61 +94,135 @@ class Color(Enum):
     Holy = ("Holy", "47D147", ColorType.Armor)
     Old = ("Old", "F0E6AA", ColorType.Armor)
     Protector = ("Protector", "99978B", ColorType.Armor)
+    Prot = Protector
     StrongChestplate = ("Strong Chestplate", "D91E41", ColorType.Armor)
+    StrongCP = StrongChestplate
+    StrongChest = StrongChestplate
     StrongLeggings = ("Strong Leggings", "E09419", ColorType.Armor)
+    StrongLegs = StrongLeggings
     StrongBoots = ("Strong Boots", "F0D124", ColorType.Armor)
     Superior = ("Superior", "F2DF11", ColorType.Armor)
+    Sup = Superior
     SuperiorBoots = ("Superior Boots", "F25D18", ColorType.Armor)
+    SupBoots = SuperiorBoots
     Unstable = ("Unstable", "B212E3", ColorType.Armor)
+    Unst = Unstable
     Wise = ("Wise", "29F0E9", ColorType.Armor)
     Young = ("Young", "DDE4F0", ColorType.Armor)
     Angler = ("Angler", "0B004F", ColorType.Armor)
     PackHelmet = ("Pack Helmet", "FFFFFF", ColorType.Armor)
+    PackHelm = PackHelmet
     PackChestplate = ("Pack Chestplate", "FF0000", ColorType.Armor)
+    PackCP = PackChestplate
+    PackChest = PackChestplate
     Bat = ("Bat", "000000", ColorType.Armor)
     Biohazard = ("Biohazard", "FFAC00", ColorType.Armor)
     Blaze = ("Blaze", "F7DA33", ColorType.Armor)
     FrozenBlaze = ("Frozen Blaze", "A0DAEF", ColorType.Armor)
+    FB = FrozenBlaze
     Goblin = ("Goblin", "37B042", ColorType.Armor)
     Glacite = ("Glacite", "03FCF8", ColorType.Armor)
     GoldorChestplate = ("Goldor Chestplate", "45413C", ColorType.Armor)
+    GoldorCP = GoldorChestplate
+    GoldorChest = GoldorChestplate
     GoldorLeggings = ("Goldor Leggings", "65605A", ColorType.Armor)
+    GoldorLegs = GoldorLeggings
     GoldorBoots = ("Goldor Boots", "88837E", ColorType.Armor)
     Lapis = ("Lapis", "0000FF", ColorType.Armor)
     Leaflet = ("Leaflet", "4DCC4D", ColorType.Armor)
     MaxorChestplate = ("Maxor Chestplate", "4A14B7", ColorType.Armor)
+    MaxorCP = MaxorChestplate
+    MaxorChest = MaxorChestplate
     MaxorLeggings = ("Maxor Leggings", "5D2FB9", ColorType.Armor)
+    MaxorLegs = MaxorLeggings
     MaxorBoots = ("Maxor Boots", "8969C8", ColorType.Armor)
     NecromancerLordChestplate = ("Necromancer Lord Chestplate", "000000", ColorType.Armor)
+    NecromancerLordCP = NecromancerLordChestplate
+    NecromancerLordChest = NecromancerLordChestplate
+    NecroLordChestplate = NecromancerLordChestplate
+    NecroLordCP = NecromancerLordChestplate
+    NecroLordChest = NecromancerLordChestplate
+    NecromancerChestplate = NecromancerLordChestplate
+    NecromancerCP = NecromancerLordChestplate
+    NecromancerChest = NecromancerLordChestplate
+    NecroChestplate = NecromancerLordChestplate
+    NecroCP = NecromancerLordChestplate
+    NecroChest = NecromancerLordChestplate
     NecromancerLordLeggings = ("Necromancer Lord Leggings", "370147", ColorType.Armor)
+    NecromancerLordLegs = NecromancerLordLeggings
+    NecroLordLeggings = NecromancerLordLeggings
+    NecromancerLeggings = NecromancerLordLeggings
+    NecroLeggings = NecromancerLordLeggings
+    NecroLegs = NecromancerLordLeggings
     NecromancerLordBoots = ("Necromancer Lord Boots", "400352", ColorType.Armor)
+    NecromancerBoots = NecromancerLordBoots
+    NecroLordBoots = NecromancerLordBoots
+    NecroBoots = NecromancerLordBoots
     NecronChestplate = ("Necron Chestplate", "E7413C", ColorType.Armor)
+    NecronCP = NecronChestplate
+    NecronChest = NecronChestplate
     NecronLeggings = ("Necron Leggings", "E75C3C", ColorType.Armor)
+    NecronLegs = NecronLeggings
     NecronBoots = ("Necron Boots", "E76E3C", ColorType.Armor)
     RisingSunLeggings = ("Rising Sun Leggings", "DEBC15", ColorType.Armor)
+    RisingSunLegs = RisingSunLeggings
     RisingSunBoots = ("Rising Sun Boots", "9F8609", ColorType.Armor)
     ShadowAssassin = ("Shadow Assassin", "000000", ColorType.Armor)
+    SA = ShadowAssassin
     Shark = ("Shark", "002CA6", ColorType.Armor)
     SnowSuit = ("Snow Suit", "FFFFFF", ColorType.Armor)
+    Snow = SnowSuit
     Sponge = ("Sponge", "FFDC51", ColorType.Armor)
     Spooky = ("Spooky", "606060", ColorType.Armor)
     StormChestplate = ("Storm Chestplate", "1793C4", ColorType.Armor)
+    StormCP = StormChestplate
+    StormChest = StormChestplate
     StormLeggings = ("Storm Leggings", "17A8C4", ColorType.Armor)
+    StormLegs = StormLeggings
     StormBoots = ("Storm Boots", "1CD4E4", ColorType.Armor)
     Tarantula = ("Tarantula", "000000", ColorType.Armor)
+    Tara = Tarantula
     CheapTuxedoChestplate = ("Cheap Tuxedo Chestplate", "383838", ColorType.Armor)
+    CheapTuxChestplate = CheapTuxedoChestplate
+    CheapTuxCP = CheapTuxedoChestplate
+    CheapTuxChest = CheapTuxedoChestplate
+    CheapTuxedoCP = CheapTuxedoChestplate
+    CheapTuxedoChest = CheapTuxedoChestplate
     CheapTuxedoLeggings = ("Cheap Tuxedo Leggings", "C7C7C7", ColorType.Armor)
+    CheapTuxLeggings = CheapTuxedoLeggings
+    CheapTuxedoLegs = CheapTuxedoLeggings
+    CheapTuxLegs = CheapTuxedoLeggings
     CheapTuxedoBoots = ("Cheap Tuxedo Boots", "383838", ColorType.Armor)
+    CheapTuxBoots = CheapTuxedoBoots
     FancyTuxedoChestplate = ("Fancy Tuxedo Chestplate", "332A2A", ColorType.Armor)
+    FancyTuxChestplate = FancyTuxedoChestplate
+    FancyTuxCP = FancyTuxedoChestplate
+    FancyTuxChest = FancyTuxedoChestplate
+    FancyTuxedoCP = FancyTuxedoChestplate
+    FancyTuxedoChest = FancyTuxedoChestplate
     FancyTuxedoLeggings = ("Fancy Tuxedo Leggings", "d4d4d4", ColorType.Armor)
+    FancyTuxLeggings = FancyTuxedoLeggings
+    FancyTuxedoLegs = FancyTuxedoLeggings
+    FancyTuxLegs = FancyTuxedoLeggings
     FancyTuxedoBoots = ("Fancy Tuxedo Boots", "332A2A", ColorType.Armor)
+    FancyTuxBoots = FancyTuxedoBoots
     ElegantTuxedoChestplate = ("Elegant Tuxedo Chestplate", "191919", ColorType.Armor)
+    ElegantTuxChestplate = ElegantTuxedoChestplate
+    ElegantTuxCP = ElegantTuxedoChestplate
+    ElegantTuxChest = ElegantTuxedoChestplate
+    ElegantTuxedoCP = ElegantTuxedoChestplate
+    ElegantTuxedoChest = ElegantTuxedoChestplate
     ElegantTuxedoLeggings = ("Elegant Tuxedo Leggings", "FEFDFC", ColorType.Armor)
+    ElegantTuxLeggings = ElegantTuxedoLeggings
+    ElegantTuxedoLegs = ElegantTuxedoLeggings
+    ElegantTuxLegs = ElegantTuxedoLeggings
     ElegantTuxedoBoots = ("Elegant Tuxedo Boots", "191919", ColorType.Armor)
+    ElegantTuxBoots = ElegantTuxedoBoots
     Werewolf = ("Werewolf", "1D1105", ColorType.Armor)
     Reaper = ("Reaper", "1B1B1B", ColorType.Armor)
 
     Mushroom = ("Mushroom", "FF0000", ColorType.Armor)
+    Mush = Mushroom
     Pumpkin = ("Pumpkin", "EDAA36", ColorType.Armor)
     FarmSuit = ("Farm Suit", "FFFF00", ColorType.Armor)
     FarmArmor = ("Farm Armor", "FFD700", ColorType.Armor)
@@ -161,6 +238,7 @@ class Color(Enum):
     ArmorOfMagma = ("Armor of Magma", "FF9300", ColorType.Armor)
     Magma = ArmorOfMagma
     Emerald = ("Emerald", "00FF00", ColorType.Armor)
+    Mineral = ("Mineral", " CCE5FF", ColorType.Armor)
 
     FF3399 = ("FF3399", "FF3399", ColorType.Fairy)
     F39 = FF3399
@@ -433,6 +511,7 @@ class ArmorType(Enum):
     OldShimmer = "Old Shimmer"
     ShimmerOld = OldShimmer
     Protector = "Protector"
+    Prot = Protector
     ProtectorBaby = "Protector Baby"
     BabyProtector = ProtectorBaby
     ProtBaby = ProtectorBaby
@@ -447,6 +526,7 @@ class ArmorType(Enum):
     StrongShimmer = "Strong Shimmer"
     ShimmerStrong = StrongShimmer
     Superior = "Superior"
+    Sup = Superior
     SuperiorBaby = "Superior Baby"
     BabySup = SuperiorBaby
     SupBaby = SuperiorBaby
@@ -456,6 +536,7 @@ class ArmorType(Enum):
     SupShimmer = SuperiorShimmer
     ShimmerSup = SuperiorShimmer
     Unstable = "Unstable"
+    Unst = Unstable
     UnstableBaby = "Unstable Baby"
     BabyUnstable = UnstableBaby
     BabyUnst = UnstableBaby
@@ -525,6 +606,10 @@ class ArmorType(Enum):
     Tara = Tarantula
     Tuxedo = "Tuxedo"
     Tux = Tuxedo
+    _3Piece = Tuxedo
+    ThreePiece = Tuxedo
+    ThreeP = Tuxedo
+    _3P = Tuxedo
     Werewolf = "Werewolf"
     WardenHelmet = "Warden Helmet"
     Warden = WardenHelmet
@@ -555,7 +640,7 @@ class ArmorType(Enum):
     Chainmail = "Chainmail"
     Chain = Chainmail
     Iron = "Iron"
-    Gold = "Gold"
+    Golden = "Gold"
     Diamond = "Diamond"
 
     Mushroom = "Mushroom"
@@ -569,16 +654,88 @@ class ArmorType(Enum):
     Prospecting = Miner
     Growth = "Growth"
     GuardianChestplate = "Guardian Chestplate"
+    GuardianChest = GuardianChestplate
+    GuardianCP = GuardianChestplate
     Guardian = GuardianChestplate
     CreeperPants = "Creeper Pants"
+    CreeperLegs = CreeperPants
+    CreeperLeggings = CreeperPants
     Creeper = CreeperPants
     MonsterHunter = "Monster Hunter"
     MH = MonsterHunter
     MonsterRaider = "Monster Raider"
-    ArmorOfMagma = "Armor of Magma"
+    ArmorOfMagma = "Magma"
     Magma = ArmorOfMagma
     Emerald = "Emerald"
     GodAngler = "God Angler"
+    BuildersClay = "Builder's Clay"
+    BuilderClay = BuildersClay
+    ObsidianChestplate = "Obsidian Chestplate"
+    Obsidian = ObsidianChestplate
+    FarmerBoots = "Farmer Boots"
+    Farmer = FarmerBoots
+    FarmerBoot = FarmerBoots
+    FarmersBoots = FarmerBoots
+    Farmers = FarmerBoots
+    RancherBoots = "Ranchers Boots"
+    Rancher = RancherBoots
+    RancherBoot = RancherBoots
+    RanchersBoots = RancherBoots
+    Ranchers = RancherBoots
+    StereoPants = "Stereo Pants"
+    Stereo = StereoPants
+    StereoLeggings = StereoPants
+    StereoLegs = StereoPants
+    Stereos = StereoPants
+    SquidBoots = "Squid Boots"
+    Squid = SquidBoots
+    SquidBoot = SquidBoots
+    SquidsBoots = SquidBoots
+    Squids = SquidBoots
+    Crystal = "Crystal"
+    Fairy = "Fairy"
+    ZombieSoldier = "Zombie Soldier"
+    Salmon = "Salmon"
+    SpiritBoots = "Spirit Boots"
+    ThornBoots = SpiritBoots
+    ThornsBoots = SpiritBoots
+    Mineral = "Mineral"
+    CheapTuxedoChestplate = "Cheap Tuxedo Chestplate"
+    CheapTuxChestplate = CheapTuxedoChestplate
+    CheapTuxCP = CheapTuxedoChestplate
+    CheapTuxChest = CheapTuxedoChestplate
+    CheapTuxedoCP = CheapTuxedoChestplate
+    CheapTuxedoChest = CheapTuxedoChestplate
+    CheapTuxedoLeggings = "Cheap Tuxedo Leggings"
+    CheapTuxLeggings = CheapTuxedoLeggings
+    CheapTuxedoLegs = CheapTuxedoLeggings
+    CheapTuxLegs = CheapTuxedoLeggings
+    CheapTuxedoBoots = "Cheap Tuxedo Boots"
+    CheapTuxBoots = CheapTuxedoBoots
+    FancyTuxedoChestplate = "Fancy Tuxedo Chestplate"
+    FancyTuxChestplate = FancyTuxedoChestplate
+    FancyTuxCP = FancyTuxedoChestplate
+    FancyTuxChest = FancyTuxedoChestplate
+    FancyTuxedoCP = FancyTuxedoChestplate
+    FancyTuxedoChest = FancyTuxedoChestplate
+    FancyTuxedoLeggings = "Fancy Tuxedo Leggings"
+    FancyTuxLeggings = FancyTuxedoLeggings
+    FancyTuxedoLegs = FancyTuxedoLeggings
+    FancyTuxLegs = FancyTuxedoLeggings
+    FancyTuxedoBoots = "Fancy Tuxedo Boots"
+    FancyTuxBoots = FancyTuxedoBoots
+    ElegantTuxedoChestplate = "Elegant Tuxedo Chestplate"
+    ElegantTuxChestplate = ElegantTuxedoChestplate
+    ElegantTuxCP = ElegantTuxedoChestplate
+    ElegantTuxChest = ElegantTuxedoChestplate
+    ElegantTuxedoCP = ElegantTuxedoChestplate
+    ElegantTuxedoChest = ElegantTuxedoChestplate
+    ElegantTuxedoLeggings = "Elegant Tuxedo Leggings"
+    ElegantTuxLeggings = ElegantTuxedoLeggings
+    ElegantTuxedoLegs = ElegantTuxedoLeggings
+    ElegantTuxLegs = ElegantTuxedoLeggings
+    ElegantTuxedoBoots = "Elegant Tuxedo Boots"
+    ElegantTuxBoots = ElegantTuxedoBoots
 
     def __str__(self):
         return self.value
@@ -620,6 +777,16 @@ def PopulateStringDictionaries():
         shapeName = shapeType.name.replace(" ", "").lower().strip()
         stringToShapeTypeDict[shapeName] = shapeType
 PopulateStringDictionaries()
+
+def UpdateLongestArmorType():
+    global longestArmorType
+    if longestArmorType == 0:
+        for armorType in ArmorType.__members__:
+            if len(armorType) > longestArmorType:
+                longestArmorType = len(armorType)
+
+    longestArmorType = 99
+UpdateLongestArmorType()
 
 baseArmorSet = ["LeatherChestplate.png", "LeatherLeggings.png", "LeatherBoots.png"]
 fullArmorSet = ["LeatherHelmet.png", "LeatherChestplate.png", "LeatherLeggings.png", "LeatherBoots.png"]
@@ -667,7 +834,7 @@ itemDict = {
     ArmorType.Goldor: (["GoldorHelmet.webp", *baseArmorSet], ["", Color.GoldorChestplate.value[1], Color.GoldorLeggings.value[1], Color.GoldorBoots.value[1]]),
     ArmorType.GoldorCelesital: (["GoldorHelmetCelestial.webp", *baseArmorSet], ["", Color.GoldorChestplate.value[1], Color.GoldorLeggings.value[1], Color.GoldorBoots.value[1]]),
     ArmorType.Lapis: (["LapisHelmet.webp", *baseArmorSet], ["", *([Color.Lapis.value[1]] * 3)]),
-    ArmorType.Leaflet: (["OakLeaves.webp", *baseArmorSet], ["", *([Color.Leaflet.value[1]] * 3)]),
+    ArmorType.Leaflet: (["LeafletHelmet.webp", *baseArmorSet], ["", *([Color.Leaflet.value[1]] * 3)]),
     ArmorType.Maxor: (["MaxorHelmet.webp", *baseArmorSet], ["", Color.MaxorChestplate.value[1], Color.MaxorLeggings.value[1], Color.MaxorBoots.value[1]]),
     ArmorType.MaxorCelesital: (["MaxorHelmetCelestial.webp", *baseArmorSet], ["", Color.MaxorChestplate.value[1], Color.MaxorLeggings.value[1], Color.MaxorBoots.value[1]]),
     ArmorType.NecromancerLord: (["NecromancerLordHelmet.webp", *baseArmorSet], ["", Color.NecromancerLordChestplate.value[1], Color.NecromancerLordLeggings.value[1], Color.NecromancerLordBoots.value[1]]),
@@ -692,20 +859,20 @@ itemDict = {
     ArmorType.WardenHelmet: (["WardenHelmet.webp", *baseArmorSet], ["", *([Color.White.value[1]] * 3)]),
     ArmorType.Werewolf: (["WerewolfHelmet.webp", *baseArmorSet], ["", *([Color.Werewolf.value[1]] * 3)]),
 
-    ArmorType.ReaperMask: (["ReaperMask.webp", *baseArmorSet], ["", *([Color.Reaper.value[1]] * 3)]),
-    ArmorType.ReaperMaskSpirit: (["ReaperMaskSpirit.webp", *baseArmorSet], ["", *([Color.Reaper.value[1]] * 3)]),
+    ArmorType.ReaperMask: (["ReaperMaskHelmet.webp", *baseArmorSet], ["", *([Color.Reaper.value[1]] * 3)]),
+    ArmorType.ReaperMaskSpirit: (["ReaperMaskHelmetSpirit.webp", *baseArmorSet], ["", *([Color.Reaper.value[1]] * 3)]),
     ArmorType.TarantulaBlackWidow: (["TarantulaHelmetBlackWidow.webp", "ChainmailChestplate.webp", "LeatherLeggings.png", "IronBoots.webp"], ["", "", Color.Tarantula.value[1], ""]),
     ArmorType.WardenHelmetTrueWarden: (["WardenHelmetTrueWarden.webp", *baseArmorSet], ["", *([Color.TentacleDye.value[1]] * 3)]),
-    ArmorType.WitherGoggles: (["WitherGoggles.webp", *baseArmorSet], ["", Color.StormChestplate.value[1], Color.StormLeggings.value[1], Color.StormBoots.value[1]]),
-    ArmorType.WitherGogglesCorrupt: (["WitherGogglesCorrupt.webp", *baseArmorSet], ["", Color.StormChestplate.value[1], Color.StormLeggings.value[1], Color.StormBoots.value[1]]),
-    ArmorType.WitherGogglesCelestial: (["WitherGogglesCelestial.webp", *baseArmorSet], ["", Color.StormChestplate.value[1], Color.StormLeggings.value[1], Color.StormBoots.value[1]]),
-    ArmorType.WitherGogglesCyberpunk: (["a_WitherGogglesCyberpunk.webp", *baseArmorSet], ["", Color.StormChestplate.value[1], Color.StormLeggings.value[1], Color.StormBoots.value[1]]),
+    ArmorType.WitherGoggles: (["WitherGogglesHelmet.webp", *baseArmorSet], ["", Color.StormChestplate.value[1], Color.StormLeggings.value[1], Color.StormBoots.value[1]]),
+    ArmorType.WitherGogglesCorrupt: (["WitherGogglesHelmetCorrupt.webp", *baseArmorSet], ["", Color.StormChestplate.value[1], Color.StormLeggings.value[1], Color.StormBoots.value[1]]),
+    ArmorType.WitherGogglesCelestial: (["WitherGogglesHelmetCelestial.webp", *baseArmorSet], ["", Color.StormChestplate.value[1], Color.StormLeggings.value[1], Color.StormBoots.value[1]]),
+    ArmorType.WitherGogglesCyberpunk: (["a_WitherGogglesHelmetCyberpunk.webp", *baseArmorSet], ["", Color.StormChestplate.value[1], Color.StormLeggings.value[1], Color.StormBoots.value[1]]),
     ArmorType.DiverHelmetPuffer: (["DiverHelmetPuffer.webp", "GoldChestplate.webp", "GoldLeggings.webp", "GoldBoots.webp"], ["", "", "", ""]),
     ArmorType.MastiffHelmetPuppy: (["MastiffHelmetPuppy.webp", "GoldChestplate.webp", "DiamondLeggings.webp", "DiamondBoots.webp"], ["", "", "", ""]),
     ArmorType.PerfectHelmetReinforced: (["PerfectHelmetReinforced.webp", "DiamondChestplate.webp", "DiamondLeggings.webp", "DiamondBoots.webp"], ["", "", "", ""]),
     ArmorType.Chainmail: (["ChainmailHelmet.webp", "ChainmailChestplate.webp", "ChainmailLeggings.webp", "ChainmailBoots.webp"], ["", "", "", ""]),
     ArmorType.Iron: (["IronHelmet.webp", "IronChestplate.webp", "IronLeggings.webp", "IronBoots.webp"], ["", "", "", ""]),
-    ArmorType.Gold: (["GoldHelmet.webp", "GoldChestplate.webp", "GoldLeggings.webp", "GoldBoots.webp"], ["", "", "", ""]),
+    ArmorType.Golden: (["GoldHelmet.webp", "GoldChestplate.webp", "GoldLeggings.webp", "GoldBoots.webp"], ["", "", "", ""]),
     ArmorType.Diamond: (["DiamondHelmet.webp", "DiamondChestplate.webp", "DiamondLeggings.webp", "DiamondBoots.webp"], ["", "", "", ""]),
 
     ArmorType.Mushroom: (fullArmorSet, [*([Color.Mushroom.value[1]] * 4)]),
@@ -723,4 +890,7 @@ itemDict = {
     ArmorType.ArmorOfMagma: (fullArmorSet, [*([Color.ArmorOfMagma.value[1]] * 4)]),
     ArmorType.Emerald: (fullArmorSet, [*([Color.Emerald.value[1]] * 4)]),
     ArmorType.GodAngler: (["DiamondHelmet.webp", *baseArmorSet], ["", "4F3B49", "595536", "461E3A"]),
+    ArmorType.BuildersClay: (["BuildersClayHelmet.webp", *baseArmorSet], ["", *([Color.NecronDye.value[1]] * 3)]),
+
+    ArmorType.Mineral: (["MineralHelmet.webp", *baseArmorSet], ["", *([Color.Mineral.value[1]] * 3)]),
 }

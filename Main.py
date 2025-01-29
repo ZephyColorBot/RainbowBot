@@ -4,9 +4,15 @@ import discord
 from discord.ext import commands
 from discord import app_commands
 from Armor import *
+from Database.Database import *
 
 avatarLink = "https://cdn.discordapp.com/avatars/1000919610251558993/7c7d0e2f2d831a5241b9053fd0ca6fd1.webp"
 footerText = "Made by zeph.y"
+allowedDatabaseUsers = [
+    263058850234499072 # me
+]
+
+# TODO: Compare armor command
 
 class Client(commands.Bot):
     async def on_ready(self):
@@ -96,10 +102,10 @@ async def displayColor(interaction, colors: str):
     colorString = ""
     for baseHex in originalHexList:
         try:
-            hexColor = HexColor(baseHex)
+            hexColor = HexColor(hex=baseHex)
             colorList.append(hexColor)
-        except:
-            await interaction.response.send_message(f"Invalid hex code '{baseHex}'")
+        except Exception as e:
+            await interaction.response.send_message(f"Invalid hex code '{baseHex}' - {e}")
             return
 
         if colorString != "":
@@ -136,7 +142,8 @@ async def displayArmor(interaction, colors: str, armor: str = None, shape: str =
         await interaction.response.send_message("Please provide at least one hex code or armor type.")
         return
 
-    if colors is None or not colors:
+    defaultColorNames = ["base", "none", "default", "original"]
+    if colors is None or not colors or any(value in colors for value in defaultColorNames):
         colors = []
     if armor is None:
         armor = "Full Set"
@@ -174,10 +181,10 @@ async def displayArmor(interaction, colors: str, armor: str = None, shape: str =
 
         for baseHex in originalHexList:
             try:
-                hexColor = HexColor(baseHex)
+                hexColor = HexColor(hex=baseHex)
                 colorList.append(hexColor)
-            except:
-                await interaction.response.send_message(f"Invalid hex code '{baseHex}'")
+            except Exception as e:
+                await interaction.response.send_message(f"Invalid hex code '{baseHex}' - {e}")
                 return
 
     buffer, filePath, colors = GetCombinedArmorSetBuffer(
@@ -300,10 +307,10 @@ async def displayMix(
             tempColorString = ""
             for baseHex in colorList:
                 try:
-                    hexColor = HexColor(baseHex)
+                    hexColor = HexColor(hex=baseHex)
                     hexColorList.append(hexColor)
-                except:
-                    await interaction.response.send_message(f"Invalid hex code '{baseHex}'")
+                except Exception as e:
+                    await interaction.response.send_message(f"Invalid hex code '{baseHex}' - {e}")
                     return
 
                 if tempColorString != "":
@@ -324,10 +331,10 @@ async def displayMix(
             hexList = []
             for baseHex in colorList:
                 try:
-                    hexColor = HexColor(baseHex)
+                    hexColor = HexColor(hex=baseHex)
                     hexList.append(hexColor)
-                except:
-                    await interaction.response.send_message(f"Invalid hex code '{baseHex}'")
+                except Exception as e:
+                    await interaction.response.send_message(f"Invalid hex code '{baseHex}' - {e}")
                     return
 
             for baseHex in hexList:
@@ -372,7 +379,7 @@ async def displayMix(
 
         buffer, filePath, colors = GetCombinedArmorSetBuffer(
             armorType=armorEnum,
-            hexList=[finalHex.GetRGBList()],
+            hexList=[finalHex],
             versionType=versionEnum,
             shapeType=shapeEnum,
             imageSpacing=20,
@@ -445,9 +452,9 @@ async def helpCommand(interaction):
 @app_commands.allowed_contexts(guilds=True, dms=True, private_channels=True)
 async def displayColorStatusExotic(interaction, color: str):
     try:
-        hexColor = HexColor(color)
-    except:
-        await interaction.response.send_message(f"Invalid hex code '{color}'")
+        hexColor = HexColor(hex=color)
+    except Exception as e:
+        await interaction.response.send_message(f"Invalid hex code '{color}' - {e}")
         return
 
     statusString, explanationString = GetColorStatusText(hexColor)
@@ -479,26 +486,35 @@ async def displayColorStatusCrystal(interaction, color: str):
 
 @client.tree.command(name='comparearmor', description=colorCommandDescription)
 @app_commands.choices(shape=normal_shape_choices, version=armor_version_choices)
-@app_commands.autocomplete(armor=armor_type_autocomplete, colors=armor_color_type_autocomplete)
+# @app_commands.autocomplete(armor=armor_type_autocomplete, colors=armor_color_type_autocomplete)
 @app_commands.allowed_installs(guilds=True, users=True)
 @app_commands.allowed_contexts(guilds=True, dms=True, private_channels=True)
 async def displayCompareArmor(
         interaction,
-        armorcolor1: str,
-        armorcolor2: str,
-        armorcolor3: str = None,
-        armorcolor4: str = None,
-        armorcolor5: str = None,
-        armortype1: str = None,
-        armortype2: str = None,
-        armortype3: str = None,
-        armortype4: str = None,
-        armortype5: str = None,
+        set1: str,
+        set2: str = None,
+        set3: str = None,
+        set4: str = None,
+        set5: str = None,
         shape: str = None,
         version: str = None
 ):
-    inputArmorColorListList = [armorcolor1, armorcolor2, armorcolor3, armorcolor4, armorcolor5]
-    inputArmorTypeList = [armortype1, armortype2, armortype3, armortype4, armortype5]
+# async def displayCompareArmor(
+#         interaction,
+#         armorcolor1: str,
+#         armorcolor2: str,
+#         armorcolor3: str = None,
+#         armorcolor4: str = None,
+#         armorcolor5: str = None,
+#         armortype1: str = None,
+#         armortype2: str = None,
+#         armortype3: str = None,
+#         armortype4: str = None,
+#         armortype5: str = None,
+#         shape: str = None,
+#         version: str = None
+# ):
+    inputItemListList = [set1, set2, set3, set4, set5]
 
     if shape is None:
         shape = "Vertical"
@@ -521,29 +537,54 @@ async def displayCompareArmor(
     versionEnum = stringToVersionTypeDict[version]
 
     finalImageList = []
-    for i in range(5):
-        if inputArmorColorListList[i] is None and inputArmorTypeList[i] is None:
+    for itemList in inputItemListList:
+        if itemList is None:
             continue
 
+        currentWord = ""
+        armorEnum = None
+
+        reversedItemList = itemList[::-1]
+        armorTypeSplit = re.split(r'(\s)', reversedItemList)
+        armorTypeSplit = [x for i, x in enumerate(armorTypeSplit) if i % 2 == 0]
+        print(1, armorTypeSplit)
+        for word in armorTypeSplit:
+            word = word[::-1].strip()
+            print(2, word, currentWord)
+            currentWord = (currentWord + word).strip()
+            if currentWord in stringToArmorTypeDict:
+                armorEnum = stringToArmorTypeDict[word]
+                break
+
+        print(3, armorEnum)
+
+        if armorEnum is None:
+            armorEnum = ArmorType.FullSet
+
+        # remove len(currentWord) - 1 characters from the end of the string
+        print(f"8 | {itemList} | {currentWord}")
+        itemList = "".join(itemList.split(currentWord)[:1])
+        print(f"9 | {itemList} | {currentWord}")
+
         hexList = []
-        if inputArmorColorListList[i] is not None:
-            colorSplit = re.split(r'(\s)', inputArmorColorListList[i])
+        if itemList is not None:
+            colorSplit = re.split(r'(\s)', itemList)
             colorSplit = [x for i, x in enumerate(colorSplit) if i % 2 == 0]
 
             for baseHex in colorSplit:
                 try:
-                    hexList.append(HexColor(baseHex))
-                except:
-                    await interaction.response.send_message(f"Invalid hex code '{baseHex}'")
+                    hexList.append(HexColor(hex=baseHex))
+                except Exception as e:
+                    await interaction.response.send_message(f"Invalid hex code '{baseHex}' - {e}")
                     return
-
-        if inputArmorTypeList[i] is None:
-            armorEnum = ArmorType.FullSet
-        elif inputArmorTypeList[i] in stringToArmorTypeDict:
-            armorEnum = stringToArmorTypeDict[inputArmorTypeList[i].lower().replace(' ', '').strip()]
-        else:
-            await interaction.response.send_message(f"Invalid armor type '{inputArmorTypeList[i]}'")
-            return
+        #
+        # if inputArmorTypeList[i] is None:
+        #     armorEnum = ArmorType.FullSet
+        # elif inputArmorTypeList[i] in stringToArmorTypeDict:
+        #     armorEnum = stringToArmorTypeDict[inputArmorTypeList[i].lower().replace(' ', '').strip()]
+        # else:
+        #     await interaction.response.send_message(f"Invalid armor type '{inputArmorTypeList[i]}'")
+        #     return
 
         buffer, filePath, colors = GetCombinedArmorSetBuffer(
             armorType=armorEnum,
@@ -587,14 +628,14 @@ async def displayCompareArmor(
 @app_commands.allowed_contexts(guilds=True, dms=True, private_channels=True)
 async def displayHexDifference(interaction, color1: str, color2: str):
     try:
-        hexColor1 = HexColor(color1)
-    except:
-        await interaction.response.send_message(f"Invalid hex code '{color1}'")
+        hexColor1 = HexColor(hex=color1)
+    except Exception as e:
+        await interaction.response.send_message(f"Invalid hex code '{color1}' - {e}")
         return
     try:
-        hexColor2 = HexColor(color2)
-    except:
-        await interaction.response.send_message(f"Invalid hex code '{color2}'")
+        hexColor2 = HexColor(hex=color2)
+    except Exception as e:
+        await interaction.response.send_message(f"Invalid hex code '{color2}' - {e}")
         return
 
     hex1 = hexColor1.GetHexCode()
@@ -676,5 +717,73 @@ async def displayVisualDistanceInfo(interaction):
 
     await interaction.response.send_message(embed=embed)
 
+@client.tree.command(name='scandatabase', description="123")
+@app_commands.allowed_installs(guilds=True, users=True)
+@app_commands.allowed_contexts(guilds=True, dms=True, private_channels=True)
+async def displayDatabaseInfo(interaction, color: str = None, itemname: str = None, listplayers: bool = False):
+    if color is None and itemname is None:
+        await interaction.response.send_message("Please provide a color or item name.")
+        return
+
+    hexColor = None
+    itemID = None
+    if color is not None:
+        try:
+            hexColor = HexColor(hex=color)
+        except Exception as e:
+            await interaction.response.send_message(f"Invalid hex code '{color}' - {e}")
+            return
+
+    if itemname is not None:
+        itemID = UpdateItemID(itemname)
+        if itemID not in itemIDToItemCount:
+            await interaction.response.send_message(f"Invalid item id '{itemname}'")
+            return
+
+    hexCode = hexColor.GetHexCode()
+
+    itemCount = GetItemCount(itemHex=hexCode, itemID=itemID)
+    currentDescription = f"Found `{itemCount:,}` matching items."
+
+    discordFile = None
+    if listplayers:
+        if interaction.user.id in allowedDatabaseUsers:
+            databasePlayers = GetDatabasePlayers(itemHex=hexCode, itemID=itemID)
+
+            if len(databasePlayers) > 0:
+                if len(databasePlayers) > 25:
+                    tempDescription = ""
+                    for i, player in enumerate(databasePlayers):
+                        if i != 0:
+                            tempDescription += f"\n"
+                        tempDescription += f"{player}"
+
+                    buffer = io.BytesIO()
+                    buffer.write(tempDescription.encode())
+                    buffer.seek(0)
+                    fileName = f"{hexCode}_{itemID}.txt" if itemID is not None else f"{hexCode}.txt"
+                    discordFile = discord.File(buffer, filename=fileName)
+                else:
+                    tempDescription = "\n\n__**Players:**__\n"
+                    for i, player in enumerate(databasePlayers):
+                        if i != 0:
+                            tempDescription += f"\n"
+                        tempDescription += f"- {player}"
+                    currentDescription += tempDescription
+        else:
+            currentDescription += "\n\nNo permission to list players."
+
+    embed = discord.Embed(
+        title=f"**Database Results**",
+        description=f"**#{hexCode} - {itemID}**\n{currentDescription}",
+        color=discord.Color(int(f"0x{hexCode}", 16))
+    )
+
+    embed.set_footer(text=footerText, icon_url=avatarLink)
+    embed.timestamp = interaction.created_at
+
+    await interaction.response.send_message(file=discordFile, embed=embed)
+
 with open('BotToken') as file:
+    LoadDatabase("Database/Combined-S.html")
     client.run(file.read().strip())
