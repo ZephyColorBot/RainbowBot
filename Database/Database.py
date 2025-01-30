@@ -1,7 +1,7 @@
 import re
 
 from Constants import longestArmorType
-from Armor import ArmorType, HexColor
+from Armor import ArmorType, HexColor, GetAbsoluteDifference
 
 '''
 itemDB = {
@@ -54,7 +54,6 @@ def UpdateItemID(itemString: str):
     if doPrint:
         print(f"2 {itemString} - {armorTypeName}")
 
-# TODO: !doesnt work on some armors
     itemType = itemString.replace(armorTypeName, "").strip()
     if doPrint:
         print(f"3 {itemString} - {armorTypeName} - {itemType}")
@@ -117,28 +116,44 @@ def LoadDatabase(filePath):
             itemDB[hexCode][itemID].append(playerUUID)
             totalDatabaseItems += 1
 
-def GetDatabasePlayers(itemID: str = None, itemHex: str = None):
+def GetDatabasePlayers(itemID: str = None, itemHex: str = None, isArmorType: bool = False):
     itemID = itemID.upper() if itemID is not None else None
     itemHex = itemHex.upper() if itemHex is not None else None
 
-    players = set()
+    playerItems = {}
+    itemList = []
     if itemHex is not None:
         if itemHex in itemDB:
             if itemID is not None:
                 if itemID in itemDB[itemHex]:
-                    return itemDB[itemHex][itemID]
+                    itemList.append([itemHex, itemID])
+                elif isArmorType:
+                    for armorType in itemDB[itemHex]:
+                        if itemID in armorType:
+                            itemList.append([itemHex, armorType])
             else:
                 for itemID in itemDB[itemHex]:
-                    players.add(itemDB[itemHex][itemID])
+                    itemList.append([itemHex, itemID])
 
     elif itemID is not None:
         for hexCode in itemDB:
             if itemID in itemDB[hexCode]:
-                players.add(itemDB[hexCode][itemID])
+                itemList.append([hexCode, itemID])
+            elif isArmorType:
+                for armorType in itemDB[hexCode]:
+                    if itemID in armorType:
+                        itemList.append([hexCode, armorType])
 
-    return list(players)
+    for itemList in itemList:
+        hexCode, itemID = itemList
+        for player in itemDB[hexCode][itemID]:
+            if player not in playerItems:
+                playerItems[player] = []
+            playerItems[player].append([itemID, hexCode])
 
-def GetItemCount(itemID: str = None, itemHex: str = None):
+    return playerItems
+
+def GetItemCount(itemID: str = None, itemHex: str = None, isArmorType: bool = False):
     itemID = itemID.upper() if itemID is not None else None
     itemHex = itemHex.upper() if itemHex is not None else None
 
@@ -147,13 +162,40 @@ def GetItemCount(itemID: str = None, itemHex: str = None):
             if itemID is not None:
                 if itemID in itemDB[itemHex]:
                     return len(itemDB[itemHex][itemID])
+                elif isArmorType:
+                    totalItems = 0
+                    for armorType in itemDB[itemHex]:
+                        if itemID in armorType:
+                            totalItems += len(itemDB[itemHex][armorType])
+
+                    return totalItems
             else:
                 return hexCodeToItemCount.get(itemHex, 0)
 
     elif itemID is not None:
+        if isArmorType:
+            totalItems = 0
+            for hexCode in itemDB:
+                for armorType in itemDB[hexCode]:
+                    if itemID in armorType:
+                        totalItems += len(itemDB[hexCode][armorType])
+            return totalItems
         return itemIDToItemCount.get(itemID, 0)
 
     return None
+
+def GetMatchingItems(itemID: str, itemHex: HexColor, tolerance: int = 0):
+    matchingItemsList = {}
+    matchingItemCount = 0
+    for hexCode in itemDB:
+        if itemID in itemDB[hexCode]:
+            difference = GetAbsoluteDifference(HexColor(hex=hexCode), itemHex)
+            if difference <= tolerance:
+                playerList = itemDB[hexCode][itemID]
+                matchingItemsList[hexCode] = [playerList, difference]
+                matchingItemCount += len(playerList)
+
+    return matchingItemsList, matchingItemCount
 
 # LoadDatabase("Combined-S.html")
 
@@ -199,4 +241,5 @@ def GetItemCount(itemID: str = None, itemHex: str = None):
 # print(3, UpdateItemID("GOLDOR_LEGS"))
 # print(3, UpdateItemID("PACK"))
 
-# print(4, len(GetDatabasePlayers(itemHex="7fcc19", itemID="young_chestplate")))
+# print(4, len(GetDatabasePlayers(itemHex="7fcc19", itemID="young", isArmorType=True)))
+# print(4, GetItemCount(itemHex="7fcc19", itemID="young", isArmorType=True))
