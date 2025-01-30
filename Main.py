@@ -1,10 +1,10 @@
-import re
 import discord
 
 from discord.ext import commands
 from discord import app_commands
 from Armor import *
 from Database.Database import *
+from ColorNames import *
 
 avatarLink = "https://cdn.discordapp.com/avatars/1000919610251558993/7c7d0e2f2d831a5241b9053fd0ca6fd1.webp"
 footerText = "Made by zeph.y"
@@ -93,6 +93,9 @@ similarItemsCommandColorDescription = 'Hex code to scan for.'
 similarItemsCommandItemNameDescription = 'ItemName or ItemId to scan for.'
 similarItemsCommandToleranceDescription = 'The amount off a hex code can be.'
 similarItemsCommandListPlayersDescription = 'Whether the player uuids should be listed (Requires Permission).'
+
+colorInfoCommandDescription = 'Displays information about a specific hex code.'
+colorInfoCommandColorDescription = 'Enter a hex code.'
 
 @client.tree.command(name='color', description=colorCommandDescription, extras={"contexts": [0, 1, 2], "integration_types": [0, 1]})
 @app_commands.describe(colors=colorCommandColorsDescription)
@@ -895,6 +898,52 @@ async def displaySimilarItems(interaction, color: str, itemname: str, tolerance:
         return
     await interaction.response.send_message(embed=embed)
 
+@client.tree.command(name='colorinfo', description=colorInfoCommandDescription)
+@app_commands.describe(color=colorInfoCommandColorDescription)
+# @app_commands.autocomplete(color=armor_color_type_autocomplete)
+@app_commands.allowed_installs(guilds=True, users=True)
+@app_commands.allowed_contexts(guilds=True, dms=True, private_channels=True)
+async def displayColorInfo(interaction, color: str):
+    if color is None:
+        await interaction.response.send_message("Please provide a color.", ephemeral=True)
+        return
+
+    try:
+        hexColor = HexColor(hex=color)
+    except Exception as e:
+        await interaction.response.send_message(f"Invalid hex code '{color}' - {e}", ephemeral=True)
+        return
+
+    hexCode = hexColor.GetHexCode()
+    rgb = hexColor.GetRGBList()
+    nearestColorName = GetNearestColorName(hexCode)
+
+    embed = discord.Embed(
+        title=f"**{nearestColorName}**",
+        description="",
+        color=discord.Color(int(f"0x{hexCode}", 16))
+    )
+    embed.add_field(name="", value="", inline=False)
+
+    embed.add_field(
+        name=f"**Hex**",
+        value=f"#{hexCode}",
+        inline=False
+    )
+    embed.add_field(name="", value="", inline=False)
+
+    embed.add_field(
+        name=f"**RGB**",
+        value=f"{tuple(rgb)}",
+        inline=False
+    )
+
+    embed.set_footer(text=footerText, icon_url=avatarLink)
+    embed.timestamp = interaction.created_at
+
+    await interaction.response.send_message(embed=embed)
+
 with open('BotToken') as file:
+    LoadColorNames()
     LoadDatabase("Database/Combined-S.html")
     client.run(file.read().strip())
