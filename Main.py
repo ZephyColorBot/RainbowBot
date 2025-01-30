@@ -923,20 +923,22 @@ async def displayColorInfo(interaction, color: str):
         description="",
         color=discord.Color(int(f"0x{hexCode}", 16))
     )
-    embed.add_field(name="", value="", inline=False)
+    # embed.add_field(name="", value="", inline=False)
 
     embed.add_field(
         name=f"**Hex**",
         value=f"#{hexCode}",
         inline=False
     )
-    embed.add_field(name="", value="", inline=False)
+    # embed.add_field(name="", value="", inline=False)
 
     embed.add_field(
         name=f"**RGB**",
         value=f"{tuple(rgb)}",
         inline=False
     )
+
+    embed.set_thumbnail(url=f"https://blargbot.xyz/color/{hexCode}")
 
     embed.set_footer(text=footerText, icon_url=avatarLink)
     embed.timestamp = interaction.created_at
