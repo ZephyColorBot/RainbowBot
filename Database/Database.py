@@ -182,7 +182,7 @@ def GetItemCount(itemID: str = None, itemHex: str = None, isArmorType: bool = Fa
             return totalItems
         return itemIDToItemCount.get(itemID, 0)
 
-    return None
+    return 0
 
 def GetMatchingItems(itemID: str, itemHex: HexColor, tolerance: int = 0):
     matchingItemsList = {}

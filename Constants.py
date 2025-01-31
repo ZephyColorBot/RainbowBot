@@ -25,19 +25,19 @@ class Color(Enum):
     Yellow = PureYellow
     PureLime = ("Lime", "7FCC19", ColorType.PureDye)
     Lime = PureLime
-    PureDarkGreen = ("DarkGreen", "667F33", ColorType.PureDye)
+    PureDarkGreen = ("Dark Green", "667F33", ColorType.PureDye)
     DarkGreen = PureDarkGreen
     PureGreen = PureDarkGreen
     Green = PureDarkGreen
     PureDG = PureDarkGreen
     DG = PureDarkGreen
-    PureLightBlue = ("LightBlue", "6699D8", ColorType.PureDye)
+    PureLightBlue = ("Light Blue", "6699D8", ColorType.PureDye)
     LightBlue = PureLightBlue
     PureLB = PureLightBlue
     LB = PureLightBlue
     PureCyan = ("Cyan", "4C7F99", ColorType.PureDye)
     Cyan = PureCyan
-    PureDarkBlue = ("DarkBlue", "334CB2", ColorType.PureDye)
+    PureDarkBlue = ("Dark Blue", "334CB2", ColorType.PureDye)
     DarkBlue = PureDarkBlue
     PureBlue = PureDarkBlue
     Blue = PureDarkBlue
@@ -51,7 +51,7 @@ class Color(Enum):
     Purple = PurePurple
     PureBrown = ("Brown", "664C33", ColorType.PureDye)
     Brown = PureBrown
-    PureLightGrey = ("LightGray", "999999", ColorType.PureDye)
+    PureLightGrey = ("Light Gray", "999999", ColorType.PureDye)
     LightGrey = PureLightGrey
     PureLightGray = PureLightGrey
     LightGray = PureLightGrey
@@ -60,7 +60,7 @@ class Color(Enum):
     PureGrey = PureLightGrey
     Grey = PureLightGrey
     LG = PureLightGrey
-    PureDarkGrey = ("DarkGray", "4C4C4C", ColorType.PureDye)
+    PureDarkGrey = ("Dark Gray", "4C4C4C", ColorType.PureDye)
     DarkGrey = PureDarkGrey
     PureDarkGray = PureDarkGrey
     DarkGray = PureDarkGrey
@@ -358,6 +358,8 @@ class Color(Enum):
     Holly = HollyDye
     IcebergDye = ("Iceberg", "71A6D2", ColorType.HypixelDye)
     Iceberg = IcebergDye
+    IceburgDye = IcebergDye
+    Iceburg = IcebergDye
     JadeDye = ("Jade", "00A86B", ColorType.HypixelDye)
     Jade = JadeDye
     LividDye = ("Livid", "CEB7AA", ColorType.HypixelDye)
@@ -438,24 +440,31 @@ allCrystalHexes = [
     Color._46085E,
     Color._1F0030
 ]
-allPureDyeHexes = [
-    Color.PureRed,
-    Color.PureOrange,
-    Color.PureYellow,
-    Color.PureLime,
-    Color.PureDarkGreen,
-    Color.PureLightBlue,
-    Color.PureCyan,
-    Color.PureDarkBlue,
-    Color.PurePink,
-    Color.PureMagenta,
-    Color.PurePurple,
-    Color.PureBrown,
-    Color.PureLightGrey,
-    Color.PureDarkGrey,
-    Color.PureWhite,
-    Color.PureBlack
-]
+pureColorToDiscordEmotes = {
+    Color.PureRed:       "<:RedDye:1334768678612238357>",
+    Color.PureOrange:    "<:OrangeDye:1334768730101780571>",
+    Color.PureYellow:    "<:YellowDye:1334768821923352586>",
+    Color.PureLime:      "<:LimeDye:1334768853988675636>",
+    Color.PureDarkGreen: "<:DarkGreenDye:1334768739895218187>",
+    Color.PureLightBlue: "<:LightBlueDye:1334768799215259667>",
+    Color.PureCyan:      "<:CyanDye:1334768832471896124>",
+    Color.PureDarkBlue:  "<:DarkBlueDye:1334768754734665748>",
+    Color.PurePink:      "<:PinkDye:1334768777581170739>",
+    Color.PureMagenta:   "<:MagentaDye:1334768786229956729>",
+    Color.PurePurple:    "<:PurpleDye:1334768766613192734>",
+    Color.PureBrown:     "<:BrownDye:1334768649809956955>",
+    Color.PureLightGrey: "<:LightGrayDye:1334768841963733044>",
+    Color.PureDarkGrey:  "<:DarkGrayDye:1334768865334399078>",
+    Color.PureWhite:     "<:WhiteDye:1334768808656769024>",
+    Color.PureBlack:     "<:BlackDye:1334768718890139679>"
+}
+trueColorToDiscordEmotes = {
+    Color.TrueMint: "<:TrueMint:1334727660722585691>",
+    Color.TrueMaroon: "<:TrueMaroon:1334728556705611829>",
+    Color.TrueNavy: "<:TrueNavy:1334727628292100146>",
+    Color.TrueIce: "<:TrueIce:1334727641953206303>",
+    Color.TrueGold: "<:TrueGold:1334727618733543484>"
+}
 
 class ItemType(Enum):
     Helmet = "Helmet"

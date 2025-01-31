@@ -2,9 +2,10 @@ import discord
 
 from discord.ext import commands
 from discord import app_commands
-from Armor import *
 from Database.Database import *
+from openai import OpenAI
 from ColorNames import *
+from Armor import *
 
 avatarLink = "https://cdn.discordapp.com/avatars/1000919610251558993/7c7d0e2f2d831a5241b9053fd0ca6fd1.webp"
 footerText = "Made by zeph.y"
@@ -12,7 +13,7 @@ allowedDatabaseUsers = [
     263058850234499072 # me
 ]
 
-# TODO: info command
+# TODO: add color status to /info
 
 class Client(commands.Bot):
     async def on_ready(self):
@@ -96,6 +97,8 @@ similarItemsCommandListPlayersDescription = 'Whether the player uuids should be 
 
 colorInfoCommandDescription = 'Displays information about a specific hex code.'
 colorInfoCommandColorDescription = 'Enter a hex code.'
+
+dyeInfoCommandDescription = 'Displays all pure dye hexes.'
 
 @client.tree.command(name='color', description=colorCommandDescription, extras={"contexts": [0, 1, 2], "integration_types": [0, 1]})
 @app_commands.describe(colors=colorCommandColorsDescription)
@@ -475,11 +478,17 @@ async def displayColorStatusExotic(interaction, color: str):
     )
     embed.add_field(name = "", value = "", inline = False)
 
-    embed.set_image(url=f"https://blargbot.xyz/color/{hexColor.GetHexCode()}")
+    colorSquare = CreateColorSquare([hexColor], imageSize=128)
+    buffer = io.BytesIO()
+    colorSquare.save(buffer, "PNG")
+    buffer.seek(0)
+    discordFile = discord.File(buffer, filename="colorSquare.png")
+
+    embed.set_image(url=f"attachment://colorSquare.png")
     embed.set_footer(text=footerText, icon_url=avatarLink)
     embed.timestamp = interaction.created_at
 
-    await interaction.response.send_message(embed=embed)
+    await interaction.response.send_message(embed=embed, file=discordFile)
 @client.tree.command(name='crystal', description=exoticCommandDescription)
 @app_commands.describe(color=exoticCommandColorDescription)
 @app_commands.allowed_installs(guilds=True, users=True)
@@ -628,12 +637,6 @@ async def displayHexDifference(interaction, color1: str, color2: str):
 
     explanationString = f"**Absolute Difference: __{absoluteDifferenceString}__**\n**Visual Distance: __{eulerDistanceString}__**\n-# Use /visualdistance for more information."
 
-    colorSquare = CreateColorSquare([hexColor1, hexColor2], imageSize=128)
-    buffer = io.BytesIO()
-    colorSquare.save(buffer, "PNG")
-    buffer.seek(0)
-    discordFile = discord.File(buffer, filename="colorSquare.png")
-
     embed = discord.Embed(
         title = f"__**#{hex1} vs #{hex2}**__",
         color = discord.Color(int(f"0x{hex1}", 16))
@@ -650,6 +653,12 @@ async def displayHexDifference(interaction, color1: str, color2: str):
 
     embed.add_field(name="", value="", inline=False)
     embed.add_field(name="", value=f"{explanationString}", inline=False)
+
+    colorSquare = CreateColorSquare([hexColor1, hexColor2], imageSize=128)
+    buffer = io.BytesIO()
+    colorSquare.save(buffer, "PNG")
+    buffer.seek(0)
+    discordFile = discord.File(buffer, filename="colorSquare.png")
 
     embed.set_image(url=f"attachment://colorSquare.png")
     embed.set_footer(text=footerText, icon_url=avatarLink)
@@ -918,19 +927,31 @@ async def displayColorInfo(interaction, color: str):
     rgb = hexColor.GetRGBList()
     nearestColorName = GetNearestColorName(hexCode)
 
+    aiResponseData = aiClient.chat.completions.create(
+        model="llama-3.1-8b-instant",
+        messages=[
+            {"role": "system", "content":
+                "You are a master color inspector." +
+                "\nYour job is to analyze any given hex color with precision, providing a detailed description of its appearance." +
+                "\nKeep responses short and to the point, focusing on the most important aspects of the color." +
+                "\nResponses should be tailored to the specific color, avoiding generic or repetitive descriptions."
+            },
+            {"role": "user", "content": f"{hexCode}"},
+        ],
+        stream=False
+    )
+
     embed = discord.Embed(
         title=f"**{nearestColorName}**",
         description="",
         color=discord.Color(int(f"0x{hexCode}", 16))
     )
-    # embed.add_field(name="", value="", inline=False)
 
     embed.add_field(
         name=f"**Hex**",
         value=f"#{hexCode}",
         inline=False
     )
-    # embed.add_field(name="", value="", inline=False)
 
     embed.add_field(
         name=f"**RGB**",
@@ -938,12 +959,75 @@ async def displayColorInfo(interaction, color: str):
         inline=False
     )
 
-    embed.set_thumbnail(url=f"https://blargbot.xyz/color/{hexCode}")
+    closestPureColor = None
+    closestPureColorDistance = float('inf')
+    for color in pureColorToDiscordEmotes.keys():
+        colorHex = color.value[1]
+        colorDistance = GetAbsoluteDifference(hexColor, HexColor(hex=colorHex))
+        if colorDistance < closestPureColorDistance:
+            closestPureColorDistance = colorDistance
+            closestPureColor = color
+
+    if closestPureColor is not None and closestPureColorDistance < 20:
+        embed.add_field(
+            name=f"**Closest Pure Color**",
+            value=f"{pureColorToDiscordEmotes[closestPureColor]} `{closestPureColor.value[0]}` - {closestPureColorDistance} off",
+            inline=False
+        )
+
+    embed.add_field(
+        name=f"**AI Evaluation**",
+        value=f"{aiResponseData.choices[0].message.content}",
+        inline=False
+    )
+
+    colorSquare = CreateColorSquare([hexColor], imageSize=128)
+    buffer = io.BytesIO()
+    colorSquare.save(buffer, "PNG")
+    buffer.seek(0)
+    discordFile = discord.File(buffer, filename="colorSquare.png")
+
+    embed.set_thumbnail(url=f"attachment://colorSquare.png")
+    embed.set_footer(text=footerText, icon_url=avatarLink)
+    embed.timestamp = interaction.created_at
+
+    await interaction.response.send_message(embed=embed, file=discordFile)
+
+@client.tree.command(name='dyes', description=dyeInfoCommandDescription)
+@app_commands.allowed_installs(guilds=True, users=True)
+@app_commands.allowed_contexts(guilds=True, dms=True, private_channels=True)
+async def displayDyesInfo(interaction):
+    pureColorsDescription = ""
+    trueColorsDescription = ""
+    for color in pureColorToDiscordEmotes.keys():
+        pureColorsDescription += f"{pureColorToDiscordEmotes[color]} `#{color.value[1]}` - {color.value[0]}\n"
+    for color in trueColorToDiscordEmotes.keys():
+        trueColorsDescription += f"{trueColorToDiscordEmotes[color]} `#{color.value[1]}` - {color.value[0]}\n"
+
+    embed = discord.Embed(
+        title=f"**Dye Info**",
+        description=f" ",
+        color=discord.Color(int(f"0xFFFFFF", 16))
+    )
+    embed.add_field(
+        name=f"**Pure Colors**",
+        value=f"{pureColorsDescription}",
+        inline=False
+    )
+    embed.add_field(name="", value="", inline=False)
+    embed.add_field(
+        name=f"**True Colors**",
+        value=f"{trueColorsDescription}",
+        inline=False
+    )
 
     embed.set_footer(text=footerText, icon_url=avatarLink)
     embed.timestamp = interaction.created_at
 
     await interaction.response.send_message(embed=embed)
+
+with open('AIToken') as file:
+    aiClient = OpenAI(api_key=file.read().strip(), base_url="https://api.groq.com/openai/v1")
 
 with open('BotToken') as file:
     LoadColorNames()
