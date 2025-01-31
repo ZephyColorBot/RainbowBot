@@ -13,8 +13,6 @@ allowedDatabaseUsers = [
     263058850234499072 # me
 ]
 
-# TODO: add color status to /info
-
 class Client(commands.Bot):
     async def on_ready(self):
         print(f'Logged in as {self.user} (ID: {self.user.id})')
@@ -476,7 +474,6 @@ async def displayColorStatusExotic(interaction, color: str):
         description = f"{explanationString}",
         color = discord.Color(int(f"0x{hexColor.GetHexCode()}", 16))
     )
-    embed.add_field(name = "", value = "", inline = False)
 
     colorSquare = CreateColorSquare([hexColor], imageSize=128)
     buffer = io.BytesIO()
@@ -652,7 +649,11 @@ async def displayHexDifference(interaction, color1: str, color2: str):
         inline=True)
 
     embed.add_field(name="", value="", inline=False)
-    embed.add_field(name="", value=f"{explanationString}", inline=False)
+    embed.add_field(
+        name="",
+        value=f"{explanationString}",
+        inline=False
+    )
 
     colorSquare = CreateColorSquare([hexColor1, hexColor2], imageSize=128)
     buffer = io.BytesIO()
@@ -827,6 +828,13 @@ async def displayDatabaseInfo(interaction, color: str = None, itemname: str = No
         await interaction.response.send_message(embed=embed, file=discordFile)
         return
     await interaction.response.send_message(embed=embed)
+@client.tree.command(name='database', description=databaseCommandDescription)
+@app_commands.describe(color=databaseCommandColorDescription, itemname=databaseCommandItemNameDescription, listplayers=databaseCommandListPlayersDescription)
+# @app_commands.autocomplete(color=armor_color_type_autocomplete)
+@app_commands.allowed_installs(guilds=True, users=True)
+@app_commands.allowed_contexts(guilds=True, dms=True, private_channels=True)
+async def displayDatabase(interaction, color: str = None, itemname: str = None, listplayers: bool = False):
+    await displayDatabaseInfo.callback(interaction, color, itemname, listplayers)
 
 @client.tree.command(name='findsimilaritems', description=similarItemsCommandDescription)
 @app_commands.describe(color=similarItemsCommandColorDescription, itemname=similarItemsCommandItemNameDescription, tolerance=similarItemsCommandToleranceDescription, listplayers=similarItemsCommandListPlayersDescription)
@@ -906,6 +914,20 @@ async def displaySimilarItems(interaction, color: str, itemname: str, tolerance:
         await interaction.response.send_message(embed=embed, file=discordFile)
         return
     await interaction.response.send_message(embed=embed)
+@client.tree.command(name='findnearbyitems', description=similarItemsCommandDescription)
+@app_commands.describe(color=similarItemsCommandColorDescription, itemname=similarItemsCommandItemNameDescription, tolerance=similarItemsCommandToleranceDescription, listplayers=similarItemsCommandListPlayersDescription)
+# @app_commands.autocomplete(color=armor_color_type_autocomplete)
+@app_commands.allowed_installs(guilds=True, users=True)
+@app_commands.allowed_contexts(guilds=True, dms=True, private_channels=True)
+async def displayNearbyItems(interaction, color: str, itemname: str, tolerance: int = 25, listplayers: bool = False):
+    await displaySimilarItems.callback(interaction, color, itemname, tolerance, listplayers)
+@client.tree.command(name='findcloseitems', description=similarItemsCommandDescription)
+@app_commands.describe(color=similarItemsCommandColorDescription, itemname=similarItemsCommandItemNameDescription, tolerance=similarItemsCommandToleranceDescription, listplayers=similarItemsCommandListPlayersDescription)
+# @app_commands.autocomplete(color=armor_color_type_autocomplete)
+@app_commands.allowed_installs(guilds=True, users=True)
+@app_commands.allowed_contexts(guilds=True, dms=True, private_channels=True)
+async def displayCloseItems(interaction, color: str, itemname: str, tolerance: int = 25, listplayers: bool = False):
+    await displaySimilarItems.callback(interaction, color, itemname, tolerance, listplayers)
 
 @client.tree.command(name='colorinfo', description=colorInfoCommandDescription)
 @app_commands.describe(color=colorInfoCommandColorDescription)
@@ -946,18 +968,19 @@ async def displayColorInfo(interaction, color: str):
         description="",
         color=discord.Color(int(f"0x{hexCode}", 16))
     )
-
+    embed.add_field(name="", value="", inline=False)
     embed.add_field(
         name=f"**Hex**",
         value=f"#{hexCode}",
         inline=False
     )
-
+    embed.add_field(name="", value="", inline=False)
     embed.add_field(
         name=f"**RGB**",
         value=f"{tuple(rgb)}",
         inline=False
     )
+    embed.add_field(name="", value="", inline=False)
 
     closestPureColor = None
     closestPureColorDistance = float('inf')
@@ -974,7 +997,23 @@ async def displayColorInfo(interaction, color: str):
             value=f"{pureColorToDiscordEmotes[closestPureColor]} `{closestPureColor.value[0]}` - {closestPureColorDistance} off",
             inline=False
         )
+        embed.add_field(name="", value="", inline=False)
 
+    statusString, explanationString = GetColorStatusText(hexColor)
+    if not explanationString:
+        embed.add_field(
+            name=f"**Color Status**",
+            value=f"__**#{hexColor.GetHexCode()}**__ is {statusString}.",
+            inline=False
+        )
+        embed.add_field(name="", value="", inline=False)
+    else:
+        embed.add_field(
+            name=f"**Color Status**",
+            value=f"__**#{hexColor.GetHexCode()}**__ is {statusString}.\n{explanationString}",
+            inline=False
+        )
+    embed.add_field(name="", value="", inline=False)
     embed.add_field(
         name=f"**AI Evaluation**",
         value=f"{aiResponseData.choices[0].message.content}",
@@ -992,11 +1031,18 @@ async def displayColorInfo(interaction, color: str):
     embed.timestamp = interaction.created_at
 
     await interaction.response.send_message(embed=embed, file=discordFile)
+@client.tree.command(name='info', description=colorInfoCommandDescription)
+@app_commands.describe(color=colorInfoCommandColorDescription)
+# @app_commands.autocomplete(color=armor_color_type_autocomplete)
+@app_commands.allowed_installs(guilds=True, users=True)
+@app_commands.allowed_contexts(guilds=True, dms=True, private_channels=True)
+async def displayInfo(interaction, color: str):
+    await displayColorInfo.callback(interaction, color)
 
 @client.tree.command(name='dyes', description=dyeInfoCommandDescription)
 @app_commands.allowed_installs(guilds=True, users=True)
 @app_commands.allowed_contexts(guilds=True, dms=True, private_channels=True)
-async def displayDyesInfo(interaction):
+async def displayDyes(interaction):
     pureColorsDescription = ""
     trueColorsDescription = ""
     for color in pureColorToDiscordEmotes.keys():
@@ -1025,6 +1071,27 @@ async def displayDyesInfo(interaction):
     embed.timestamp = interaction.created_at
 
     await interaction.response.send_message(embed=embed)
+@client.tree.command(name='dyeinfo', description=dyeInfoCommandDescription)
+@app_commands.allowed_installs(guilds=True, users=True)
+@app_commands.allowed_contexts(guilds=True, dms=True, private_channels=True)
+async def displayDyeInfo(interaction):
+    await displayDyes.callback(interaction)
+@client.tree.command(name='scanplayer', description=scanPlayerCommandDescription)
+@app_commands.describe(player=scanPlayerCommandPlayerDescription)
+@app_commands.allowed_installs(guilds=True, users=True)
+@app_commands.allowed_contexts(guilds=True, dms=True, private_channels=True)
+async def displayScanPlayer(interaction, player: str):
+    if player is None:
+        await interaction.response.send_message("Please provide a player.", ephemeral=True)
+        return
+
+    playerUUID = player.upper()
+    if len(playerUUID) != 32:
+        # TODO: use crafthead api
+
+    if playerUUID not in playerUUIDToItems:
+        await interaction.response.send_message(f"Player '{playerUUID}' not found.", ephemeral=True)
+        return
 
 with open('AIToken') as file:
     aiClient = OpenAI(api_key=file.read().strip(), base_url="https://api.groq.com/openai/v1")

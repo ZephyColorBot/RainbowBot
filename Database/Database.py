@@ -12,6 +12,7 @@ itemDB = {
     }
 }
 '''
+playerUUIDList = set()
 itemDB = {}
 hexCodeToItemCount = {}
 itemIDToItemCount = {}
@@ -113,6 +114,7 @@ def LoadDatabase(filePath):
             if itemID not in itemDB[hexCode]:
                 itemDB[hexCode][itemID] = []
 
+            playerUUIDList.add(playerUUID)
             itemDB[hexCode][itemID].append(playerUUID)
             totalDatabaseItems += 1
 
