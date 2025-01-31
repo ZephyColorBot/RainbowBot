@@ -15,7 +15,7 @@ allowedDatabaseUsers = [
 ]
 
 class Client(commands.Bot):
-    async def on_ready(self):
+    async def OnReady(self):
         print(f'Logged in as {self.user} (ID: {self.user.id})')
 
         try:
@@ -28,30 +28,89 @@ intents = discord.Intents.default()
 intents.message_content = True
 client = Client(command_prefix='/', intents=intents)
 
-shape_choices = [
+armorTypeHandPickedChoices = [
+# full set
+# baby sup
+# baby young
+# baby wise
+# baby unstable
+# baby prot
+# baby strong
+# baby old
+# baby holy
+# angler
+# lapis
+# biohazard
+# leaflet
+# tarantula
+# tuxedo
+# spooky
+# bat
+# blaze
+# frozen blaze
+# pack
+# sponge
+# necron celestial
+# storm celestial
+# maxor celestial
+# goldor celestial
+]
+colorHandPickedChoices = [
+# Color.PureRed:       "<:RedDye:1334768678612238357>",
+# Color.PureOrange: "<:OrangeDye:1334768730101780571>",
+# Color.PureYellow: "<:YellowDye:1334768821923352586>",
+# Color.PureLime: "<:LimeDye:1334768853988675636>",
+# Color.PureDarkGreen: "<:DarkGreenDye:1334768739895218187>",
+# Color.PureLightBlue: "<:LightBlueDye:1334768799215259667>",
+# Color.PureCyan: "<:CyanDye:1334768832471896124>",
+# Color.PureDarkBlue: "<:DarkBlueDye:1334768754734665748>",
+# Color.PurePink: "<:PinkDye:1334768777581170739>",
+# Color.PureMagenta: "<:MagentaDye:1334768786229956729>",
+# Color.PurePurple: "<:PurpleDye:1334768766613192734>",
+# Color.PureBrown: "<:BrownDye:1334768649809956955>",
+# Color.PureLightGrey: "<:LightGrayDye:1334768841963733044>",
+# Color.PureDarkGrey: "<:DarkGrayDye:1334768865334399078>",
+# Color.PureWhite: "<:WhiteDye:1334768808656769024>",
+# Color.PureBlack: "<:BlackDye:1334768718890139679>"
+# Color.TrueMint: "<:TrueMint:1334727660722585691>",
+# Color.TrueMaroon: "<:TrueMaroon:1334728556705611829>",
+# Color.TrueNavy: "<:TrueNavy:1334727628292100146>",
+# Color.TrueIce: "<:TrueIce:1334727641953206303>",
+# Color.TrueGold: "<:TrueGold:1334727618733543484>"
+# Young
+# Unstable
+# Protector
+# Wise
+]
+
+shapeChoices = [
     app_commands.Choice(name="Vertical", value="Vertical"),
     app_commands.Choice(name="Horizontal", value="Horizontal"),
     app_commands.Choice(name="Square", value="Square"),
 ]
-normal_shape_choices = [
+normalShapeChoices = [
     app_commands.Choice(name="Vertical", value="Vertical"),
     app_commands.Choice(name="Horizontal", value="Horizontal"),
 ]
-armor_version_choices = [
+armorVersionChoices = [
     app_commands.Choice(name="1.8.9", value="1.8.9"),
     app_commands.Choice(name="1.14+", value="1.14+")
 ]
 
-async def armor_type_autocomplete(interaction: discord.Interaction, current: str):
-    return [
-        app_commands.Choice(name=str(option), value=str(option).replace(" ", ""))
-        for option in itemDict if current.lower() in str(option).lower()
-    ][:25]
-async def armor_color_type_autocomplete(interaction: discord.Interaction, current: str):
-    return [
-        app_commands.Choice(name=str(option.value[0]), value=str(option.value[0]).replace(" ", ""))
-        for option in list(Color) if current.lower() in str(option.value[0]).lower()
-    ][:25]
+'''
+Auto complete for some reason makes discord not allow up arrow command resending.
+'''
+
+# async def armor_type_autocomplete(interaction: discord.Interaction, current: str):
+#     return [
+#         app_commands.Choice(name=str(option), value=str(option).replace(" ", ""))
+#         for option in itemDict if current.lower() in str(option).lower()
+#     ][:25]
+# async def armor_color_type_autocomplete(interaction: discord.Interaction, current: str):
+#     return [
+#         app_commands.Choice(name=str(option.value[0]), value=str(option.value[0]).replace(" ", ""))
+#         for option in list(Color) if current.lower() in str(option.value[0]).lower()
+#     ][:25]
 
 colorCommandDescription = 'Generate hex code images.'
 colorCommandColorsDescription = 'Enter a list of hex codes separated by spaces (e.g., #334CB2 #191919)'
@@ -140,7 +199,7 @@ async def displayColour(interaction: discord.Interaction, colors: str):
 
 @client.tree.command(name='armor', description=armorCommandDescription)
 @app_commands.choices(shape=shape_choices, version=armor_version_choices)
-@app_commands.autocomplete(armor=armor_type_autocomplete, colors=armor_color_type_autocomplete)
+# @app_commands.autocomplete(armor=armor_type_autocomplete, colors=armor_color_type_autocomplete)
 @app_commands.allowed_installs(guilds=True, users=True)
 @app_commands.allowed_contexts(guilds=True, dms=True, private_channels=True)
 @app_commands.describe(
@@ -216,7 +275,7 @@ async def displayArmor(interaction, colors: str, armor: str = None, shape: str =
     await interaction.response.send_message(f"**{colorString}**", file=discordFile)
 @client.tree.command(name='armour', description=armorCommandDescription)
 @app_commands.choices(shape=shape_choices, version=armor_version_choices)
-@app_commands.autocomplete(armor=armor_type_autocomplete, colors=armor_color_type_autocomplete)
+# @app_commands.autocomplete(armor=armor_type_autocomplete, colors=armor_color_type_autocomplete)
 @app_commands.allowed_installs(guilds=True, users=True)
 @app_commands.allowed_contexts(guilds=True, dms=True, private_channels=True)
 @app_commands.describe(
@@ -230,7 +289,7 @@ async def displayArmour(interaction, colors: str = None, armor: str = None, shap
 
 @client.tree.command(name='advancedmix', description=advancedMixCommandDescription)
 @app_commands.choices(outputshape=shape_choices, outputversion=armor_version_choices)
-@app_commands.autocomplete(craftingsequence1=armor_color_type_autocomplete, craftingsequence2=armor_color_type_autocomplete, craftingsequence3=armor_color_type_autocomplete, outputarmor=armor_type_autocomplete)
+# @app_commands.autocomplete(craftingsequence1=armor_color_type_autocomplete, craftingsequence2=armor_color_type_autocomplete, craftingsequence3=armor_color_type_autocomplete, outputarmor=armor_type_autocomplete)
 @app_commands.allowed_installs(guilds=True, users=True)
 @app_commands.allowed_contexts(guilds=True, dms=True, private_channels=True)
 @app_commands.describe(
@@ -253,7 +312,7 @@ async def displayAdvancedMix(
 
 @client.tree.command(name='mix', description=mixCommandColorsDescription)
 @app_commands.choices(outputshape=shape_choices, outputversion=armor_version_choices)
-@app_commands.autocomplete(colors=armor_color_type_autocomplete, outputarmor=armor_type_autocomplete)
+# @app_commands.autocomplete(colors=armor_color_type_autocomplete, outputarmor=armor_type_autocomplete)
 @app_commands.allowed_installs(guilds=True, users=True)
 @app_commands.allowed_contexts(guilds=True, dms=True, private_channels=True)
 @app_commands.describe(
@@ -612,7 +671,7 @@ async def displayCompareArmor(
 
 @client.tree.command(name='hexdifference', description=hexDifferenceCommandDescription)
 @app_commands.describe(color1=hexDifferenceCommandColor1Description, color2=hexDifferenceCommandColor2Description)
-@app_commands.autocomplete(color1=armor_color_type_autocomplete, color2=armor_color_type_autocomplete)
+# @app_commands.autocomplete(color1=armor_color_type_autocomplete, color2=armor_color_type_autocomplete)
 @app_commands.allowed_installs(guilds=True, users=True)
 @app_commands.allowed_contexts(guilds=True, dms=True, private_channels=True)
 async def displayHexDifference(interaction, color1: str, color2: str):
@@ -672,14 +731,14 @@ async def displayHexDifference(interaction, color1: str, color2: str):
     await interaction.response.send_message(embed=embed, file=discordFile)
 @client.tree.command(name='checkdifference', description=hexDifferenceCommandDescription)
 @app_commands.describe(color1=hexDifferenceCommandColor1Description, color2=hexDifferenceCommandColor2Description)
-@app_commands.autocomplete(color1=armor_color_type_autocomplete, color2=armor_color_type_autocomplete)
+# @app_commands.autocomplete(color1=armor_color_type_autocomplete, color2=armor_color_type_autocomplete)
 @app_commands.allowed_installs(guilds=True, users=True)
 @app_commands.allowed_contexts(guilds=True, dms=True, private_channels=True)
 async def displayCheckHexDifference(interaction, color1: str, color2: str):
     await displayHexDifference.callback(interaction, color1, color2)
 @client.tree.command(name='colordifference', description=hexDifferenceCommandDescription)
 @app_commands.describe(color1=hexDifferenceCommandColor1Description, color2=hexDifferenceCommandColor2Description)
-@app_commands.autocomplete(color1=armor_color_type_autocomplete, color2=armor_color_type_autocomplete)
+# @app_commands.autocomplete(color1=armor_color_type_autocomplete, color2=armor_color_type_autocomplete)
 @app_commands.allowed_installs(guilds=True, users=True)
 @app_commands.allowed_contexts(guilds=True, dms=True, private_channels=True)
 async def displayColorDifference(interaction, color1: str, color2: str):
