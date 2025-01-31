@@ -1,3 +1,4 @@
+import aiohttp
 import discord
 
 from discord.ext import commands
@@ -97,6 +98,9 @@ colorInfoCommandDescription = 'Displays information about a specific hex code.'
 colorInfoCommandColorDescription = 'Enter a hex code.'
 
 dyeInfoCommandDescription = 'Displays all pure dye hexes.'
+
+scanPlayerCommandDescription = 'Scan the database for a specific player. (Doesn\'t scan their current items)'
+scanPlayerCommandPlayerDescription = 'Player UUID/Username to scan for.'
 
 @client.tree.command(name='color', description=colorCommandDescription, extras={"contexts": [0, 1, 2], "integration_types": [0, 1]})
 @app_commands.describe(colors=colorCommandColorsDescription)
@@ -1085,13 +1089,93 @@ async def displayScanPlayer(interaction, player: str):
         await interaction.response.send_message("Please provide a player.", ephemeral=True)
         return
 
-    playerUUID = player.upper()
-    if len(playerUUID) != 32:
-        # TODO: use crafthead api
+    playerData = player.replace("-", "").lower().strip()
 
-    if playerUUID not in playerUUIDToItems:
-        await interaction.response.send_message(f"Player '{playerUUID}' not found.", ephemeral=True)
+    playerUsername = None
+    playerUUID = None
+    headers = {
+        "Content-Type": "application/json"
+    }
+
+    async with aiohttp.ClientSession() as session:
+        try:
+            async with session.get(f"https://crafthead.net/profile/{playerData}", headers=headers) as response:
+                if response.status == 200:
+                    playerInfo = await response.json()
+                    if "name" in playerInfo:
+                        playerUsername = str(playerInfo["name"])
+                        playerUUID = str(playerInfo["id"]).upper()
+                else:
+                    print(f"Request failed with status code: {response.status}")
+        except Exception as error:
+            print("1 ERROR", json.dumps(str(error)), error)
+
+    if playerUUID is None or playerUsername is None:
+        await interaction.response.send_message(f"Error when looking up '{player}'.", ephemeral=True)
         return
+    if playerUUID not in playerUUIDToItemList:
+        await interaction.response.send_message(f"Player '{player}' not found in the database.", ephemeral=True)
+        return
+
+    playerItemList = playerUUIDToItemList[playerUUID]
+    playerItemCount = len(playerItemList)
+
+    discordFile = None
+    currentDescription = ""
+    if playerItemCount > 0:
+        extraString = ""
+        if playerItemCount <= 25:
+            extraString = "- "
+
+        tempDescription = ""
+        i = -1
+        for item in sorted(playerItemList, key=lambda x: x[0]):
+            i += 1
+            if i != 0:
+                tempDescription += f"\n"
+            tempDescription += f"{extraString}#{item[1]} {extraString}{item[0]}"
+
+        if playerItemCount > 25:
+            buffer = io.BytesIO()
+            buffer.write(tempDescription.encode())
+            buffer.seek(0)
+
+            fileName = f"{playerUUID}.txt"
+            discordFile = discord.File(buffer, filename=fileName)
+        else:
+            currentDescription += f"{tempDescription}"
+
+    embed = discord.Embed(
+        title=f"**{playerUsername}**",
+        description=f" ",
+        color=discord.Color(int(f"0xFFFFFF", 16))
+    )
+    embed.add_field(
+        name=f"**UUID:**",
+        value=f"{playerUUID}",
+        inline=False
+    )
+    embed.add_field(name="", value="", inline=False)
+    if currentDescription != "":
+        embed.add_field(
+            name=f"**Items ({playerItemCount}):**",
+            value=f"{currentDescription}\n-# *Only shows historical database items.",
+            inline=False
+        )
+    else:
+        embed.add_field(
+            name=f"**Items:**",
+            value=f"Player has* `{playerItemCount:,}` items.\n-# *Only shows historical database items.",
+            inline=False
+        )
+
+    embed.set_footer(text=footerText, icon_url=avatarLink)
+    embed.timestamp = interaction.created_at
+
+    if discordFile:
+        await interaction.response.send_message(embed=embed, file=discordFile)
+        return
+    await interaction.response.send_message(embed=embed)
 
 with open('AIToken') as file:
     aiClient = OpenAI(api_key=file.read().strip(), base_url="https://api.groq.com/openai/v1")

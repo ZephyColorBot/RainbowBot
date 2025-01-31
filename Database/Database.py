@@ -12,7 +12,7 @@ itemDB = {
     }
 }
 '''
-playerUUIDList = set()
+playerUUIDToItemList = {}
 itemDB = {}
 hexCodeToItemCount = {}
 itemIDToItemCount = {}
@@ -83,6 +83,7 @@ def LoadDatabase(filePath):
 
             baseHex, armorType, playerUUID = line.split(" ")
             itemID = armorType.upper()
+            playerUUID = playerUUID.upper()
             # itemID = UpdateItemID(armorType)
             # if itemID is None:
             #     print(f"Error: Invalid itemID '{armorType}'")
@@ -114,7 +115,10 @@ def LoadDatabase(filePath):
             if itemID not in itemDB[hexCode]:
                 itemDB[hexCode][itemID] = []
 
-            playerUUIDList.add(playerUUID)
+            if playerUUID not in playerUUIDToItemList:
+                playerUUIDToItemList[playerUUID] = []
+            playerUUIDToItemList[playerUUID].append([itemID, hexCode])
+
             itemDB[hexCode][itemID].append(playerUUID)
             totalDatabaseItems += 1
 
