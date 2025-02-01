@@ -1,6 +1,5 @@
 import re
 
-from Constants import longestArmorType
 from Armor import ArmorType, HexColor, GetAbsoluteDifference
 
 '''
@@ -23,10 +22,10 @@ def GetArmorType(itemString: str):
     armorTypeSplit = re.split('', itemString)
 
     currentWord = ""
-    for i, letter in enumerate(armorTypeSplit):
-        if i > longestArmorType:
-            break
+    if len(armorTypeSplit) > 100:
+        return None
 
+    for i, letter in enumerate(armorTypeSplit):
         letter = letter.lower().strip()
         currentWord += letter
         for armor in ArmorType.__members__:
@@ -88,9 +87,8 @@ def LoadDatabase(filePath):
             # if itemID is None:
             #     print(f"Error: Invalid itemID '{armorType}'")
 
-            hexColor = None
             try:
-                hexColor = HexColor(hex=baseHex)
+                hexColor = HexColor(baseHex=baseHex)
             except Exception as e:
                 print(f"Error: {e}")
                 continue
@@ -195,7 +193,7 @@ def GetMatchingItems(itemID: str, itemHex: HexColor, tolerance: int = 0):
     matchingItemCount = 0
     for hexCode in itemDB:
         if itemID in itemDB[hexCode]:
-            difference = GetAbsoluteDifference(HexColor(hex=hexCode), itemHex)
+            difference = GetAbsoluteDifference(HexColor(baseHex=hexCode), itemHex)
             if difference <= tolerance:
                 playerList = itemDB[hexCode][itemID]
                 matchingItemsList[hexCode] = [playerList, difference]

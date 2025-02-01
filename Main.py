@@ -15,7 +15,7 @@ allowedDatabaseUsers = [
 ]
 
 class Client(commands.Bot):
-    async def OnReady(self):
+    async def on_ready(self):
         print(f'Logged in as {self.user} (ID: {self.user.id})')
 
         try:
@@ -28,60 +28,60 @@ intents = discord.Intents.default()
 intents.message_content = True
 client = Client(command_prefix='/', intents=intents)
 
-armorTypeHandPickedChoices = [
-# full set
-# baby sup
-# baby young
-# baby wise
-# baby unstable
-# baby prot
-# baby strong
-# baby old
-# baby holy
-# angler
-# lapis
-# biohazard
-# leaflet
-# tarantula
-# tuxedo
-# spooky
-# bat
-# blaze
-# frozen blaze
-# pack
-# sponge
-# necron celestial
-# storm celestial
-# maxor celestial
-# goldor celestial
-]
-colorHandPickedChoices = [
-# Color.PureRed:       "<:RedDye:1334768678612238357>",
-# Color.PureOrange: "<:OrangeDye:1334768730101780571>",
-# Color.PureYellow: "<:YellowDye:1334768821923352586>",
-# Color.PureLime: "<:LimeDye:1334768853988675636>",
-# Color.PureDarkGreen: "<:DarkGreenDye:1334768739895218187>",
-# Color.PureLightBlue: "<:LightBlueDye:1334768799215259667>",
-# Color.PureCyan: "<:CyanDye:1334768832471896124>",
-# Color.PureDarkBlue: "<:DarkBlueDye:1334768754734665748>",
-# Color.PurePink: "<:PinkDye:1334768777581170739>",
-# Color.PureMagenta: "<:MagentaDye:1334768786229956729>",
-# Color.PurePurple: "<:PurpleDye:1334768766613192734>",
-# Color.PureBrown: "<:BrownDye:1334768649809956955>",
-# Color.PureLightGrey: "<:LightGrayDye:1334768841963733044>",
-# Color.PureDarkGrey: "<:DarkGrayDye:1334768865334399078>",
-# Color.PureWhite: "<:WhiteDye:1334768808656769024>",
-# Color.PureBlack: "<:BlackDye:1334768718890139679>"
-# Color.TrueMint: "<:TrueMint:1334727660722585691>",
-# Color.TrueMaroon: "<:TrueMaroon:1334728556705611829>",
-# Color.TrueNavy: "<:TrueNavy:1334727628292100146>",
-# Color.TrueIce: "<:TrueIce:1334727641953206303>",
-# Color.TrueGold: "<:TrueGold:1334727618733543484>"
-# Young
-# Unstable
-# Protector
-# Wise
-]
+# armorTypeHandPickedChoices = [
+#     app_commands.Choice(name="Full Set", value="FullSet"),
+#     app_commands.Choice(name="Baby Superior", value="BabySuperior"),
+#     app_commands.Choice(name="Baby Young", value="BabyYoung"),
+#     app_commands.Choice(name="Baby Wise", value="BabyWise"),
+#     app_commands.Choice(name="Baby Unstable", value="BabyUnstable"),
+#     app_commands.Choice(name="Baby Protector", value="BabyProtector"),
+#     app_commands.Choice(name="Baby Strong", value="BabyStrong"),
+#     app_commands.Choice(name="Baby Old", value="BabyOld"),
+#     app_commands.Choice(name="Baby Holy", value="BabyHoly"),
+#     app_commands.Choice(name="Angler", value="Angler"),
+#     app_commands.Choice(name="Lapis", value="Lapis"),
+#     app_commands.Choice(name="Biohazard", value="Biohazard"),
+#     app_commands.Choice(name="Leaflet", value="Leaflet"),
+#     app_commands.Choice(name="Tarantula", value="Tarantula"),
+#     app_commands.Choice(name="Tuxedo", value="Tuxedo"),
+#     app_commands.Choice(name="Spooky", value="Spooky"),
+#     app_commands.Choice(name="Bat", value="Bat"),
+#     app_commands.Choice(name="Blaze", value="Blaze"),
+#     app_commands.Choice(name="Frozen Blaze", value="FrozenBlaze"),
+#     app_commands.Choice(name="Pack", value="Pack"),
+#     app_commands.Choice(name="Sponge", value="Sponge"),
+#     app_commands.Choice(name="Necron Celestial", value="NecronCelestial"),
+#     app_commands.Choice(name="Storm Celestial", value="StormCelestial"),
+#     app_commands.Choice(name="Maxor Celestial", value="MaxorCelestial"),
+#     app_commands.Choice(name="Goldor Celestial", value="GoldorCelestial"),
+# ]
+# colorHandPickedChoices = [
+#     app_commands.Choice(name="Red", value="Red"),
+#     app_commands.Choice(name="Orange", value="Orange"),
+#     app_commands.Choice(name="Yellow", value="Yellow"),
+#     app_commands.Choice(name="Lime", value="Lime"),
+#     app_commands.Choice(name="Dark Green", value="DarkGreen"),
+#     app_commands.Choice(name="Light Blue", value="LightBlue"),
+#     app_commands.Choice(name="Cyan", value="Cyan"),
+#     app_commands.Choice(name="Dark Blue", value="DarkBlue"),
+#     app_commands.Choice(name="Pink", value="Pink"),
+#     app_commands.Choice(name="Magenta", value="Magenta"),
+#     app_commands.Choice(name="Purple", value="Purple"),
+#     app_commands.Choice(name="Brown", value="Brown"),
+#     app_commands.Choice(name="Light Grey", value="LightGrey"),
+#     app_commands.Choice(name="Dark Grey", value="DarkGrey"),
+#     app_commands.Choice(name="White", value="White"),
+#     app_commands.Choice(name="Black", value="Black"),
+#     app_commands.Choice(name="Mint", value="Mint"),
+#     app_commands.Choice(name="Maroon", value="Maroon"),
+#     app_commands.Choice(name="Navy", value="Navy"),
+#     app_commands.Choice(name="Ice", value="Ice"),
+#     app_commands.Choice(name="Gold", value="Gold"),
+#     app_commands.Choice(name="Young", value="Young"),
+#     app_commands.Choice(name="Unstable", value="Unstable"),
+#     app_commands.Choice(name="Protector", value="Protector"),
+#     app_commands.Choice(name="Wise", value="Wise")
+# ]
 
 shapeChoices = [
     app_commands.Choice(name="Vertical", value="Vertical"),
@@ -146,6 +146,7 @@ databaseCommandDescription = 'Scan the database for a specific hex code, item, o
 databaseCommandColorDescription = 'Hex code to scan for.'
 databaseCommandItemNameDescription = 'ItemName or ItemId to scan for.'
 databaseCommandListPlayersDescription = 'Whether the player uuids should be listed (Requires Permission).'
+databaseCommandShowItemTypesDescription = 'Whether the item types should be shown.'
 
 similarItemsCommandDescription = 'Scan the database for items close to a specific hex code.'
 similarItemsCommandColorDescription = 'Hex code to scan for.'
@@ -173,7 +174,7 @@ async def displayColor(interaction, colors: str):
     colorString = ""
     for baseHex in originalHexList:
         try:
-            hexColor = HexColor(hex=baseHex)
+            hexColor = HexColor(baseHex=baseHex)
             colorList.append(hexColor)
         except Exception as e:
             await interaction.response.send_message(f"Invalid hex code '{baseHex}' - {e}", ephemeral=True)
@@ -198,7 +199,7 @@ async def displayColour(interaction: discord.Interaction, colors: str):
     await displayColor.callback(interaction, colors)
 
 @client.tree.command(name='armor', description=armorCommandDescription)
-@app_commands.choices(shape=shape_choices, version=armor_version_choices)
+@app_commands.choices(shape=shapeChoices, version=armorVersionChoices)
 # @app_commands.autocomplete(armor=armor_type_autocomplete, colors=armor_color_type_autocomplete)
 @app_commands.allowed_installs(guilds=True, users=True)
 @app_commands.allowed_contexts(guilds=True, dms=True, private_channels=True)
@@ -252,7 +253,7 @@ async def displayArmor(interaction, colors: str, armor: str = None, shape: str =
 
         for baseHex in originalHexList:
             try:
-                hexColor = HexColor(hex=baseHex)
+                hexColor = HexColor(baseHex=baseHex)
                 colorList.append(hexColor)
             except Exception as e:
                 await interaction.response.send_message(f"Invalid hex code '{baseHex}' - {e}", ephemeral=True)
@@ -274,7 +275,7 @@ async def displayArmor(interaction, colors: str, armor: str = None, shape: str =
     discordFile = discord.File(buffer, filename=filePath)
     await interaction.response.send_message(f"**{colorString}**", file=discordFile)
 @client.tree.command(name='armour', description=armorCommandDescription)
-@app_commands.choices(shape=shape_choices, version=armor_version_choices)
+@app_commands.choices(shape=shapeChoices, version=armorVersionChoices)
 # @app_commands.autocomplete(armor=armor_type_autocomplete, colors=armor_color_type_autocomplete)
 @app_commands.allowed_installs(guilds=True, users=True)
 @app_commands.allowed_contexts(guilds=True, dms=True, private_channels=True)
@@ -288,7 +289,7 @@ async def displayArmour(interaction, colors: str = None, armor: str = None, shap
     await displayArmor.callback(interaction, colors, armor, shape, version)
 
 @client.tree.command(name='advancedmix', description=advancedMixCommandDescription)
-@app_commands.choices(outputshape=shape_choices, outputversion=armor_version_choices)
+@app_commands.choices(outputshape=shapeChoices, outputversion=armorVersionChoices)
 # @app_commands.autocomplete(craftingsequence1=armor_color_type_autocomplete, craftingsequence2=armor_color_type_autocomplete, craftingsequence3=armor_color_type_autocomplete, outputarmor=armor_type_autocomplete)
 @app_commands.allowed_installs(guilds=True, users=True)
 @app_commands.allowed_contexts(guilds=True, dms=True, private_channels=True)
@@ -311,7 +312,7 @@ async def displayAdvancedMix(
     await displayMix(interaction, None, craftingsequence1, craftingsequence2, craftingsequence3, outputarmor, outputshape, outputversion)
 
 @client.tree.command(name='mix', description=mixCommandColorsDescription)
-@app_commands.choices(outputshape=shape_choices, outputversion=armor_version_choices)
+@app_commands.choices(outputshape=shapeChoices, outputversion=armorVersionChoices)
 # @app_commands.autocomplete(colors=armor_color_type_autocomplete, outputarmor=armor_type_autocomplete)
 @app_commands.allowed_installs(guilds=True, users=True)
 @app_commands.allowed_contexts(guilds=True, dms=True, private_channels=True)
@@ -380,7 +381,7 @@ async def displayMix(
             tempColorString = ""
             for baseHex in colorList:
                 try:
-                    hexColor = HexColor(hex=baseHex)
+                    hexColor = HexColor(baseHex=baseHex)
                     hexColorList.append(hexColor)
                 except Exception as e:
                     await interaction.response.send_message(f"Invalid hex code '{baseHex}' - {e}", ephemeral=True)
@@ -404,7 +405,7 @@ async def displayMix(
             hexList = []
             for baseHex in colorList:
                 try:
-                    hexColor = HexColor(hex=baseHex)
+                    hexColor = HexColor(baseHex=baseHex)
                     hexList.append(hexColor)
                 except Exception as e:
                     await interaction.response.send_message(f"Invalid hex code '{baseHex}' - {e}", ephemeral=True)
@@ -525,7 +526,7 @@ async def helpCommand(interaction):
 @app_commands.allowed_contexts(guilds=True, dms=True, private_channels=True)
 async def displayColorStatusExotic(interaction, color: str):
     try:
-        hexColor = HexColor(hex=color)
+        hexColor = HexColor(baseHex=color)
     except Exception as e:
         await interaction.response.send_message(f"Invalid hex code '{color}' - {e}", ephemeral=True)
         return
@@ -563,7 +564,7 @@ async def displayColorStatusCrystal(interaction, color: str):
     await displayColorStatusExotic.callback(interaction, color)
 
 @client.tree.command(name='comparearmor', description=colorCommandDescription)
-@app_commands.choices(shape=normal_shape_choices, version=armor_version_choices)
+@app_commands.choices(shape=normalShapeChoices, version=armorVersionChoices)
 # @app_commands.autocomplete(armor=armor_type_autocomplete, colors=armor_color_type_autocomplete)
 @app_commands.allowed_installs(guilds=True, users=True)
 @app_commands.allowed_contexts(guilds=True, dms=True, private_channels=True)
@@ -629,7 +630,7 @@ async def displayCompareArmor(
 
             for baseHex in colorSplit:
                 try:
-                    hexList.append(HexColor(hex=baseHex))
+                    hexList.append(HexColor(baseHex=baseHex))
                 except Exception as e:
                     await interaction.response.send_message(f"Invalid hex code '{baseHex}' - {e}", ephemeral=True)
                     return
@@ -676,12 +677,12 @@ async def displayCompareArmor(
 @app_commands.allowed_contexts(guilds=True, dms=True, private_channels=True)
 async def displayHexDifference(interaction, color1: str, color2: str):
     try:
-        hexColor1 = HexColor(hex=color1)
+        hexColor1 = HexColor(baseHex=color1)
     except Exception as e:
         await interaction.response.send_message(f"Invalid hex code '{color1}' - {e}", ephemeral=True)
         return
     try:
-        hexColor2 = HexColor(hex=color2)
+        hexColor2 = HexColor(baseHex=color2)
     except Exception as e:
         await interaction.response.send_message(f"Invalid hex code '{color2}' - {e}", ephemeral=True)
         return
@@ -770,11 +771,11 @@ async def displayVisualDistanceInfo(interaction):
     await interaction.response.send_message(embed=embed)
 
 @client.tree.command(name='scandatabase', description=databaseCommandDescription)
-@app_commands.describe(color=databaseCommandColorDescription, itemname=databaseCommandItemNameDescription, listplayers=databaseCommandListPlayersDescription)
+@app_commands.describe(color=databaseCommandColorDescription, itemname=databaseCommandItemNameDescription, listplayers=databaseCommandListPlayersDescription, showitemtypes=databaseCommandShowItemTypesDescription)
 # @app_commands.autocomplete(color=armor_color_type_autocomplete)
 @app_commands.allowed_installs(guilds=True, users=True)
 @app_commands.allowed_contexts(guilds=True, dms=True, private_channels=True)
-async def displayDatabaseInfo(interaction, color: str = None, itemname: str = None, listplayers: bool = False):
+async def displayDatabaseInfo(interaction, color: str = None, itemname: str = None, listplayers: bool = False, showitemtypes: bool = False):
     if color is None and itemname is None:
         await interaction.response.send_message("Please provide a color or item name.", ephemeral=True)
         return
@@ -783,7 +784,7 @@ async def displayDatabaseInfo(interaction, color: str = None, itemname: str = No
     itemID = None
     if color is not None:
         try:
-            hexColor = HexColor(hex=color)
+            hexColor = HexColor(baseHex=color)
         except Exception as e:
             await interaction.response.send_message(f"Invalid hex code '{color}' - {e}", ephemeral=True)
             return
@@ -830,7 +831,7 @@ async def displayDatabaseInfo(interaction, color: str = None, itemname: str = No
                 tempDescription = ""
                 i = -1
                 currentPlayerUUID = ""
-                for playerUUID in dict(sorted(databasePlayers.items(), key=lambda item: len(item[1]), reverse=True)):
+                for playerUUID in dict(sorted(databasePlayers.items(), key=lambda sortedItem: len(sortedItem[1]), reverse=True)):
                     if currentPlayerUUID != playerUUID:
                         currentPlayerUUID = playerUUID
                         if i != -1:
@@ -867,20 +868,33 @@ async def displayDatabaseInfo(interaction, color: str = None, itemname: str = No
             descriptionName += f"{item}"
 
     combinedItemCounts = ""
-    if isArmorType:
-        i = -1
-        for item in combinedItemDict:
-            i += 1
-            if i != 0:
-                combinedItemCounts += "\n"
-            combinedItemCounts += f"{item} - {len(combinedItemDict[item])}"
+    if showitemtypes:
+        if isArmorType or itemID is None:
+            i = -1
+            currentArmorType = ""
+
+            for item in sorted(combinedItemDict.items(), key=lambda sortedItem: sortedItem, reverse=False):
+                armorType = item[0].split("_")[0]
+                if currentArmorType != armorType:
+                    currentArmorType = armorType
+                    if i != -1:
+                        combinedItemCounts += f"\n"
+
+                i += 1
+                if i != 0:
+                    combinedItemCounts += "\n"
+                combinedItemCounts += f"{item[0]} - {len(item[1])}"
+
+            combinedItemCounts += "\n\n"
+    else:
+        currentDescription += "\n-# Add showitemtypes to display item type counts."
 
     color = discord.Color(int(f"0xFFFFFF", 16))
     if hexCode is not None:
         color = discord.Color(int(f"0x{hexCode}", 16))
     embed = discord.Embed(
         title=f"**{descriptionName}**",
-        description=f"{combinedItemCounts}\n\n{currentDescription}",
+        description=f"{combinedItemCounts}{currentDescription}",
         color=color
     )
 
@@ -914,7 +928,7 @@ async def displaySimilarItems(interaction, color: str, itemname: str, tolerance:
         return
 
     try:
-        hexColor = HexColor(hex=color)
+        hexColor = HexColor(baseHex=color)
     except Exception as e:
         await interaction.response.send_message(f"Invalid hex code '{color}' - {e}", ephemeral=True)
         return
@@ -930,38 +944,44 @@ async def displaySimilarItems(interaction, color: str, itemname: str, tolerance:
     currentDescription = f"Found `{matchingItemCount:,}` matching items within a tolerance of `{tolerance}`."
 
     discordFile = None
-    if listplayers:
-        if interaction.user.id in allowedDatabaseUsers:
-            if matchingItemCount > 0:
-                extraString = ""
-                if matchingItemCount <= 25:
-                    extraString = "- "
+    if matchingItemCount > 0:
+        extraString = ""
+        if matchingItemCount <= 25:
+            extraString = "- "
 
-                tempDescription = "HexCode, ItemID, PlayerUUID, AmountOff\n"
-                i = -1
-                currentOffAmount = 0
-                for playerList in sorted(matchingItemsList.items(), key=lambda x: x[1][1]):
-                    offAmount = playerList[1][1]
-                    if currentOffAmount != offAmount:
-                        currentOffAmount = offAmount
-                        if i != -1:
-                            tempDescription += f"\n"
-                    for playerUUID in playerList[1][0]:
-                        i += 1
-                        if i != 0:
-                            tempDescription += f"\n"
-                        tempDescription += f"{extraString}#{playerList[0]} - {itemID} - {playerUUID} - {offAmount}"
+        shouldListPlayers = False
+        if listplayers:
+            if interaction.user.id in allowedDatabaseUsers:
+                shouldListPlayers = True
 
-                if matchingItemCount > 25:
-                    buffer = io.BytesIO()
-                    buffer.write(tempDescription.encode())
-                    buffer.seek(0)
+        i = -1
+        tempDescription = ""
+        currentOffAmount = 0
+        for playerList in sorted(matchingItemsList.items(), key=lambda x: x[1][1]):
+            offAmount = playerList[1][1]
+            if currentOffAmount != offAmount:
+                currentOffAmount = offAmount
+                if i != -1:
+                    tempDescription += f"\n"
+            for playerUUID in playerList[1][0]:
+                i += 1
+                if i != 0:
+                    tempDescription += f"\n"
 
-                    fileName = f"{hexCode}_{itemID}_{tolerance}.txt"
-                    discordFile = discord.File(buffer, filename=fileName)
-                else:
-                    currentDescription += f"\n\n__**Items:**__\n{tempDescription}"
+                playerString = f"{playerUUID}\n" if shouldListPlayers else ""
+                tempDescription += f"{playerString}{extraString}#{playerList[0]} - {itemID} - {offAmount}"
+
+        if matchingItemCount > 25:
+            buffer = io.BytesIO()
+            buffer.write(tempDescription.encode())
+            buffer.seek(0)
+
+            fileName = f"{hexCode}_{itemID}_{tolerance}.txt"
+            discordFile = discord.File(buffer, filename=fileName)
         else:
+            currentDescription += f"\n\n__**Items:**__\n{tempDescription}"
+
+        if not shouldListPlayers and listplayers:
             currentDescription += "\n\nNo permission to list players."
 
     embed = discord.Embed(
@@ -1003,7 +1023,7 @@ async def displayColorInfo(interaction, color: str):
         return
 
     try:
-        hexColor = HexColor(hex=color)
+        hexColor = HexColor(baseHex=color)
     except Exception as e:
         await interaction.response.send_message(f"Invalid hex code '{color}' - {e}", ephemeral=True)
         return
@@ -1035,13 +1055,13 @@ async def displayColorInfo(interaction, color: str):
     embed.add_field(
         name=f"**Hex**",
         value=f"#{hexCode}",
-        inline=False
+        inline=True
     )
     embed.add_field(name="", value="", inline=False)
     embed.add_field(
         name=f"**RGB**",
         value=f"{tuple(rgb)}",
-        inline=False
+        inline=True
     )
     embed.add_field(name="", value="", inline=False)
 
@@ -1049,7 +1069,7 @@ async def displayColorInfo(interaction, color: str):
     closestPureColorDistance = float('inf')
     for color in pureColorToDiscordEmotes.keys():
         colorHex = color.value[1]
-        colorDistance = GetAbsoluteDifference(hexColor, HexColor(hex=colorHex))
+        colorDistance = GetAbsoluteDifference(hexColor, HexColor(baseHex=colorHex))
         if colorDistance < closestPureColorDistance:
             closestPureColorDistance = colorDistance
             closestPureColor = color

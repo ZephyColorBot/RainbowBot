@@ -1,7 +1,5 @@
 from enum import Enum
 
-longestArmorType = 0
-
 class ColorType(Enum):
     Exotic = "Exotic"
     PureDye = "Pure"
@@ -786,16 +784,6 @@ def PopulateStringDictionaries():
         shapeName = shapeType.name.replace(" ", "").lower().strip()
         stringToShapeTypeDict[shapeName] = shapeType
 PopulateStringDictionaries()
-
-def UpdateLongestArmorType():
-    global longestArmorType
-    if longestArmorType == 0:
-        for armorType in ArmorType.__members__:
-            if len(armorType) > longestArmorType:
-                longestArmorType = len(armorType)
-
-    longestArmorType = 99
-UpdateLongestArmorType()
 
 baseArmorSet = ["LeatherChestplate.png", "LeatherLeggings.png", "LeatherBoots.png"]
 fullArmorSet = ["LeatherHelmet.png", "LeatherChestplate.png", "LeatherLeggings.png", "LeatherBoots.png"]

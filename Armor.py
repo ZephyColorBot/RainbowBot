@@ -13,14 +13,14 @@ class HexColor:
     def __str__(self):
         return f"Hex: {self.hexCode}, RGB: {self.RGBList}"
 
-    def __init__(self, hex: str = None, rgb: list = None):
-        if (hex is None or not hex) and (rgb is None or not rgb):
+    def __init__(self, baseHex: str = None, rgb: list = None):
+        if (baseHex is None or not baseHex) and (rgb is None or not rgb):
             raise ValueError("Hex code or RGB list must be set.")
 
-        if hex is not None:
-            if type(hex) is not str:
+        if baseHex is not None:
+            if type(baseHex) is not str:
                 raise ValueError("Hex code must be a string.")
-            self.hexCode = self.GetFixedHex(hex)
+            self.hexCode = self.GetFixedHex(baseHex)
         if rgb is not None:
             if type(rgb) is not list:
                 raise ValueError("RGB list must be a list.")
@@ -55,7 +55,7 @@ class HexColor:
             return self.GetHexFromRGB(self.RGBList)
 
     @staticmethod
-    def GetFixedHex(hexCode: str):
+    def GetFixedHex(hexCode: str|list[int]):
         if hexCode is None:
             raise ValueError("Hex code must be set.")
 
@@ -176,7 +176,7 @@ def CreateArmorSetImage(
             if lastHex is not None:
                 finalHexColorList.append(lastHex)
             else:
-                finalHexColorList.append(HexColor(hex=armorHex))
+                finalHexColorList.append(HexColor(baseHex=armorHex))
 
     # if len(finalHexList) != i:
     #     raise ValueError(f"Invalid number of hex codes for '{armorTypeString}'")
@@ -660,8 +660,8 @@ def RGBToXYZ(rgbInt: int):
         0.0193, 0.1192, 0.9505
     ]
 
-    def DotProduct(factors: list[float], offset: int, rgb: list[float]):
-        return sum(factors[offset + i] * rgb[i] for i in range(3))
+    def DotProduct(factors: list[float], offset: int, rgbList: list[float]):
+        return sum(factors[offset + j] * rgbList[j] for j in range(3))
 
     return [
         DotProduct(xyzFactors, 0, rgb),
