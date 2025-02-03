@@ -868,7 +868,7 @@ async def displayDatabaseInfo(interaction, color: str = None, itemname: str = No
             descriptionName += f"{item}"
 
     combinedItemCounts = ""
-    if showitemtypes:
+    if showitemtypes or len(combinedItemDict) <= 15:
         if isArmorType or itemID is None:
             i = -1
             currentArmorType = ""
@@ -887,7 +887,7 @@ async def displayDatabaseInfo(interaction, color: str = None, itemname: str = No
 
             combinedItemCounts += "\n\n"
     else:
-        currentDescription += "\n-# Add showitemtypes to display item type counts."
+        currentDescription += "\n-# Add showitemtypes to display all item counts."
 
     color = discord.Color(int(f"0xFFFFFF", 16))
     if hexCode is not None:
