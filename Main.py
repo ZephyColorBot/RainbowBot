@@ -8,8 +8,9 @@ from openai import OpenAI
 from ColorNames import *
 from Armor import *
 
+defaultColor = discord.Color(0xD2EBEB)
 avatarLink = "https://cdn.discordapp.com/avatars/1000919610251558993/7c7d0e2f2d831a5241b9053fd0ca6fd1.webp"
-footerText = "Made by zeph.y"
+footerText = "**Made by zeph.y**"
 allowedDatabaseUsers = [
     263058850234499072 # me
 ]
@@ -26,75 +27,75 @@ class Client(commands.Bot):
 
 intents = discord.Intents.default()
 intents.message_content = True
-client = Client(command_prefix='/', intents=intents)
+client = Client(command_prefix = '/', intents = intents)
 
 # armorTypeHandPickedChoices = [
-#     app_commands.Choice(name="Full Set", value="FullSet"),
-#     app_commands.Choice(name="Baby Superior", value="BabySuperior"),
-#     app_commands.Choice(name="Baby Young", value="BabyYoung"),
-#     app_commands.Choice(name="Baby Wise", value="BabyWise"),
-#     app_commands.Choice(name="Baby Unstable", value="BabyUnstable"),
-#     app_commands.Choice(name="Baby Protector", value="BabyProtector"),
-#     app_commands.Choice(name="Baby Strong", value="BabyStrong"),
-#     app_commands.Choice(name="Baby Old", value="BabyOld"),
-#     app_commands.Choice(name="Baby Holy", value="BabyHoly"),
-#     app_commands.Choice(name="Angler", value="Angler"),
-#     app_commands.Choice(name="Lapis", value="Lapis"),
-#     app_commands.Choice(name="Biohazard", value="Biohazard"),
-#     app_commands.Choice(name="Leaflet", value="Leaflet"),
-#     app_commands.Choice(name="Tarantula", value="Tarantula"),
-#     app_commands.Choice(name="Tuxedo", value="Tuxedo"),
-#     app_commands.Choice(name="Spooky", value="Spooky"),
-#     app_commands.Choice(name="Bat", value="Bat"),
-#     app_commands.Choice(name="Blaze", value="Blaze"),
-#     app_commands.Choice(name="Frozen Blaze", value="FrozenBlaze"),
-#     app_commands.Choice(name="Pack", value="Pack"),
-#     app_commands.Choice(name="Sponge", value="Sponge"),
-#     app_commands.Choice(name="Necron Celestial", value="NecronCelestial"),
-#     app_commands.Choice(name="Storm Celestial", value="StormCelestial"),
-#     app_commands.Choice(name="Maxor Celestial", value="MaxorCelestial"),
-#     app_commands.Choice(name="Goldor Celestial", value="GoldorCelestial"),
+#     app_commands.Choice(name = "Full Set", value ="FullSet"),
+#     app_commands.Choice(name = "Baby Superior", value ="BabySuperior"),
+#     app_commands.Choice(name = "Baby Young", value ="BabyYoung"),
+#     app_commands.Choice(name = "Baby Wise", value ="BabyWise"),
+#     app_commands.Choice(name = "Baby Unstable", value ="BabyUnstable"),
+#     app_commands.Choice(name = "Baby Protector", value ="BabyProtector"),
+#     app_commands.Choice(name = "Baby Strong", value ="BabyStrong"),
+#     app_commands.Choice(name = "Baby Old", value ="BabyOld"),
+#     app_commands.Choice(name = "Baby Holy", value ="BabyHoly"),
+#     app_commands.Choice(name = "Angler", value ="Angler"),
+#     app_commands.Choice(name = "Lapis", value ="Lapis"),
+#     app_commands.Choice(name = "Biohazard", value ="Biohazard"),
+#     app_commands.Choice(name = "Leaflet", value ="Leaflet"),
+#     app_commands.Choice(name = "Tarantula", value ="Tarantula"),
+#     app_commands.Choice(name = "Tuxedo", value ="Tuxedo"),
+#     app_commands.Choice(name = "Spooky", value ="Spooky"),
+#     app_commands.Choice(name = "Bat", value ="Bat"),
+#     app_commands.Choice(name = "Blaze", value ="Blaze"),
+#     app_commands.Choice(name = "Frozen Blaze", value ="FrozenBlaze"),
+#     app_commands.Choice(name = "Pack", value ="Pack"),
+#     app_commands.Choice(name = "Sponge", value ="Sponge"),
+#     app_commands.Choice(name = "Necron Celestial", value ="NecronCelestial"),
+#     app_commands.Choice(name = "Storm Celestial", value ="StormCelestial"),
+#     app_commands.Choice(name = "Maxor Celestial", value ="MaxorCelestial"),
+#     app_commands.Choice(name = "Goldor Celestial", value ="GoldorCelestial"),
 # ]
 # colorHandPickedChoices = [
-#     app_commands.Choice(name="Red", value="Red"),
-#     app_commands.Choice(name="Orange", value="Orange"),
-#     app_commands.Choice(name="Yellow", value="Yellow"),
-#     app_commands.Choice(name="Lime", value="Lime"),
-#     app_commands.Choice(name="Dark Green", value="DarkGreen"),
-#     app_commands.Choice(name="Light Blue", value="LightBlue"),
-#     app_commands.Choice(name="Cyan", value="Cyan"),
-#     app_commands.Choice(name="Dark Blue", value="DarkBlue"),
-#     app_commands.Choice(name="Pink", value="Pink"),
-#     app_commands.Choice(name="Magenta", value="Magenta"),
-#     app_commands.Choice(name="Purple", value="Purple"),
-#     app_commands.Choice(name="Brown", value="Brown"),
-#     app_commands.Choice(name="Light Grey", value="LightGrey"),
-#     app_commands.Choice(name="Dark Grey", value="DarkGrey"),
-#     app_commands.Choice(name="White", value="White"),
-#     app_commands.Choice(name="Black", value="Black"),
-#     app_commands.Choice(name="Mint", value="Mint"),
-#     app_commands.Choice(name="Maroon", value="Maroon"),
-#     app_commands.Choice(name="Navy", value="Navy"),
-#     app_commands.Choice(name="Ice", value="Ice"),
-#     app_commands.Choice(name="Gold", value="Gold"),
-#     app_commands.Choice(name="Young", value="Young"),
-#     app_commands.Choice(name="Unstable", value="Unstable"),
-#     app_commands.Choice(name="Protector", value="Protector"),
-#     app_commands.Choice(name="Wise", value="Wise")
+#     app_commands.Choice(name = "Red", value ="Red"),
+#     app_commands.Choice(name = "Orange", value ="Orange"),
+#     app_commands.Choice(name = "Yellow", value ="Yellow"),
+#     app_commands.Choice(name = "Lime", value ="Lime"),
+#     app_commands.Choice(name = "Dark Green", value ="DarkGreen"),
+#     app_commands.Choice(name = "Light Blue", value ="LightBlue"),
+#     app_commands.Choice(name = "Cyan", value ="Cyan"),
+#     app_commands.Choice(name = "Dark Blue", value ="DarkBlue"),
+#     app_commands.Choice(name = "Pink", value ="Pink"),
+#     app_commands.Choice(name = "Magenta", value ="Magenta"),
+#     app_commands.Choice(name = "Purple", value ="Purple"),
+#     app_commands.Choice(name = "Brown", value ="Brown"),
+#     app_commands.Choice(name = "Light Grey", value ="LightGrey"),
+#     app_commands.Choice(name = "Dark Grey", value ="DarkGrey"),
+#     app_commands.Choice(name = "White", value ="White"),
+#     app_commands.Choice(name = "Black", value ="Black"),
+#     app_commands.Choice(name = "Mint", value ="Mint"),
+#     app_commands.Choice(name = "Maroon", value ="Maroon"),
+#     app_commands.Choice(name = "Navy", value ="Navy"),
+#     app_commands.Choice(name = "Ice", value ="Ice"),
+#     app_commands.Choice(name = "Gold", value ="Gold"),
+#     app_commands.Choice(name = "Young", value ="Young"),
+#     app_commands.Choice(name = "Unstable", value ="Unstable"),
+#     app_commands.Choice(name = "Protector", value ="Protector"),
+#     app_commands.Choice(name = "Wise", value ="Wise")
 # ]
 
 shapeChoices = [
-    app_commands.Choice(name="Vertical", value="Vertical"),
-    app_commands.Choice(name="Horizontal", value="Horizontal"),
-    app_commands.Choice(name="Square", value="Square"),
+    app_commands.Choice(name = "Vertical", value ="Vertical"),
+    app_commands.Choice(name = "Horizontal", value ="Horizontal"),
+    app_commands.Choice(name = "Square", value ="Square"),
 ]
 normalShapeChoices = [
-    app_commands.Choice(name="Vertical", value="Vertical"),
-    app_commands.Choice(name="Horizontal", value="Horizontal"),
+    app_commands.Choice(name = "Vertical", value ="Vertical"),
+    app_commands.Choice(name = "Horizontal", value ="Horizontal"),
 ]
 armorVersionChoices = [
-    app_commands.Choice(name="1.8.9", value="1.8.9"),
-    app_commands.Choice(name="1.14+", value="1.14+")
+    app_commands.Choice(name = "1.8.9", value ="1.8.9"),
+    app_commands.Choice(name = "1.14+", value ="1.14+")
 ]
 
 '''
@@ -103,12 +104,12 @@ Auto complete for some reason makes discord not allow up arrow command resending
 
 # async def armor_type_autocomplete(interaction: discord.Interaction, current: str):
 #     return [
-#         app_commands.Choice(name=str(option), value=str(option).replace(" ", ""))
+#         app_commands.Choice(name = str(option), value =str(option).replace(" ", ""))
 #         for option in itemDict if current.lower() in str(option).lower()
 #     ][:25]
 # async def armor_color_type_autocomplete(interaction: discord.Interaction, current: str):
 #     return [
-#         app_commands.Choice(name=str(option.value[0]), value=str(option.value[0]).replace(" ", ""))
+#         app_commands.Choice(name = str(option.value[0]), value =str(option.value[0]).replace(" ", ""))
 #         for option in list(Color) if current.lower() in str(option.value[0]).lower()
 #     ][:25]
 
@@ -162,10 +163,10 @@ dyeInfoCommandDescription = 'Displays all pure dye hexes.'
 scanPlayerCommandDescription = 'Scan the database for a specific player. (Doesn\'t scan their current items)'
 scanPlayerCommandPlayerDescription = 'Player UUID/Username to scan for.'
 
-@client.tree.command(name='color', description=colorCommandDescription, extras={"contexts": [0, 1, 2], "integration_types": [0, 1]})
-@app_commands.describe(colors=colorCommandColorsDescription)
-@app_commands.allowed_installs(guilds=True, users=True)
-@app_commands.allowed_contexts(guilds=True, dms=True, private_channels=True)
+@client.tree.command(name = 'color', description = colorCommandDescription, extras = {"contexts": [0, 1, 2], "integration_types": [0, 1]})
+@app_commands.describe(colors = colorCommandColorsDescription)
+@app_commands.allowed_installs(guilds = True, users = True)
+@app_commands.allowed_contexts(guilds = True, dms = True, private_channels = True)
 async def displayColor(interaction, colors: str):
     originalHexList = re.split(r'(\s)', colors)
     originalHexList = [x for i, x in enumerate(originalHexList) if i % 2 == 0]
@@ -174,10 +175,10 @@ async def displayColor(interaction, colors: str):
     colorString = ""
     for baseHex in originalHexList:
         try:
-            hexColor = HexColor(baseHex=baseHex)
+            hexColor = HexColor(baseHex = baseHex)
             colorList.append(hexColor)
         except Exception as e:
-            await interaction.response.send_message(f"Invalid hex code '{baseHex}' - {e}", ephemeral=True)
+            await interaction.response.send_message(f"Invalid hex code '{baseHex}' - {e}", ephemeral = True)
             return
 
         if colorString != "":
@@ -189,29 +190,29 @@ async def displayColor(interaction, colors: str):
     image.save(buffer, "PNG")
     buffer.seek(0)
 
-    discordFile = discord.File(buffer, filename="colorSquare.png")
-    await interaction.response.send_message(f"**{colorString}**", file=discordFile)
-@client.tree.command(name='colour', description=colorCommandDescription)
-@app_commands.describe(colors=colorCommandColorsDescription)
-@app_commands.allowed_installs(guilds=True, users=True)
-@app_commands.allowed_contexts(guilds=True, dms=True, private_channels=True)
+    discordFile = discord.File(buffer, filename = "colorSquare.png")
+    await interaction.response.send_message(f"**{colorString}**", file = discordFile)
+@client.tree.command(name = 'colour', description = colorCommandDescription)
+@app_commands.describe(colors = colorCommandColorsDescription)
+@app_commands.allowed_installs(guilds = True, users = True)
+@app_commands.allowed_contexts(guilds = True, dms = True, private_channels = True)
 async def displayColour(interaction: discord.Interaction, colors: str):
     await displayColor.callback(interaction, colors)
 
-@client.tree.command(name='armor', description=armorCommandDescription)
-@app_commands.choices(shape=shapeChoices, version=armorVersionChoices)
-# @app_commands.autocomplete(armor=armor_type_autocomplete, colors=armor_color_type_autocomplete)
-@app_commands.allowed_installs(guilds=True, users=True)
-@app_commands.allowed_contexts(guilds=True, dms=True, private_channels=True)
+@client.tree.command(name = 'armor', description = armorCommandDescription)
+@app_commands.choices(shape = shapeChoices, version = armorVersionChoices)
+# @app_commands.autocomplete(armor = armor_type_autocomplete, colors = armor_color_type_autocomplete)
+@app_commands.allowed_installs(guilds = True, users = True)
+@app_commands.allowed_contexts(guilds = True, dms = True, private_channels = True)
 @app_commands.describe(
-    colors=armorCommandColorsDescription,
-    armor=armorCommandArmorDescription,
-    shape=armorCommandShapeDescription,
-    version=armorCommandVersionDescription
+    colors = armorCommandColorsDescription,
+    armor = armorCommandArmorDescription,
+    shape = armorCommandShapeDescription,
+    version = armorCommandVersionDescription
 )
 async def displayArmor(interaction, colors: str, armor: str = None, shape: str = None, version: str = None):
     if colors is None and armor is None:
-        await interaction.response.send_message("Please provide at least one hex code or armor type.", ephemeral=True)
+        await interaction.response.send_message("Please provide at least one hex code or armor type.", ephemeral = True)
         return
 
     defaultColorNames = ["base", "none", "default", "original"]
@@ -232,13 +233,13 @@ async def displayArmor(interaction, colors: str, armor: str = None, shape: str =
         version = version.lower().replace(' ', '').strip()
 
     if armor not in stringToArmorTypeDict:
-        await interaction.response.send_message(f"Invalid armor type '{armor}'", ephemeral=True)
+        await interaction.response.send_message(f"Invalid armor type '{armor}'", ephemeral = True)
         return
     if shape not in stringToShapeTypeDict:
-        await interaction.response.send_message(f"Invalid shape type '{shape}'", ephemeral=True)
+        await interaction.response.send_message(f"Invalid shape type '{shape}'", ephemeral = True)
         return
     if version not in stringToVersionTypeDict:
-        await interaction.response.send_message(f"Invalid version type '{version}'", ephemeral=True)
+        await interaction.response.send_message(f"Invalid version type '{version}'", ephemeral = True)
         return
 
     armorEnum = stringToArmorTypeDict[armor]
@@ -253,53 +254,53 @@ async def displayArmor(interaction, colors: str, armor: str = None, shape: str =
 
         for baseHex in originalHexList:
             try:
-                hexColor = HexColor(baseHex=baseHex)
+                hexColor = HexColor(baseHex = baseHex)
                 colorList.append(hexColor)
             except Exception as e:
-                await interaction.response.send_message(f"Invalid hex code '{baseHex}' - {e}", ephemeral=True)
+                await interaction.response.send_message(f"Invalid hex code '{baseHex}' - {e}", ephemeral = True)
                 return
 
     buffer, filePath, colors = GetCombinedArmorSetBuffer(
-        armorType=armorEnum,
-        hexList=colorList,
-        versionType=versionEnum,
-        shapeType=shapeEnum,
-        imageSpacing=20,
-        imageSize=128
+        armorType = armorEnum,
+        hexList = colorList,
+        versionType = versionEnum,
+        shapeType = shapeEnum,
+        imageSpacing = 20,
+        imageSize = 128
     )
     for baseHex in colors:
         if colorString != "":
             colorString += ", "
         colorString += f"#{baseHex.GetHexCode()}"
 
-    discordFile = discord.File(buffer, filename=filePath)
-    await interaction.response.send_message(f"**{colorString}**", file=discordFile)
-@client.tree.command(name='armour', description=armorCommandDescription)
-@app_commands.choices(shape=shapeChoices, version=armorVersionChoices)
-# @app_commands.autocomplete(armor=armor_type_autocomplete, colors=armor_color_type_autocomplete)
-@app_commands.allowed_installs(guilds=True, users=True)
-@app_commands.allowed_contexts(guilds=True, dms=True, private_channels=True)
+    discordFile = discord.File(buffer, filename = filePath)
+    await interaction.response.send_message(f"**{colorString}**", file = discordFile)
+@client.tree.command(name = 'armour', description = armorCommandDescription)
+@app_commands.choices(shape = shapeChoices, version = armorVersionChoices)
+# @app_commands.autocomplete(armor = armor_type_autocomplete, colors = armor_color_type_autocomplete)
+@app_commands.allowed_installs(guilds = True, users = True)
+@app_commands.allowed_contexts(guilds = True, dms = True, private_channels = True)
 @app_commands.describe(
-    colors=armorCommandColorsDescription,
-    armor=armorCommandArmorDescription,
-    shape=armorCommandShapeDescription,
-    version=armorCommandVersionDescription
+    colors = armorCommandColorsDescription,
+    armor = armorCommandArmorDescription,
+    shape = armorCommandShapeDescription,
+    version = armorCommandVersionDescription
 )
 async def displayArmour(interaction, colors: str = None, armor: str = None, shape: str = None, version: str = None):
     await displayArmor.callback(interaction, colors, armor, shape, version)
 
-@client.tree.command(name='advancedmix', description=advancedMixCommandDescription)
-@app_commands.choices(outputshape=shapeChoices, outputversion=armorVersionChoices)
-# @app_commands.autocomplete(craftingsequence1=armor_color_type_autocomplete, craftingsequence2=armor_color_type_autocomplete, craftingsequence3=armor_color_type_autocomplete, outputarmor=armor_type_autocomplete)
-@app_commands.allowed_installs(guilds=True, users=True)
-@app_commands.allowed_contexts(guilds=True, dms=True, private_channels=True)
+@client.tree.command(name = 'advancedmix', description = advancedMixCommandDescription)
+@app_commands.choices(outputshape = shapeChoices, outputversion = armorVersionChoices)
+# @app_commands.autocomplete(craftingsequence1=armor_color_type_autocomplete, craftingsequence2=armor_color_type_autocomplete, craftingsequence3=armor_color_type_autocomplete, outputarmor = armor_type_autocomplete)
+@app_commands.allowed_installs(guilds = True, users = True)
+@app_commands.allowed_contexts(guilds = True, dms = True, private_channels = True)
 @app_commands.describe(
     craftingsequence1=mixCommandCraftingSequence1Description,
     craftingsequence2=mixCommandCraftingSequence2Description,
     craftingsequence3=mixCommandCraftingSequence3Description,
-    outputarmor=mixCommandOutputArmorDescription,
-    outputshape=mixCommandOutputShapeDescription,
-    outputversion=mixCommandOutputVersionDescription
+    outputarmor = mixCommandOutputArmorDescription,
+    outputshape = mixCommandOutputShapeDescription,
+    outputversion = mixCommandOutputVersionDescription
 )
 async def displayAdvancedMix(
         interaction: discord.Interaction,
@@ -311,16 +312,16 @@ async def displayAdvancedMix(
         outputversion: str = None):
     await displayMix(interaction, None, craftingsequence1, craftingsequence2, craftingsequence3, outputarmor, outputshape, outputversion)
 
-@client.tree.command(name='mix', description=mixCommandColorsDescription)
-@app_commands.choices(outputshape=shapeChoices, outputversion=armorVersionChoices)
-# @app_commands.autocomplete(colors=armor_color_type_autocomplete, outputarmor=armor_type_autocomplete)
-@app_commands.allowed_installs(guilds=True, users=True)
-@app_commands.allowed_contexts(guilds=True, dms=True, private_channels=True)
+@client.tree.command(name = 'mix', description = mixCommandColorsDescription)
+@app_commands.choices(outputshape = shapeChoices, outputversion = armorVersionChoices)
+# @app_commands.autocomplete(colors = armor_color_type_autocomplete, outputarmor = armor_type_autocomplete)
+@app_commands.allowed_installs(guilds = True, users = True)
+@app_commands.allowed_contexts(guilds = True, dms = True, private_channels = True)
 @app_commands.describe(
-    colors=mixCommandColorsDescription,
-    outputarmor=mixCommandOutputArmorDescription,
-    outputshape=mixCommandOutputShapeDescription,
-    outputversion=mixCommandOutputVersionDescription
+    colors = mixCommandColorsDescription,
+    outputarmor = mixCommandOutputArmorDescription,
+    outputshape = mixCommandOutputShapeDescription,
+    outputversion = mixCommandOutputVersionDescription
 )
 async def displaySimpleMix(
         interaction: discord.Interaction,
@@ -341,17 +342,17 @@ async def displayMix(
         outputversion: str = None
 ):
     if colors is None and craftingsequence1 is None and craftingsequence2 is None and craftingsequence3 is None:
-        await interaction.response.send_message("Please provide at least two hex codes to mix.", ephemeral=True)
+        await interaction.response.send_message("Please provide at least two hex codes to mix.", ephemeral = True)
         return
 
     if craftingsequence1 is None and (craftingsequence2 is not None or craftingsequence3 is not None):
-        await interaction.response.send_message("Please provide the first hex code to mix.", ephemeral=True)
+        await interaction.response.send_message("Please provide the first hex code to mix.", ephemeral = True)
         return
     if craftingsequence2 is None and craftingsequence3 is not None:
-        await interaction.response.send_message("Please provide the second hex code to mix.", ephemeral=True)
+        await interaction.response.send_message("Please provide the second hex code to mix.", ephemeral = True)
         return
     if colors is not None and (craftingsequence1 is not None or craftingsequence2 is not None or craftingsequence3 is not None):
-        await interaction.response.send_message("Error: Cannot combine colors and crafting sequences.", ephemeral=True)
+        await interaction.response.send_message("Error: Cannot combine colors and crafting sequences.", ephemeral = True)
         return
 
     inputColorList = []
@@ -381,10 +382,10 @@ async def displayMix(
             tempColorString = ""
             for baseHex in colorList:
                 try:
-                    hexColor = HexColor(baseHex=baseHex)
+                    hexColor = HexColor(baseHex = baseHex)
                     hexColorList.append(hexColor)
                 except Exception as e:
-                    await interaction.response.send_message(f"Invalid hex code '{baseHex}' - {e}", ephemeral=True)
+                    await interaction.response.send_message(f"Invalid hex code '{baseHex}' - {e}", ephemeral = True)
                     return
 
                 if tempColorString != "":
@@ -405,10 +406,10 @@ async def displayMix(
             hexList = []
             for baseHex in colorList:
                 try:
-                    hexColor = HexColor(baseHex=baseHex)
+                    hexColor = HexColor(baseHex = baseHex)
                     hexList.append(hexColor)
                 except Exception as e:
-                    await interaction.response.send_message(f"Invalid hex code '{baseHex}' - {e}", ephemeral=True)
+                    await interaction.response.send_message(f"Invalid hex code '{baseHex}' - {e}", ephemeral = True)
                     return
 
             for baseHex in hexList:
@@ -438,13 +439,13 @@ async def displayMix(
             outputversion = outputversion.lower().replace(' ', '').strip()
 
         if outputarmor not in stringToArmorTypeDict:
-            await interaction.response.send_message(f"Invalid armor type '{outputarmor}'", ephemeral=True)
+            await interaction.response.send_message(f"Invalid armor type '{outputarmor}'", ephemeral = True)
             return
         if outputshape not in stringToShapeTypeDict:
-            await interaction.response.send_message(f"Invalid shape type '{outputshape}'", ephemeral=True)
+            await interaction.response.send_message(f"Invalid shape type '{outputshape}'", ephemeral = True)
             return
         if outputversion not in stringToVersionTypeDict:
-            await interaction.response.send_message(f"Invalid version type '{outputversion}'", ephemeral=True)
+            await interaction.response.send_message(f"Invalid version type '{outputversion}'", ephemeral = True)
             return
 
         armorEnum = stringToArmorTypeDict[outputarmor]
@@ -452,12 +453,12 @@ async def displayMix(
         versionEnum = stringToVersionTypeDict[outputversion]
 
         buffer, filePath, colors = GetCombinedArmorSetBuffer(
-            armorType=armorEnum,
-            hexList=[finalHex],
-            versionType=versionEnum,
-            shapeType=shapeEnum,
-            imageSpacing=20,
-            imageSize=128
+            armorType = armorEnum,
+            hexList = [finalHex],
+            versionType = versionEnum,
+            shapeType = shapeEnum,
+            imageSpacing = 20,
+            imageSize = 128
         )
     else:
         filePath = "colorSquare.png"
@@ -466,17 +467,17 @@ async def displayMix(
         image.save(buffer, "PNG")
         buffer.seek(0)
 
-    discordFile = discord.File(buffer, filename=filePath)
-    await interaction.response.send_message(f"**{colorString}**", file=discordFile)
+    discordFile = discord.File(buffer, filename = filePath)
+    await interaction.response.send_message(f"**{colorString}**", file = discordFile)
 
-@client.tree.command(name='help', description=helpCommandDescription)
-@app_commands.allowed_installs(guilds=True, users=True)
-@app_commands.allowed_contexts(guilds=True, dms=True, private_channels=True)
+@client.tree.command(name = 'help', description = helpCommandDescription)
+@app_commands.allowed_installs(guilds = True, users = True)
+@app_commands.allowed_contexts(guilds = True, dms = True, private_channels = True)
 async def helpCommand(interaction):
     embed = discord.Embed(
         title = "Rainbow",
         description = "A useful bot for your exotics needs.",
-        color = discord.Color(0x7FCC19)
+        color = defaultColor
     )
     embed.add_field(name = "", value = "", inline = False)
 
@@ -485,50 +486,57 @@ async def helpCommand(interaction):
         value = "Displays this message.",
         inline = False
     )
-    embed.add_field(name="", value="", inline=False)
+    embed.add_field(name = "", value ="", inline = False)
 
     embed.add_field(
-        name = "/armor <[[<hexes>], [<armor>]]> [<shape>] [<version>]",
+        name = "/armor <hexes> [<armor>] [<shape>] [<version>]",
         value = "Displays an armor set with the given hex color(s).\n-# Optional Armor Type and Shape Type.\n-# Aliases: /armour",
         inline = False
     )
-    embed.add_field(name="", value="", inline=False)
+    embed.add_field(name = "", value ="", inline = False)
 
     embed.add_field(
         name = "/color <hexes>",
         value = "Displays the given hex color(s).\n-# Aliases: /colour",
         inline = False
     )
-    embed.add_field(name="", value="", inline=False)
+    embed.add_field(name = "", value ="", inline = False)
 
     embed.add_field(
         name = "/exotic <hex>",
         value = "Checks the type of a given hex.\n-# Aliases: /fairy, /crystal",
         inline = False
     )
-    embed.add_field(name="", value="", inline=False)
+    embed.add_field(name = "", value ="", inline = False)
 
     embed.add_field(
-        name = "/mix <hexes>",
+        name = "/mix <hexes> [<outputarmor>] [<outputshape>] [<outputversion>]",
         value = "Mixes the given hexes and displays the result.",
         inline = False
     )
-    embed.add_field(name="", value="", inline=False)
+    embed.add_field(name = "", value ="", inline = False)
 
-    embed.set_footer(text=footerText, icon_url=avatarLink)
+    embed.add_field(
+        name = "/advancedmix <step1hexes> [<step2hexes>] [<step3hexes>] [<outputarmor>] [<outputshape>] [<outputversion>]",
+        value = "Mixes multiple hexes in steps and displays the result. (Same as adding multiple dyes at once)",
+        inline = False
+    )
+    embed.add_field(name = "", value ="", inline = False)
+
+    embed.set_footer(text = footerText, icon_url = avatarLink)
     embed.timestamp = interaction.created_at
 
-    await interaction.response.send_message(embed=embed)
+    await interaction.response.send_message(embed = embed)
 
-@client.tree.command(name='exotic', description=exoticCommandDescription)
-@app_commands.describe(color=exoticCommandColorDescription)
-@app_commands.allowed_installs(guilds=True, users=True)
-@app_commands.allowed_contexts(guilds=True, dms=True, private_channels=True)
+@client.tree.command(name = 'exotic', description = exoticCommandDescription)
+@app_commands.describe(color = exoticCommandColorDescription)
+@app_commands.allowed_installs(guilds = True, users = True)
+@app_commands.allowed_contexts(guilds = True, dms = True, private_channels = True)
 async def displayColorStatusExotic(interaction, color: str):
     try:
-        hexColor = HexColor(baseHex=color)
+        hexColor = HexColor(baseHex = color)
     except Exception as e:
-        await interaction.response.send_message(f"Invalid hex code '{color}' - {e}", ephemeral=True)
+        await interaction.response.send_message(f"Invalid hex code '{color}' - {e}", ephemeral = True)
         return
 
     statusString, explanationString = GetColorStatusText(hexColor)
@@ -539,35 +547,35 @@ async def displayColorStatusExotic(interaction, color: str):
         color = discord.Color(int(f"0x{hexColor.GetHexCode()}", 16))
     )
 
-    colorSquare = CreateColorSquare([hexColor], imageSize=128)
+    colorSquare = CreateColorSquare([hexColor], imageSize = 128)
     buffer = io.BytesIO()
     colorSquare.save(buffer, "PNG")
     buffer.seek(0)
-    discordFile = discord.File(buffer, filename="colorSquare.png")
+    discordFile = discord.File(buffer, filename = "colorSquare.png")
 
-    embed.set_image(url=f"attachment://colorSquare.png")
-    embed.set_footer(text=footerText, icon_url=avatarLink)
+    embed.set_image(url = f"attachment://colorSquare.png")
+    embed.set_footer(text = footerText, icon_url = avatarLink)
     embed.timestamp = interaction.created_at
 
-    await interaction.response.send_message(embed=embed, file=discordFile)
-@client.tree.command(name='crystal', description=exoticCommandDescription)
-@app_commands.describe(color=exoticCommandColorDescription)
-@app_commands.allowed_installs(guilds=True, users=True)
-@app_commands.allowed_contexts(guilds=True, dms=True, private_channels=True)
+    await interaction.response.send_message(embed = embed, file = discordFile)
+@client.tree.command(name = 'crystal', description = exoticCommandDescription)
+@app_commands.describe(color = exoticCommandColorDescription)
+@app_commands.allowed_installs(guilds = True, users = True)
+@app_commands.allowed_contexts(guilds = True, dms = True, private_channels = True)
 async def displayColorStatusCrystal(interaction, color: str):
     await displayColorStatusExotic.callback(interaction, color)
-@client.tree.command(name='fairy', description=exoticCommandDescription)
-@app_commands.describe(color=exoticCommandColorDescription)
-@app_commands.allowed_installs(guilds=True, users=True)
-@app_commands.allowed_contexts(guilds=True, dms=True, private_channels=True)
+@client.tree.command(name = 'fairy', description = exoticCommandDescription)
+@app_commands.describe(color = exoticCommandColorDescription)
+@app_commands.allowed_installs(guilds = True, users = True)
+@app_commands.allowed_contexts(guilds = True, dms = True, private_channels = True)
 async def displayColorStatusCrystal(interaction, color: str):
     await displayColorStatusExotic.callback(interaction, color)
 
-@client.tree.command(name='comparearmor', description=colorCommandDescription)
-@app_commands.choices(shape=normalShapeChoices, version=armorVersionChoices)
-# @app_commands.autocomplete(armor=armor_type_autocomplete, colors=armor_color_type_autocomplete)
-@app_commands.allowed_installs(guilds=True, users=True)
-@app_commands.allowed_contexts(guilds=True, dms=True, private_channels=True)
+@client.tree.command(name = 'comparearmor', description = colorCommandDescription)
+@app_commands.choices(shape = normalShapeChoices, version = armorVersionChoices)
+# @app_commands.autocomplete(armor = armor_type_autocomplete, colors = armor_color_type_autocomplete)
+@app_commands.allowed_installs(guilds = True, users = True)
+@app_commands.allowed_contexts(guilds = True, dms = True, private_channels = True)
 async def displayCompareArmor(
         interaction,
         set1: str,
@@ -591,10 +599,10 @@ async def displayCompareArmor(
         version = version.lower().replace(' ', '').strip()
 
     if shape not in stringToShapeTypeDict:
-        await interaction.response.send_message(f"Invalid shape type '{shape}'", ephemeral=True)
+        await interaction.response.send_message(f"Invalid shape type '{shape}'", ephemeral = True)
         return
     if version not in stringToVersionTypeDict:
-        await interaction.response.send_message(f"Invalid version type '{version}'", ephemeral=True)
+        await interaction.response.send_message(f"Invalid version type '{version}'", ephemeral = True)
         return
 
     shapeEnum = stringToShapeTypeDict[shape]
@@ -630,61 +638,61 @@ async def displayCompareArmor(
 
             for baseHex in colorSplit:
                 try:
-                    hexList.append(HexColor(baseHex=baseHex))
+                    hexList.append(HexColor(baseHex = baseHex))
                 except Exception as e:
-                    await interaction.response.send_message(f"Invalid hex code '{baseHex}' - {e}", ephemeral=True)
+                    await interaction.response.send_message(f"Invalid hex code '{baseHex}' - {e}", ephemeral = True)
                     return
 
         buffer, filePath, colors = GetCombinedArmorSetBuffer(
-            armorType=armorEnum,
-            hexList=hexList,
-            versionType=versionEnum,
-            shapeType=shapeEnum,
-            imageSpacing=20,
-            imageSize=128
+            armorType = armorEnum,
+            hexList = hexList,
+            versionType = versionEnum,
+            shapeType = shapeEnum,
+            imageSpacing = 20,
+            imageSize = 128
         )
         finalImageList.append((buffer, filePath, colors))
 
     if len(finalImageList) == 0:
-        await interaction.response.send_message("Please provide at least one armor color or armor type.", ephemeral=True)
+        await interaction.response.send_message("Please provide at least one armor color or armor type.", ephemeral = True)
         return
 
-    resultImage = Image.new(mode='RGBA', size=(0, 0), color=(0, 0, 0, 0))
+    resultImage = Image.new(mode = 'RGBA', size = (0, 0), color = (0, 0, 0, 0))
     armorSpacing = 10
     for i, imageData in enumerate(finalImageList):
         buffer, filePath, colors = imageData
 
         if shapeEnum == ShapeType.Vertical:
             if i != 0:
-                resultImage = MergeImagesHorizontal(resultImage, Image.new(mode='RGBA', size=(armorSpacing, 0), color=(0, 0, 0, 0)))
+                resultImage = MergeImagesHorizontal(resultImage, Image.new(mode = 'RGBA', size = (armorSpacing, 0), color = (0, 0, 0, 0)))
             resultImage = MergeImagesHorizontal(resultImage, Image.open(buffer))
         elif shapeEnum == ShapeType.Horizontal:
             if i != 0:
-                resultImage = MergeImagesVertical(resultImage, Image.new(mode='RGBA', size=(0, armorSpacing), color=(0, 0, 0, 0)))
+                resultImage = MergeImagesVertical(resultImage, Image.new(mode = 'RGBA', size = (0, armorSpacing), color = (0, 0, 0, 0)))
             resultImage = MergeImagesVertical(resultImage, Image.open(buffer))
 
     buffer = io.BytesIO()
     resultImage.save(buffer, "PNG")
     buffer.seek(0)
 
-    discordFile = discord.File(buffer, filename=f"armorComparison.png")
-    await interaction.response.send_message(file=discordFile)
+    discordFile = discord.File(buffer, filename = f"armorComparison.png")
+    await interaction.response.send_message(file = discordFile)
 
-@client.tree.command(name='hexdifference', description=hexDifferenceCommandDescription)
+@client.tree.command(name = 'hexdifference', description = hexDifferenceCommandDescription)
 @app_commands.describe(color1=hexDifferenceCommandColor1Description, color2=hexDifferenceCommandColor2Description)
 # @app_commands.autocomplete(color1=armor_color_type_autocomplete, color2=armor_color_type_autocomplete)
-@app_commands.allowed_installs(guilds=True, users=True)
-@app_commands.allowed_contexts(guilds=True, dms=True, private_channels=True)
+@app_commands.allowed_installs(guilds = True, users = True)
+@app_commands.allowed_contexts(guilds = True, dms = True, private_channels = True)
 async def displayHexDifference(interaction, color1: str, color2: str):
     try:
-        hexColor1 = HexColor(baseHex=color1)
+        hexColor1 = HexColor(baseHex = color1)
     except Exception as e:
-        await interaction.response.send_message(f"Invalid hex code '{color1}' - {e}", ephemeral=True)
+        await interaction.response.send_message(f"Invalid hex code '{color1}' - {e}", ephemeral = True)
         return
     try:
-        hexColor2 = HexColor(baseHex=color2)
+        hexColor2 = HexColor(baseHex = color2)
     except Exception as e:
-        await interaction.response.send_message(f"Invalid hex code '{color2}' - {e}", ephemeral=True)
+        await interaction.response.send_message(f"Invalid hex code '{color2}' - {e}", ephemeral = True)
         return
 
     hex1 = hexColor1.GetHexCode()
@@ -704,89 +712,89 @@ async def displayHexDifference(interaction, color1: str, color2: str):
     )
     embed.add_field(name = "", value = "", inline = False)
     embed.add_field(
-        name=f"**#{hex1}:**",
-        value=f"**RGB**\n{tuple(rgb1)}",
-        inline=True)
+        name = f"**#{hex1}:**",
+        value =f"**RGB**\n{tuple(rgb1)}",
+        inline = True)
     embed.add_field(
-        name=f"**#{hex2}:**",
-        value=f"**RGB**\n{tuple(rgb2)}",
-        inline=True)
+        name = f"**#{hex2}:**",
+        value =f"**RGB**\n{tuple(rgb2)}",
+        inline = True)
 
-    embed.add_field(name="", value="", inline=False)
+    embed.add_field(name = "", value ="", inline = False)
     embed.add_field(
-        name="",
-        value=f"{explanationString}",
-        inline=False
+        name = "",
+        value =f"{explanationString}",
+        inline = False
     )
 
-    colorSquare = CreateColorSquare([hexColor1, hexColor2], imageSize=128)
+    colorSquare = CreateColorSquare([hexColor1, hexColor2], imageSize = 128)
     buffer = io.BytesIO()
     colorSquare.save(buffer, "PNG")
     buffer.seek(0)
-    discordFile = discord.File(buffer, filename="colorSquare.png")
+    discordFile = discord.File(buffer, filename = "colorSquare.png")
 
-    embed.set_image(url=f"attachment://colorSquare.png")
-    embed.set_footer(text=footerText, icon_url=avatarLink)
+    embed.set_image(url = f"attachment://colorSquare.png")
+    embed.set_footer(text = footerText, icon_url = avatarLink)
     embed.timestamp = interaction.created_at
 
-    await interaction.response.send_message(embed=embed, file=discordFile)
-@client.tree.command(name='checkdifference', description=hexDifferenceCommandDescription)
+    await interaction.response.send_message(embed = embed, file = discordFile)
+@client.tree.command(name = 'checkdifference', description = hexDifferenceCommandDescription)
 @app_commands.describe(color1=hexDifferenceCommandColor1Description, color2=hexDifferenceCommandColor2Description)
 # @app_commands.autocomplete(color1=armor_color_type_autocomplete, color2=armor_color_type_autocomplete)
-@app_commands.allowed_installs(guilds=True, users=True)
-@app_commands.allowed_contexts(guilds=True, dms=True, private_channels=True)
+@app_commands.allowed_installs(guilds = True, users = True)
+@app_commands.allowed_contexts(guilds = True, dms = True, private_channels = True)
 async def displayCheckHexDifference(interaction, color1: str, color2: str):
     await displayHexDifference.callback(interaction, color1, color2)
-@client.tree.command(name='colordifference', description=hexDifferenceCommandDescription)
+@client.tree.command(name = 'colordifference', description = hexDifferenceCommandDescription)
 @app_commands.describe(color1=hexDifferenceCommandColor1Description, color2=hexDifferenceCommandColor2Description)
 # @app_commands.autocomplete(color1=armor_color_type_autocomplete, color2=armor_color_type_autocomplete)
-@app_commands.allowed_installs(guilds=True, users=True)
-@app_commands.allowed_contexts(guilds=True, dms=True, private_channels=True)
+@app_commands.allowed_installs(guilds = True, users = True)
+@app_commands.allowed_contexts(guilds = True, dms = True, private_channels = True)
 async def displayColorDifference(interaction, color1: str, color2: str):
     await displayHexDifference.callback(interaction, color1, color2)
 
-@client.tree.command(name='visualdistance', description=visualDistanceCommandDescription)
-@app_commands.allowed_installs(guilds=True, users=True)
-@app_commands.allowed_contexts(guilds=True, dms=True, private_channels=True)
+@client.tree.command(name = 'visualdistance', description = visualDistanceCommandDescription)
+@app_commands.allowed_installs(guilds = True, users = True)
+@app_commands.allowed_contexts(guilds = True, dms = True, private_channels = True)
 async def displayVisualDistanceInfo(interaction):
     embed = discord.Embed(
-        title=f"**Visual Distance Information**",
-        color=discord.Color(int(f"0x7fcc19", 16))
+        title = f"**Visual Distance Information**",
+        color = defaultColor
     )
     embed.add_field(
-        name=f"",
-        value=f"__Visual Distance measures how different two colors appear to the human eye.__"
+        name = f"",
+        value =f"__Visual Distance measures how different two colors appear to the human eye.__"
               f"\n\nA lower distance value indicates that the colors are more similar, while a higher value indicates that the colors are further apart.",
-        inline=False
+        inline = False
     )
     embed.add_field(
-        name=f"",
-        value=f"The difference is calculated using the Euclidean distance between the two colors in the CIELAB color space.",
-        inline=False
+        name = f"",
+        value =f"The difference is calculated using the Euclidean distance between the two colors in the CIELAB color space.",
+        inline = False
     )
 
-    embed.set_footer(text=footerText, icon_url=avatarLink)
+    embed.set_footer(text = footerText, icon_url = avatarLink)
     embed.timestamp = interaction.created_at
 
-    await interaction.response.send_message(embed=embed)
+    await interaction.response.send_message(embed = embed)
 
-@client.tree.command(name='scandatabase', description=databaseCommandDescription)
-@app_commands.describe(color=databaseCommandColorDescription, itemname=databaseCommandItemNameDescription, listplayers=databaseCommandListPlayersDescription, showitemtypes=databaseCommandShowItemTypesDescription)
-# @app_commands.autocomplete(color=armor_color_type_autocomplete)
-@app_commands.allowed_installs(guilds=True, users=True)
-@app_commands.allowed_contexts(guilds=True, dms=True, private_channels=True)
+@client.tree.command(name = 'scandatabase', description = databaseCommandDescription)
+@app_commands.describe(color = databaseCommandColorDescription, itemname = databaseCommandItemNameDescription, listplayers = databaseCommandListPlayersDescription, showitemtypes = databaseCommandShowItemTypesDescription)
+# @app_commands.autocomplete(color = armor_color_type_autocomplete)
+@app_commands.allowed_installs(guilds = True, users = True)
+@app_commands.allowed_contexts(guilds = True, dms = True, private_channels = True)
 async def displayDatabaseInfo(interaction, color: str = None, itemname: str = None, listplayers: bool = False, showitemtypes: bool = False):
     if color is None and itemname is None:
-        await interaction.response.send_message("Please provide a color or item name.", ephemeral=True)
+        await interaction.response.send_message("Please provide a color or item name.", ephemeral = True)
         return
 
     hexColor = None
     itemID = None
     if color is not None:
         try:
-            hexColor = HexColor(baseHex=color)
+            hexColor = HexColor(baseHex = color)
         except Exception as e:
-            await interaction.response.send_message(f"Invalid hex code '{color}' - {e}", ephemeral=True)
+            await interaction.response.send_message(f"Invalid hex code '{color}' - {e}", ephemeral = True)
             return
 
     isArmorType = False
@@ -800,15 +808,15 @@ async def displayDatabaseInfo(interaction, color: str = None, itemname: str = No
             isArmorType = True
 
         if not isValid:
-            await interaction.response.send_message(f"Invalid item id '{itemname}'", ephemeral=True)
+            await interaction.response.send_message(f"Invalid item id '{itemname}'", ephemeral = True)
             return
 
     hexCode = hexColor.GetHexCode() if hexColor is not None else None
 
-    itemCount = GetItemCount(itemHex=hexCode, itemID=itemID, isArmorType=isArmorType)
+    itemCount = GetItemCount(itemHex = hexCode, itemID = itemID, isArmorType = isArmorType)
     currentDescription = f"Found `{itemCount:,}` matching items."
 
-    databasePlayers = GetDatabasePlayers(itemHex=hexCode, itemID=itemID, isArmorType=isArmorType)
+    databasePlayers = GetDatabasePlayers(itemHex = hexCode, itemID = itemID, isArmorType = isArmorType)
 
     combinedItemDict = {}
     for playerUUID in databasePlayers:
@@ -831,7 +839,7 @@ async def displayDatabaseInfo(interaction, color: str = None, itemname: str = No
                 tempDescription = ""
                 i = -1
                 currentPlayerUUID = ""
-                for playerUUID in dict(sorted(databasePlayers.items(), key=lambda sortedItem: len(sortedItem[1]), reverse=True)):
+                for playerUUID in dict(sorted(databasePlayers.items(), key = lambda sortedItem: len(sortedItem[1]), reverse = True)):
                     if currentPlayerUUID != playerUUID:
                         currentPlayerUUID = playerUUID
                         if i != -1:
@@ -853,7 +861,7 @@ async def displayDatabaseInfo(interaction, color: str = None, itemname: str = No
                         fileName = f"{itemID}.txt"
                     elif hexCode is not None:
                         fileName = f"{hexCode}.txt"
-                    discordFile = discord.File(buffer, filename=fileName)
+                    discordFile = discord.File(buffer, filename = fileName)
                 else:
                     currentDescription += f"\n\n__**Items:**__\n{tempDescription}"
         else:
@@ -873,7 +881,7 @@ async def displayDatabaseInfo(interaction, color: str = None, itemname: str = No
             i = -1
             currentArmorType = ""
 
-            for item in sorted(combinedItemDict.items(), key=lambda sortedItem: sortedItem, reverse=False):
+            for item in sorted(combinedItemDict.items(), key = lambda sortedItem: sortedItem, reverse = False):
                 armorType = item[0].split("_")[0]
                 if currentArmorType != armorType:
                     currentArmorType = armorType
@@ -889,58 +897,58 @@ async def displayDatabaseInfo(interaction, color: str = None, itemname: str = No
     else:
         currentDescription += "\n-# Add showitemtypes to display all item counts."
 
-    color = discord.Color(int(f"0xFFFFFF", 16))
+    color = defaultColor
     if hexCode is not None:
         color = discord.Color(int(f"0x{hexCode}", 16))
     embed = discord.Embed(
-        title=f"**{descriptionName}**",
-        description=f"{combinedItemCounts}{currentDescription}",
-        color=color
+        title = f"**{descriptionName}**",
+        description = f"{combinedItemCounts}{currentDescription}",
+        color = color
     )
 
-    embed.set_footer(text=footerText, icon_url=avatarLink)
+    embed.set_footer(text = footerText, icon_url = avatarLink)
     embed.timestamp = interaction.created_at
 
     if discordFile:
-        await interaction.response.send_message(embed=embed, file=discordFile)
+        await interaction.response.send_message(embed = embed, file = discordFile)
         return
-    await interaction.response.send_message(embed=embed)
-@client.tree.command(name='database', description=databaseCommandDescription)
-@app_commands.describe(color=databaseCommandColorDescription, itemname=databaseCommandItemNameDescription, listplayers=databaseCommandListPlayersDescription)
-# @app_commands.autocomplete(color=armor_color_type_autocomplete)
-@app_commands.allowed_installs(guilds=True, users=True)
-@app_commands.allowed_contexts(guilds=True, dms=True, private_channels=True)
+    await interaction.response.send_message(embed = embed)
+@client.tree.command(name = 'database', description = databaseCommandDescription)
+@app_commands.describe(color = databaseCommandColorDescription, itemname = databaseCommandItemNameDescription, listplayers = databaseCommandListPlayersDescription)
+# @app_commands.autocomplete(color = armor_color_type_autocomplete)
+@app_commands.allowed_installs(guilds = True, users = True)
+@app_commands.allowed_contexts(guilds = True, dms = True, private_channels = True)
 async def displayDatabase(interaction, color: str = None, itemname: str = None, listplayers: bool = False):
     await displayDatabaseInfo.callback(interaction, color, itemname, listplayers)
 
-@client.tree.command(name='findsimilaritems', description=similarItemsCommandDescription)
-@app_commands.describe(color=similarItemsCommandColorDescription, itemname=similarItemsCommandItemNameDescription, tolerance=similarItemsCommandToleranceDescription, listplayers=similarItemsCommandListPlayersDescription)
-# @app_commands.autocomplete(color=armor_color_type_autocomplete)
-@app_commands.allowed_installs(guilds=True, users=True)
-@app_commands.allowed_contexts(guilds=True, dms=True, private_channels=True)
+@client.tree.command(name = 'findsimilaritems', description = similarItemsCommandDescription)
+@app_commands.describe(color = similarItemsCommandColorDescription, itemname = similarItemsCommandItemNameDescription, tolerance = similarItemsCommandToleranceDescription, listplayers = similarItemsCommandListPlayersDescription)
+# @app_commands.autocomplete(color = armor_color_type_autocomplete)
+@app_commands.allowed_installs(guilds = True, users = True)
+@app_commands.allowed_contexts(guilds = True, dms = True, private_channels = True)
 async def displaySimilarItems(interaction, color: str, itemname: str, tolerance: int = 25, listplayers: bool = False):
     if color is None and itemname is None:
-        await interaction.response.send_message("Please provide a color or item name.", ephemeral=True)
+        await interaction.response.send_message("Please provide a color or item name.", ephemeral = True)
         return
 
     if tolerance is None or tolerance < 0:
-        await interaction.response.send_message("Please provide a valid tolerance.", ephemeral=True)
+        await interaction.response.send_message("Please provide a valid tolerance.", ephemeral = True)
         return
 
     try:
-        hexColor = HexColor(baseHex=color)
+        hexColor = HexColor(baseHex = color)
     except Exception as e:
-        await interaction.response.send_message(f"Invalid hex code '{color}' - {e}", ephemeral=True)
+        await interaction.response.send_message(f"Invalid hex code '{color}' - {e}", ephemeral = True)
         return
 
     itemID = UpdateItemID(itemname)
     if itemID not in itemIDToItemCount:
-        await interaction.response.send_message(f"Invalid item id '{itemname}'", ephemeral=True)
+        await interaction.response.send_message(f"Invalid item id '{itemname}'", ephemeral = True)
         return
 
     hexCode = hexColor.GetHexCode()
 
-    matchingItemsList, matchingItemCount = GetMatchingItems(itemHex=hexColor, itemID=itemID, tolerance=tolerance)
+    matchingItemsList, matchingItemCount = GetMatchingItems(itemHex = hexColor, itemID = itemID, tolerance = tolerance)
     currentDescription = f"Found `{matchingItemCount:,}` matching items within a tolerance of `{tolerance}`."
 
     discordFile = None
@@ -957,7 +965,7 @@ async def displaySimilarItems(interaction, color: str, itemname: str, tolerance:
         i = -1
         tempDescription = ""
         currentOffAmount = 0
-        for playerList in sorted(matchingItemsList.items(), key=lambda x: x[1][1]):
+        for playerList in sorted(matchingItemsList.items(), key = lambda x: x[1][1]):
             offAmount = playerList[1][1]
             if currentOffAmount != offAmount:
                 currentOffAmount = offAmount
@@ -977,7 +985,7 @@ async def displaySimilarItems(interaction, color: str, itemname: str, tolerance:
             buffer.seek(0)
 
             fileName = f"{hexCode}_{itemID}_{tolerance}.txt"
-            discordFile = discord.File(buffer, filename=fileName)
+            discordFile = discord.File(buffer, filename = fileName)
         else:
             currentDescription += f"\n\n__**Items:**__\n{tempDescription}"
 
@@ -985,47 +993,47 @@ async def displaySimilarItems(interaction, color: str, itemname: str, tolerance:
             currentDescription += "\n\nNo permission to list players."
 
     embed = discord.Embed(
-        title=f"**#{hexCode} - {itemID}**",
-        description=f"{currentDescription}",
-        color=discord.Color(int(f"0x{hexCode}", 16))
+        title = f"**#{hexCode} - {itemID}**",
+        description = f"{currentDescription}",
+        color = discord.Color(int(f"0x{hexCode}", 16))
     )
 
-    embed.set_footer(text=footerText, icon_url=avatarLink)
+    embed.set_footer(text = footerText, icon_url = avatarLink)
     embed.timestamp = interaction.created_at
 
     if discordFile:
-        await interaction.response.send_message(embed=embed, file=discordFile)
+        await interaction.response.send_message(embed = embed, file = discordFile)
         return
-    await interaction.response.send_message(embed=embed)
-@client.tree.command(name='findnearbyitems', description=similarItemsCommandDescription)
-@app_commands.describe(color=similarItemsCommandColorDescription, itemname=similarItemsCommandItemNameDescription, tolerance=similarItemsCommandToleranceDescription, listplayers=similarItemsCommandListPlayersDescription)
-# @app_commands.autocomplete(color=armor_color_type_autocomplete)
-@app_commands.allowed_installs(guilds=True, users=True)
-@app_commands.allowed_contexts(guilds=True, dms=True, private_channels=True)
+    await interaction.response.send_message(embed = embed)
+@client.tree.command(name = 'findnearbyitems', description = similarItemsCommandDescription)
+@app_commands.describe(color = similarItemsCommandColorDescription, itemname = similarItemsCommandItemNameDescription, tolerance = similarItemsCommandToleranceDescription, listplayers = similarItemsCommandListPlayersDescription)
+# @app_commands.autocomplete(color = armor_color_type_autocomplete)
+@app_commands.allowed_installs(guilds = True, users = True)
+@app_commands.allowed_contexts(guilds = True, dms = True, private_channels = True)
 async def displayNearbyItems(interaction, color: str, itemname: str, tolerance: int = 25, listplayers: bool = False):
     await displaySimilarItems.callback(interaction, color, itemname, tolerance, listplayers)
-@client.tree.command(name='findcloseitems', description=similarItemsCommandDescription)
-@app_commands.describe(color=similarItemsCommandColorDescription, itemname=similarItemsCommandItemNameDescription, tolerance=similarItemsCommandToleranceDescription, listplayers=similarItemsCommandListPlayersDescription)
-# @app_commands.autocomplete(color=armor_color_type_autocomplete)
-@app_commands.allowed_installs(guilds=True, users=True)
-@app_commands.allowed_contexts(guilds=True, dms=True, private_channels=True)
+@client.tree.command(name = 'findcloseitems', description = similarItemsCommandDescription)
+@app_commands.describe(color = similarItemsCommandColorDescription, itemname = similarItemsCommandItemNameDescription, tolerance = similarItemsCommandToleranceDescription, listplayers = similarItemsCommandListPlayersDescription)
+# @app_commands.autocomplete(color = armor_color_type_autocomplete)
+@app_commands.allowed_installs(guilds = True, users = True)
+@app_commands.allowed_contexts(guilds = True, dms = True, private_channels = True)
 async def displayCloseItems(interaction, color: str, itemname: str, tolerance: int = 25, listplayers: bool = False):
     await displaySimilarItems.callback(interaction, color, itemname, tolerance, listplayers)
 
-@client.tree.command(name='colorinfo', description=colorInfoCommandDescription)
-@app_commands.describe(color=colorInfoCommandColorDescription)
-# @app_commands.autocomplete(color=armor_color_type_autocomplete)
-@app_commands.allowed_installs(guilds=True, users=True)
-@app_commands.allowed_contexts(guilds=True, dms=True, private_channels=True)
+@client.tree.command(name = 'colorinfo', description = colorInfoCommandDescription)
+@app_commands.describe(color = colorInfoCommandColorDescription)
+# @app_commands.autocomplete(color = armor_color_type_autocomplete)
+@app_commands.allowed_installs(guilds = True, users = True)
+@app_commands.allowed_contexts(guilds = True, dms = True, private_channels = True)
 async def displayColorInfo(interaction, color: str):
     if color is None:
-        await interaction.response.send_message("Please provide a color.", ephemeral=True)
+        await interaction.response.send_message("Please provide a color.", ephemeral = True)
         return
 
     try:
-        hexColor = HexColor(baseHex=color)
+        hexColor = HexColor(baseHex = color)
     except Exception as e:
-        await interaction.response.send_message(f"Invalid hex code '{color}' - {e}", ephemeral=True)
+        await interaction.response.send_message(f"Invalid hex code '{color}' - {e}", ephemeral = True)
         return
 
     hexCode = hexColor.GetHexCode()
@@ -1033,8 +1041,8 @@ async def displayColorInfo(interaction, color: str):
     nearestColorName = GetNearestColorName(hexCode)
 
     aiResponseData = aiClient.chat.completions.create(
-        model="llama-3.1-8b-instant",
-        messages=[
+        model = "llama-3.1-8b-instant",
+        messages = [
             {"role": "system", "content":
                 "You are a master color inspector." +
                 "\nYour job is to analyze any given hex color with precision, providing a detailed description of its appearance." +
@@ -1043,88 +1051,88 @@ async def displayColorInfo(interaction, color: str):
             },
             {"role": "user", "content": f"{hexCode}"},
         ],
-        stream=False
+        stream = False
     )
 
     embed = discord.Embed(
-        title=f"**{nearestColorName}**",
-        description="",
-        color=discord.Color(int(f"0x{hexCode}", 16))
+        title = f"**{nearestColorName}**",
+        description = "",
+        color = discord.Color(int(f"0x{hexCode}", 16))
     )
-    embed.add_field(name="", value="", inline=False)
+    embed.add_field(name = "", value ="", inline = False)
     embed.add_field(
-        name=f"**Hex**",
-        value=f"#{hexCode}",
-        inline=True
+        name = f"**Hex**",
+        value =f"#{hexCode}",
+        inline = True
     )
-    embed.add_field(name="", value="", inline=False)
+    embed.add_field(name = "", value ="", inline = False)
     embed.add_field(
-        name=f"**RGB**",
-        value=f"{tuple(rgb)}",
-        inline=True
+        name = f"**RGB**",
+        value =f"{tuple(rgb)}",
+        inline = True
     )
-    embed.add_field(name="", value="", inline=False)
+    embed.add_field(name = "", value ="", inline = False)
 
     closestPureColor = None
     closestPureColorDistance = float('inf')
     for color in pureColorToDiscordEmotes.keys():
         colorHex = color.value[1]
-        colorDistance = GetAbsoluteDifference(hexColor, HexColor(baseHex=colorHex))
+        colorDistance = GetAbsoluteDifference(hexColor, HexColor(baseHex = colorHex))
         if colorDistance < closestPureColorDistance:
             closestPureColorDistance = colorDistance
             closestPureColor = color
 
     if closestPureColor is not None and closestPureColorDistance < 20:
         embed.add_field(
-            name=f"**Closest Pure Color**",
-            value=f"{pureColorToDiscordEmotes[closestPureColor]} `{closestPureColor.value[0]}` - {closestPureColorDistance} off",
-            inline=False
+            name = f"**Closest Pure Color**",
+            value =f"{pureColorToDiscordEmotes[closestPureColor]} `{closestPureColor.value[0]}` - {closestPureColorDistance} off",
+            inline = False
         )
-        embed.add_field(name="", value="", inline=False)
+        embed.add_field(name = "", value ="", inline = False)
 
     statusString, explanationString = GetColorStatusText(hexColor)
     if not explanationString:
         embed.add_field(
-            name=f"**Color Status**",
-            value=f"__**#{hexColor.GetHexCode()}**__ is {statusString}.",
-            inline=False
+            name = f"**Color Status**",
+            value =f"__**#{hexColor.GetHexCode()}**__ is {statusString}.",
+            inline = False
         )
-        embed.add_field(name="", value="", inline=False)
+        embed.add_field(name = "", value ="", inline = False)
     else:
         embed.add_field(
-            name=f"**Color Status**",
-            value=f"__**#{hexColor.GetHexCode()}**__ is {statusString}.\n{explanationString}",
-            inline=False
+            name = f"**Color Status**",
+            value =f"__**#{hexColor.GetHexCode()}**__ is {statusString}.\n{explanationString}",
+            inline = False
         )
-    embed.add_field(name="", value="", inline=False)
+    embed.add_field(name = "", value ="", inline = False)
     embed.add_field(
-        name=f"**AI Evaluation**",
-        value=f"{aiResponseData.choices[0].message.content}",
-        inline=False
+        name = f"**AI Evaluation**",
+        value =f"{aiResponseData.choices[0].message.content}",
+        inline = False
     )
 
-    colorSquare = CreateColorSquare([hexColor], imageSize=128)
+    colorSquare = CreateColorSquare([hexColor], imageSize = 128)
     buffer = io.BytesIO()
     colorSquare.save(buffer, "PNG")
     buffer.seek(0)
-    discordFile = discord.File(buffer, filename="colorSquare.png")
+    discordFile = discord.File(buffer, filename = "colorSquare.png")
 
-    embed.set_thumbnail(url=f"attachment://colorSquare.png")
-    embed.set_footer(text=footerText, icon_url=avatarLink)
+    embed.set_thumbnail(url = f"attachment://colorSquare.png")
+    embed.set_footer(text = footerText, icon_url = avatarLink)
     embed.timestamp = interaction.created_at
 
-    await interaction.response.send_message(embed=embed, file=discordFile)
-@client.tree.command(name='info', description=colorInfoCommandDescription)
-@app_commands.describe(color=colorInfoCommandColorDescription)
-# @app_commands.autocomplete(color=armor_color_type_autocomplete)
-@app_commands.allowed_installs(guilds=True, users=True)
-@app_commands.allowed_contexts(guilds=True, dms=True, private_channels=True)
+    await interaction.response.send_message(embed = embed, file = discordFile)
+@client.tree.command(name = 'info', description = colorInfoCommandDescription)
+@app_commands.describe(color = colorInfoCommandColorDescription)
+# @app_commands.autocomplete(color = armor_color_type_autocomplete)
+@app_commands.allowed_installs(guilds = True, users = True)
+@app_commands.allowed_contexts(guilds = True, dms = True, private_channels = True)
 async def displayInfo(interaction, color: str):
     await displayColorInfo.callback(interaction, color)
 
-@client.tree.command(name='dyes', description=dyeInfoCommandDescription)
-@app_commands.allowed_installs(guilds=True, users=True)
-@app_commands.allowed_contexts(guilds=True, dms=True, private_channels=True)
+@client.tree.command(name = 'dyes', description = dyeInfoCommandDescription)
+@app_commands.allowed_installs(guilds = True, users = True)
+@app_commands.allowed_contexts(guilds = True, dms = True, private_channels = True)
 async def displayDyes(interaction):
     pureColorsDescription = ""
     trueColorsDescription = ""
@@ -1134,38 +1142,38 @@ async def displayDyes(interaction):
         trueColorsDescription += f"{trueColorToDiscordEmotes[color]} `#{color.value[1]}` - {color.value[0]}\n"
 
     embed = discord.Embed(
-        title=f"**Dye Info**",
-        description=f" ",
-        color=discord.Color(int(f"0xFFFFFF", 16))
+        title = f"**Dye Info**",
+        description = f" ",
+        color = defaultColor
     )
     embed.add_field(
-        name=f"**Pure Colors**",
-        value=f"{pureColorsDescription}",
-        inline=False
+        name = f"**Pure Colors**",
+        value =f"{pureColorsDescription}",
+        inline = False
     )
-    embed.add_field(name="", value="", inline=False)
+    embed.add_field(name = "", value ="", inline = False)
     embed.add_field(
-        name=f"**True Colors**",
-        value=f"{trueColorsDescription}",
-        inline=False
+        name = f"**True Colors**",
+        value =f"{trueColorsDescription}",
+        inline = False
     )
 
-    embed.set_footer(text=footerText, icon_url=avatarLink)
+    embed.set_footer(text = footerText, icon_url = avatarLink)
     embed.timestamp = interaction.created_at
 
-    await interaction.response.send_message(embed=embed)
-@client.tree.command(name='dyeinfo', description=dyeInfoCommandDescription)
-@app_commands.allowed_installs(guilds=True, users=True)
-@app_commands.allowed_contexts(guilds=True, dms=True, private_channels=True)
+    await interaction.response.send_message(embed = embed)
+@client.tree.command(name = 'dyeinfo', description = dyeInfoCommandDescription)
+@app_commands.allowed_installs(guilds = True, users = True)
+@app_commands.allowed_contexts(guilds = True, dms = True, private_channels = True)
 async def displayDyeInfo(interaction):
     await displayDyes.callback(interaction)
-@client.tree.command(name='scanplayer', description=scanPlayerCommandDescription)
-@app_commands.describe(player=scanPlayerCommandPlayerDescription)
-@app_commands.allowed_installs(guilds=True, users=True)
-@app_commands.allowed_contexts(guilds=True, dms=True, private_channels=True)
+@client.tree.command(name = 'scanplayer', description = scanPlayerCommandDescription)
+@app_commands.describe(player = scanPlayerCommandPlayerDescription)
+@app_commands.allowed_installs(guilds = True, users = True)
+@app_commands.allowed_contexts(guilds = True, dms = True, private_channels = True)
 async def displayScanPlayer(interaction, player: str):
     if player is None:
-        await interaction.response.send_message("Please provide a player.", ephemeral=True)
+        await interaction.response.send_message("Please provide a player.", ephemeral = True)
         return
 
     playerData = player.replace("-", "").lower().strip()
@@ -1178,7 +1186,7 @@ async def displayScanPlayer(interaction, player: str):
 
     async with aiohttp.ClientSession() as session:
         try:
-            async with session.get(f"https://crafthead.net/profile/{playerData}", headers=headers) as response:
+            async with session.get(f"https://crafthead.net/profile/{playerData}", headers = headers) as response:
                 if response.status == 200:
                     playerInfo = await response.json()
                     if "name" in playerInfo:
@@ -1190,10 +1198,10 @@ async def displayScanPlayer(interaction, player: str):
             print("1 ERROR", json.dumps(str(error)), error)
 
     if playerUUID is None or playerUsername is None:
-        await interaction.response.send_message(f"Error when looking up '{player}'.", ephemeral=True)
+        await interaction.response.send_message(f"Error when looking up '{player}'.", ephemeral = True)
         return
     if playerUUID not in playerUUIDToItemList:
-        await interaction.response.send_message(f"Player '{player}' not found in the database.", ephemeral=True)
+        await interaction.response.send_message(f"Player '{player}' not found in the database.", ephemeral = True)
         return
 
     playerItemList = playerUUIDToItemList[playerUUID]
@@ -1208,7 +1216,7 @@ async def displayScanPlayer(interaction, player: str):
 
         tempDescription = ""
         i = -1
-        for item in sorted(playerItemList, key=lambda x: x[0]):
+        for item in sorted(playerItemList, key = lambda x: x[0]):
             i += 1
             if i != 0:
                 tempDescription += f"\n"
@@ -1220,44 +1228,44 @@ async def displayScanPlayer(interaction, player: str):
             buffer.seek(0)
 
             fileName = f"{playerUUID}.txt"
-            discordFile = discord.File(buffer, filename=fileName)
+            discordFile = discord.File(buffer, filename = fileName)
         else:
             currentDescription += f"{tempDescription}"
 
     embed = discord.Embed(
-        title=f"**{playerUsername}**",
-        description=f" ",
-        color=discord.Color(int(f"0xFFFFFF", 16))
+        title = f"**{playerUsername}**",
+        description = f" ",
+        color = defaultColor
     )
     embed.add_field(
-        name=f"**UUID:**",
-        value=f"{playerUUID}",
-        inline=False
+        name = f"**UUID:**",
+        value =f"{playerUUID}",
+        inline = False
     )
-    embed.add_field(name="", value="", inline=False)
+    embed.add_field(name = "", value ="", inline = False)
     if currentDescription != "":
         embed.add_field(
-            name=f"**Items ({playerItemCount}):**",
-            value=f"{currentDescription}\n-# *Only shows historical database items.",
-            inline=False
+            name = f"**Items ({playerItemCount}):**",
+            value =f"{currentDescription}\n-# *Only shows historical database items.",
+            inline = False
         )
     else:
         embed.add_field(
-            name=f"**Items:**",
-            value=f"Player has* `{playerItemCount:,}` items.\n-# *Only shows historical database items.",
-            inline=False
+            name = f"**Items:**",
+            value =f"Player has* `{playerItemCount:,}` items.\n-# *Only shows historical database items.",
+            inline = False
         )
 
-    embed.set_footer(text=footerText, icon_url=avatarLink)
+    embed.set_footer(text = footerText, icon_url = avatarLink)
     embed.timestamp = interaction.created_at
 
     if discordFile:
-        await interaction.response.send_message(embed=embed, file=discordFile)
+        await interaction.response.send_message(embed = embed, file = discordFile)
         return
-    await interaction.response.send_message(embed=embed)
+    await interaction.response.send_message(embed = embed)
 
 with open('AIToken') as file:
-    aiClient = OpenAI(api_key=file.read().strip(), base_url="https://api.groq.com/openai/v1")
+    aiClient = OpenAI(api_key = file.read().strip(), base_url = "https://api.groq.com/openai/v1")
 
 with open('BotToken') as file:
     LoadColorNames()
