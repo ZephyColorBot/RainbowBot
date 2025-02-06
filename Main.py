@@ -10,7 +10,7 @@ from Armor import *
 
 defaultColor = discord.Color(0xD2EBEB)
 avatarLink = "https://cdn.discordapp.com/avatars/1000919610251558993/7c7d0e2f2d831a5241b9053fd0ca6fd1.webp"
-footerText = "**Made by zeph.y**"
+footerText = "Made by zeph.y"
 allowedDatabaseUsers = [
     263058850234499072 # me
 ]
