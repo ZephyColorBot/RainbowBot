@@ -479,49 +479,96 @@ async def helpCommand(interaction):
         description = "A useful bot for your exotics needs.",
         color = defaultColor
     )
-    embed.add_field(name = "", value = "", inline = False)
 
     embed.add_field(
         name = "/help",
-        value = "Displays this message.",
+        value = helpCommandDescription,
         inline = False
     )
     embed.add_field(name = "", value ="", inline = False)
 
     embed.add_field(
         name = "/armor <hexes> [<armor>] [<shape>] [<version>]",
-        value = "Displays an armor set with the given hex color(s).\n-# Optional Armor Type and Shape Type.\n-# Aliases: /armour",
+        value = armorCommandDescription + "\n-# Optional Armor Type, Shape, and Version.\n-# Aliases: /armour",
         inline = False
     )
     embed.add_field(name = "", value ="", inline = False)
 
     embed.add_field(
         name = "/color <hexes>",
-        value = "Displays the given hex color(s).\n-# Aliases: /colour",
+        value = colorCommandDescription + "\n-# Aliases: /colour",
         inline = False
     )
     embed.add_field(name = "", value ="", inline = False)
 
     embed.add_field(
         name = "/exotic <hex>",
-        value = "Checks the type of a given hex.\n-# Aliases: /fairy, /crystal",
+        value = exoticCommandDescription + "\n-# Aliases: /fairy, /crystal",
         inline = False
     )
     embed.add_field(name = "", value ="", inline = False)
 
     embed.add_field(
         name = "/mix <hexes> [<outputarmor>] [<outputshape>] [<outputversion>]",
-        value = "Mixes the given hexes and displays the result.",
+        value = mixCommandDescription + "\n-# Optional Output Armor Type, Shape, and Version.",
         inline = False
     )
     embed.add_field(name = "", value ="", inline = False)
 
     embed.add_field(
         name = "/advancedmix <step1hexes> [<step2hexes>] [<step3hexes>] [<outputarmor>] [<outputshape>] [<outputversion>]",
-        value = "Mixes multiple hexes in steps and displays the result. (Same as adding multiple dyes at once)",
+        value = advancedMixCommandDescription + "\n-# Optional Output Armor Type, Shape, and Version.",
         inline = False
     )
     embed.add_field(name = "", value ="", inline = False)
+
+    embed.add_field(
+        name = "/checkdifference <hex1> <hex2>",
+        value = hexDifferenceCommandDescription,
+        inline = False
+    )
+    embed.add_field(name = "", value ="", inline = False)
+
+    embed.add_field(
+        name = "/visualdistance <hex1> <hex2>",
+        value = visualDistanceCommandDescription,
+        inline = False
+    )
+    embed.add_field(name = "", value ="", inline = False)
+
+    embed.add_field(
+        name = "/scandatabase <[<hex>, <itemname>]> [<listplayers>] [<showitemtypes>]",
+        value = databaseCommandDescription + "\n-# Optional List Players and Show Item Types.",
+        inline = False
+    )
+    embed.add_field(name = "", value ="", inline = False)
+
+    embed.add_field(
+        name = "/similaritems <hex> <itemname> [<tolerance>] [<listplayers>]",
+        value = similarItemsCommandDescription + "\n-# Optional Tolerance and List Players.",
+        inline=False
+    )
+    embed.add_field(name="", value="", inline=False)
+
+    embed.add_field(
+        name = "/colorinfo <hex>",
+        value = colorInfoCommandDescription,
+        inline = False
+    )
+    embed.add_field(name = "", value ="", inline = False)
+
+    embed.add_field(
+        name = "/dyes",
+        value = dyeInfoCommandDescription,
+        inline = False
+    )
+    embed.add_field(name = "", value ="", inline = False)
+
+    embed.add_field(
+        name = "/scanplayer <player>",
+        value = scanPlayerCommandDescription,
+        inline = False
+    )
 
     embed.set_footer(text = footerText, icon_url = avatarLink)
     embed.timestamp = interaction.created_at

@@ -87,7 +87,8 @@ class HexColor:
         if type(rgb) is not list:
             raise ValueError("RGB list must be a list.")
 
-        return '%02x%02x%02x' % tuple(rgb)
+        hexString = '%02x%02x%02x' % tuple(rgb)
+        return hexString.upper()
 
     @staticmethod
     def GetIntFromRGB(rgb: list[int]):
