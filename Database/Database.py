@@ -192,12 +192,20 @@ def GetMatchingItems(itemID: str, itemHex: HexColor, tolerance: int = 0):
     matchingItemsList = {}
     matchingItemCount = 0
     for hexCode in itemDB:
-        if itemID in itemDB[hexCode]:
+        if itemID in itemDB[hexCode] or itemID == "any":
             difference = GetAbsoluteDifference(HexColor(baseHex=hexCode), itemHex)
             if difference <= tolerance:
-                playerList = itemDB[hexCode][itemID]
-                matchingItemsList[hexCode] = [playerList, difference]
-                matchingItemCount += len(playerList)
+                tempPlayerList = []
+                if itemID == "any":
+                    for armorType in itemDB[hexCode]:
+                        for player in itemDB[hexCode][armorType]:
+                            tempPlayerList.append([armorType, player])
+                else:
+                    for player in itemDB[hexCode][itemID]:
+                        tempPlayerList.append([itemID, player])
+
+                matchingItemsList[hexCode] = [tempPlayerList, difference]
+                matchingItemCount += len(tempPlayerList)
 
     return matchingItemsList, matchingItemCount
 

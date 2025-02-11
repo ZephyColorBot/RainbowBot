@@ -988,10 +988,14 @@ async def displaySimilarItems(interaction, color: str, itemname: str, tolerance:
         await interaction.response.send_message(f"Invalid hex code '{color}' - {e}", ephemeral = True)
         return
 
-    itemID = UpdateItemID(itemname)
-    if itemID not in itemIDToItemCount:
-        await interaction.response.send_message(f"Invalid item id '{itemname}'", ephemeral = True)
-        return
+    itemname = itemname.lower().strip()
+    if itemname != "any":
+        itemID = UpdateItemID(itemname)
+        if itemID not in itemIDToItemCount:
+            await interaction.response.send_message(f"Invalid item id '{itemname}'", ephemeral = True)
+            return
+    else:
+        itemID = itemname
 
     hexCode = hexColor.GetHexCode()
 
@@ -1018,20 +1022,20 @@ async def displaySimilarItems(interaction, color: str, itemname: str, tolerance:
                 currentOffAmount = offAmount
                 if i != -1:
                     tempDescription += f"\n"
-            for playerUUID in playerList[1][0]:
+            for playerData in playerList[1][0]:
                 i += 1
                 if i != 0:
                     tempDescription += f"\n"
 
-                playerString = f"{playerUUID}\n" if shouldListPlayers else ""
-                tempDescription += f"{playerString}{extraString}#{playerList[0]} - {itemID} - {offAmount}"
+                playerString = f"{playerData[1]}\n" if shouldListPlayers else ""
+                tempDescription += f"{playerString}{extraString}#{playerList[0]} - {playerData[0]} - {offAmount}"
 
         if matchingItemCount > 25:
             buffer = io.BytesIO()
             buffer.write(tempDescription.encode())
             buffer.seek(0)
 
-            fileName = f"{hexCode}_{itemID}_{tolerance}.txt"
+            fileName = f"{hexCode}_{itemID.upper()}_{tolerance}.txt"
             discordFile = discord.File(buffer, filename = fileName)
         else:
             currentDescription += f"\n\n__**Items:**__\n{tempDescription}"
@@ -1040,7 +1044,7 @@ async def displaySimilarItems(interaction, color: str, itemname: str, tolerance:
             currentDescription += "\n\nNo permission to list players."
 
     embed = discord.Embed(
-        title = f"**#{hexCode} - {itemID}**",
+        title = f"**#{hexCode} - {itemID.upper()}**",
         description = f"{currentDescription}",
         color = discord.Color(int(f"0x{hexCode}", 16))
     )
