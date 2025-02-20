@@ -848,9 +848,14 @@ async def displayDatabaseInfo(interaction, color: str = None, itemname: str = No
     if itemname is not None:
         isValid = False
         itemID = UpdateItemID(itemname)
+        armorType = str(GetArmorType(itemname)).upper().strip().replace(' ', '_')
         if itemID in itemIDToItemCount:
             isValid = True
-        elif itemname.lower() == str(GetArmorType(itemname)).lower():
+        elif armorType in itemIDToItemCount:
+            isValid = True
+            isArmorType = True
+            itemID = armorType
+        elif itemname.lower().replace("_", "").replace(" ", "").strip() == itemname.lower().replace("_", "").replace(" ", "").strip():
             isValid = True
             isArmorType = True
 

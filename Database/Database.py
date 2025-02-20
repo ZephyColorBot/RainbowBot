@@ -35,7 +35,7 @@ def GetArmorType(itemString: str):
 
 helmetNames = sorted(["helmet", "helm"], key=len, reverse=True)
 chestplateNames = sorted(["chestplate", "chest", "cp"], key=len, reverse=True)
-leggingsNames = sorted(["leggings", "legging", "legs", "leg", "pant", "pants"], key=len, reverse=True)
+leggingsNames = sorted(["leggings", "legging", "legs", "leg", "pants", "pant"], key=len, reverse=True)
 bootsNames = sorted(["boots", "boot"], key=len, reverse=True)
 def UpdateItemID(itemString: str):
     doPrint = False
@@ -48,11 +48,12 @@ def UpdateItemID(itemString: str):
 
     itemString = itemString.lower().replace("_", " ").strip()
     armorTypeName = armorType.value.lower()
-    for name in helmetNames + chestplateNames + leggingsNames + bootsNames:
-        armorTypeName = armorTypeName.replace(name, "").strip()
 
     if doPrint:
         print(f"2 {itemString} - {armorTypeName}")
+
+    for name in helmetNames + chestplateNames + leggingsNames + bootsNames:
+        armorTypeName = armorTypeName.replace(name, "").strip()
 
     itemType = itemString.replace(armorTypeName, "").strip()
     if doPrint:
