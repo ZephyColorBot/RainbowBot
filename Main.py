@@ -865,6 +865,15 @@ async def displayDatabaseInfo(interaction, color: str = None, itemname: str = No
 
     hexCode = hexColor.GetHexCode() if hexColor is not None else None
 
+    for crystalColor in allCrystalHexes:
+        if hexCode is not None and hexCode == crystalColor.value[1]:
+            await interaction.response.send_message(f"Crystal hexes can\'t be scanned.", ephemeral = True)
+            return
+    for fairyColor in allFairyHexes:
+        if hexCode is not None and hexCode == fairyColor.value[1]:
+            await interaction.response.send_message(f"Fairy hexes can\'t be scanned.", ephemeral = True)
+            return
+
     itemCount = GetItemCount(itemHex = hexCode, itemID = itemID, isArmorType = isArmorType)
     currentDescription = f"Found `{itemCount:,}` matching items."
 
