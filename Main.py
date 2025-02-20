@@ -147,7 +147,7 @@ databaseCommandDescription = 'Scan the database for a specific hex code, item, o
 databaseCommandColorDescription = 'Hex code to scan for.'
 databaseCommandItemNameDescription = 'ItemName or ItemId to scan for.'
 databaseCommandListPlayersDescription = 'Whether the player uuids should be listed (Requires Permission).'
-databaseCommandListHexesTypesDescription = 'Whether the item hexes should be listed.'
+databaseCommandListHexesDescription = 'Whether the item hexes should be listed.'
 databaseCommandShowItemTypesDescription = 'Whether the item types should be shown.'
 
 similarItemsCommandDescription = 'Scan the database for items close to a specific hex code.'
@@ -827,7 +827,7 @@ async def displayVisualDistanceInfo(interaction):
     await interaction.response.send_message(embed = embed)
 
 @client.tree.command(name = 'scandatabase', description = databaseCommandDescription)
-@app_commands.describe(color = databaseCommandColorDescription, itemname = databaseCommandItemNameDescription, listplayers = databaseCommandListPlayersDescription, listhexes = databaseCommandListItemTypesDescription, showitemtypes = databaseCommandShowItemTypesDescription)
+@app_commands.describe(color = databaseCommandColorDescription, itemname = databaseCommandItemNameDescription, listplayers = databaseCommandListPlayersDescription, listhexes = databaseCommandListHexesDescription, showitemtypes = databaseCommandShowItemTypesDescription)
 # @app_commands.autocomplete(color = armor_color_type_autocomplete)
 @app_commands.allowed_installs(guilds = True, users = True)
 @app_commands.allowed_contexts(guilds = True, dms = True, private_channels = True)
