@@ -891,7 +891,6 @@ async def displayDatabaseInfo(interaction, color: str = None, itemname: str = No
     if listplayers or listhexes:
         canListPlayers = interaction.user.id in allowedDatabaseUsers and listplayers
 
-
         playerCount = len(databasePlayers.items())
         if playerCount > 0:
             itemCount = sum([len(value) for value in databasePlayers.values()])
@@ -932,7 +931,7 @@ async def displayDatabaseInfo(interaction, color: str = None, itemname: str = No
             else:
                 currentDescription += f"\n\n__**Items:**__\n{tempDescription}"
 
-        if not canListPlayers:
+        if not canListPlayers and listplayers:
             currentDescription += "\n\nNo permission to list players."
 
     descriptionName = ""
