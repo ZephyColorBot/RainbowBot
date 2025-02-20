@@ -889,45 +889,50 @@ async def displayDatabaseInfo(interaction, color: str = None, itemname: str = No
 
     discordFile = None
     if listplayers or listhexes:
-        if interaction.user.id in allowedDatabaseUsers:
-            playerCount = len(databasePlayers.items())
-            if playerCount > 0:
-                itemCount = sum([len(value) for value in databasePlayers.values()])
+        canListPlayers = interaction.user.id in allowedDatabaseUsers and listplayers
 
-                extraString = ""
-                if itemCount <= 25:
-                    extraString = "- "
 
-                tempDescription = ""
-                i = -1
-                currentPlayerUUID = ""
-                for playerUUID in dict(sorted(databasePlayers.items(), key = lambda sortedItem: len(sortedItem[1]), reverse = True)):
-                    if currentPlayerUUID != playerUUID:
-                        currentPlayerUUID = playerUUID
-                        if i != -1:
-                            tempDescription += f"\n"
-                        if listplayers:
-                            tempDescription += f"\n**{playerUUID.lower()}**"
-                    for item, baseHex in databasePlayers[playerUUID]:
-                        i += 1
-                        tempDescription += f"\n{extraString}#{baseHex} - {item}"
+        playerCount = len(databasePlayers.items())
+        if playerCount > 0:
+            itemCount = sum([len(value) for value in databasePlayers.values()])
 
-                if itemCount > 25:
-                    buffer = io.BytesIO()
-                    buffer.write(tempDescription.replace("**", "").encode())
-                    buffer.seek(0)
+            extraString = ""
+            if itemCount <= 25:
+                extraString = "- "
 
-                    fileName = ""
-                    if hexCode and itemID:
-                        fileName = f"{hexCode}_{itemID}.txt"
-                    elif itemID is not None:
-                        fileName = f"{itemID}.txt"
-                    elif hexCode is not None:
-                        fileName = f"{hexCode}.txt"
-                    discordFile = discord.File(buffer, filename = fileName)
-                else:
-                    currentDescription += f"\n\n__**Items:**__\n{tempDescription}"
-        else:
+            tempDescription = ""
+            i = -1
+            currentPlayerUUID = ""
+            for playerUUID in dict(sorted(databasePlayers.items(), key = lambda sortedItem: len(sortedItem[1]), reverse = True)):
+                if currentPlayerUUID != playerUUID:
+                    currentPlayerUUID = playerUUID
+                    if i != -1:
+                        tempDescription += f"\n"
+                    if canListPlayers:
+                        tempDescription += f"\n**{playerUUID.lower()}**"
+                for item, baseHex in databasePlayers[playerUUID]:
+                    i += 1
+                    tempDescription += f"\n{extraString}#{baseHex} - {item}"
+
+            tempDescription = tempDescription.strip()
+
+            if itemCount > 25:
+                buffer = io.BytesIO()
+                buffer.write(tempDescription.replace("**", "").encode())
+                buffer.seek(0)
+
+                fileName = ""
+                if hexCode and itemID:
+                    fileName = f"{hexCode}_{itemID}.txt"
+                elif itemID is not None:
+                    fileName = f"{itemID}.txt"
+                elif hexCode is not None:
+                    fileName = f"{hexCode}.txt"
+                discordFile = discord.File(buffer, filename = fileName)
+            else:
+                currentDescription += f"\n\n__**Items:**__\n{tempDescription}"
+
+        if not canListPlayers:
             currentDescription += "\n\nNo permission to list players."
 
     descriptionName = ""
