@@ -147,6 +147,7 @@ databaseCommandDescription = 'Scan the database for a specific hex code, item, o
 databaseCommandColorDescription = 'Hex code to scan for.'
 databaseCommandItemNameDescription = 'ItemName or ItemId to scan for.'
 databaseCommandListPlayersDescription = 'Whether the player uuids should be listed (Requires Permission).'
+databaseCommandListHexesTypesDescription = 'Whether the item hexes should be listed.'
 databaseCommandShowItemTypesDescription = 'Whether the item types should be shown.'
 
 similarItemsCommandDescription = 'Scan the database for items close to a specific hex code.'
@@ -537,8 +538,8 @@ async def helpCommand(interaction):
     embed.add_field(name = "", value ="", inline = False)
 
     embed.add_field(
-        name = "/scandatabase <[<hex>, <itemname>]> [<listplayers>] [<showitemtypes>]",
-        value = databaseCommandDescription + "\n-# Optional List Players and Show Item Types.",
+        name = "/scandatabase <[<hex>, <itemname>]> [<listplayers>] [<listhexes>] [<showitemtypes>]",
+        value = databaseCommandDescription + "\n-# Optional List Players, Hexes, and Item Types.",
         inline = False
     )
     embed.add_field(name = "", value ="", inline = False)
@@ -826,11 +827,11 @@ async def displayVisualDistanceInfo(interaction):
     await interaction.response.send_message(embed = embed)
 
 @client.tree.command(name = 'scandatabase', description = databaseCommandDescription)
-@app_commands.describe(color = databaseCommandColorDescription, itemname = databaseCommandItemNameDescription, listplayers = databaseCommandListPlayersDescription, showitemtypes = databaseCommandShowItemTypesDescription)
+@app_commands.describe(color = databaseCommandColorDescription, itemname = databaseCommandItemNameDescription, listplayers = databaseCommandListPlayersDescription, listhexes = databaseCommandListItemTypesDescription, showitemtypes = databaseCommandShowItemTypesDescription)
 # @app_commands.autocomplete(color = armor_color_type_autocomplete)
 @app_commands.allowed_installs(guilds = True, users = True)
 @app_commands.allowed_contexts(guilds = True, dms = True, private_channels = True)
-async def displayDatabaseInfo(interaction, color: str = None, itemname: str = None, listplayers: bool = False, showitemtypes: bool = False):
+async def displayDatabaseInfo(interaction, color: str = None, itemname: str = None, listplayers: bool = False, listhexes: bool = False, showitemtypes: bool = False):
     if color is None and itemname is None:
         await interaction.response.send_message("Please provide a color or item name.", ephemeral = True)
         return
@@ -887,7 +888,7 @@ async def displayDatabaseInfo(interaction, color: str = None, itemname: str = No
             combinedItemDict[item].append(baseHex)
 
     discordFile = None
-    if listplayers:
+    if listplayers or listhexes:
         if interaction.user.id in allowedDatabaseUsers:
             playerCount = len(databasePlayers.items())
             if playerCount > 0:
@@ -904,8 +905,9 @@ async def displayDatabaseInfo(interaction, color: str = None, itemname: str = No
                     if currentPlayerUUID != playerUUID:
                         currentPlayerUUID = playerUUID
                         if i != -1:
-                            tempDescription += f"\n\n"
-                        tempDescription += f"**{playerUUID.lower()}**"
+                            tempDescription += f"\n"
+                        if listplayers:
+                            tempDescription += f"\n**{playerUUID.lower()}**"
                     for item, baseHex in databasePlayers[playerUUID]:
                         i += 1
                         tempDescription += f"\n{extraString}#{baseHex} - {item}"
