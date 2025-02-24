@@ -626,15 +626,27 @@ async def displayColorStatusCrystal(interaction, color: str):
 @app_commands.allowed_contexts(guilds = True, dms = True, private_channels = True)
 async def displayCompareArmor(
         interaction,
-        set1: str,
+        set1: str = None,
         set2: str = None,
         set3: str = None,
         set4: str = None,
         set5: str = None,
+        setliststring: str = None,
         shape: str = None,
         version: str = None
 ):
+    if not set1 and not set2 and not set3 and not set4 and not set5 and not setliststring:
+        await interaction.response.send_message("Please provide at least one armor set.", ephemeral = True)
+        return
+
     inputItemListList = [set1, set2, set3, set4, set5]
+
+    if setliststring is not None:
+        setList = setliststring.split('|')
+        for setItem in setList:
+            setItem = setItem.strip()
+            if setItem:
+                inputItemListList.append(setItem)
 
     if shape is None:
         shape = "Vertical"

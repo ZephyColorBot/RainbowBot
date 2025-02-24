@@ -744,6 +744,89 @@ class ArmorType(Enum):
     ElegantTuxedoBoots = "Elegant Tuxedo Boots"
     ElegantTuxBoots = ElegantTuxedoBoots
 
+    Helm = Helmet
+    Chest = Chestplate
+    Legs = Leggings
+    Leg = Leggings
+    Boot = Boots
+
+    HelmetChestplate = "Helmet Chestplate"
+    HelmetChest = HelmetChestplate
+    HelmetCP = HelmetChestplate
+    HelmChestplate = HelmetChestplate
+    HelmChest = HelmetChestplate
+    HelmCP = HelmetChestplate
+    HelmetLeggings = "Helmet Leggings"
+    HelmetLegs = HelmetLeggings
+    HelmetLeg = HelmetLeggings
+    HelmLeggings = HelmetLeggings
+    HelmLegs = HelmetLeggings
+    HelmLeg = HelmetLeggings
+    HelmetBoots = "Helmet Boots"
+    HelmetBoot = HelmetBoots
+    HelmBoots = HelmetBoots
+    HelmBoot = HelmetBoots
+    ChestplateLeggings = "Chestplate Leggings"
+    ChestplateLegs = ChestplateLeggings
+    ChestplateLeg = ChestplateLeggings
+    ChestLeggings = ChestplateLeggings
+    ChestLegs = ChestplateLeggings
+    ChestLeg = ChestplateLeggings
+    ChestplateBoots = "Chestplate Boots"
+    ChestplateBoot = ChestplateBoots
+    ChestBoots = ChestplateBoots
+    ChestBoot = ChestplateBoots
+    HelmetChestplateLeggings = "Helmet Chestplate Leggings"
+    HelmetChestplateLegs = HelmetChestplateLeggings
+    HelmetChestplateLeg = HelmetChestplateLeggings
+    HelmetChestLeggings = HelmetChestplateLeggings
+    HelmetChestLegs = HelmetChestplateLeggings
+    HelmetChestLeg = HelmetChestplateLeggings
+    HelmChestplateLeggings = "Helmet Chestplate Leggings"
+    HelmChestplateLegs = HelmChestplateLeggings
+    HelmChestplateLeg = HelmChestplateLeggings
+    HelmChestLeggings = HelmChestplateLeggings
+    HelmChestLegs = HelmChestplateLeggings
+    HelmChestLeg = HelmChestplateLeggings
+    HelmetChestplateBoots = "Helmet Chestplate Boots"
+    HelmetChestplateBoot = HelmetChestplateBoots
+    HelmetChestBoots = HelmetChestplateBoots
+    HelmetChestBoot = HelmetChestplateBoots
+    HelmChestplateBoots = "Helmet Chestplate Boots"
+    HelmChestplateBoot = HelmChestplateBoots
+    HelmChestBoots = HelmChestplateBoots
+    HelmChestBoot = HelmChestplateBoots
+    HelmetLeggingsBoots = "Helmet Leggings Boots"
+    HelmetLeggingsBoot = HelmetLeggingsBoots
+    HelmetLegsBoots = HelmetLeggingsBoots
+    HelmetLegsBoot = HelmetLeggingsBoots
+    HelmetLegBoots = HelmetLeggingsBoots
+    HelmetLegBoot = HelmetLeggingsBoots
+    HelmLeggingsBoots = "Helmet Leggings Boots"
+    HelmLeggingsBoot = HelmLeggingsBoots
+    HelmLegsBoots = HelmLeggingsBoots
+    HelmLegsBoot = HelmLeggingsBoots
+    HelmLegBoots = HelmLeggingsBoots
+    HelmLegBoot = HelmLeggingsBoots
+    ChestplateLeggingsBoots = "Chestplate Leggings Boots"
+    ChestplateLeggingsBoot = ChestplateLeggingsBoots
+    ChestplateLegsBoots = ChestplateLeggingsBoots
+    ChestplateLegsBoot = ChestplateLeggingsBoots
+    ChestplateLegBoots = ChestplateLeggingsBoots
+    ChestplateLegBoot = ChestplateLeggingsBoots
+    ChestLeggingsBoots = "Chestplate Leggings Boots"
+    ChestLeggingsBoot = ChestLeggingsBoots
+    ChestLegsBoots = ChestLeggingsBoots
+    ChestLegsBoot = ChestLeggingsBoots
+    ChestLegBoots = ChestLeggingsBoots
+    ChestLegBoot = ChestLeggingsBoots
+    LeggingsBoots = "Leggings Boots"
+    LeggingsBoot = LeggingsBoots
+    LegsBoots = LeggingsBoots
+    LegsBoot = LeggingsBoots
+    LegBoots = LeggingsBoots
+    LegBoot = LeggingsBoots
+
     def __str__(self):
         return self.value
 
@@ -788,11 +871,24 @@ PopulateStringDictionaries()
 baseArmorSet = ["LeatherChestplate.png", "LeatherLeggings.png", "LeatherBoots.png"]
 fullArmorSet = ["LeatherHelmet.png", "LeatherChestplate.png", "LeatherLeggings.png", "LeatherBoots.png"]
 itemDict = {
-    ArmorType.FullSet: (fullArmorSet, [Color.Leather.value[1], Color.Leather.value[1], Color.Leather.value[1], Color.Leather.value[1]]),
+    ArmorType.FullSet: (fullArmorSet, [*([Color.Leather.value[1]] * 4)]),
     ArmorType.Helmet: (["LeatherHelmet.png"], [Color.Leather.value[1]]),
     ArmorType.Chestplate: (["LeatherChestplate.png"], [Color.Leather.value[1]]),
     ArmorType.Leggings: (["LeatherLeggings.png"], [Color.Leather.value[1]]),
     ArmorType.Boots: (["LeatherBoots.png"], [Color.Leather.value[1]]),
+
+    ArmorType.HelmetChestplate: (["LeatherHelmet.png", "LeatherChestplate.png"], [*([Color.Leather.value[1]] * 2)]),
+    ArmorType.HelmetLeggings: (["LeatherHelmet.png", "LeatherLeggings.png"], [*([Color.Leather.value[1]] * 2)]),
+    ArmorType.HelmetBoots: (["LeatherHelmet.png", "LeatherBoots.png"], [*([Color.Leather.value[1]] * 2)]),
+    ArmorType.ChestplateLeggings: (["LeatherChestplate.png", "LeatherLeggings.png"], [*([Color.Leather.value[1]] * 2)]),
+    ArmorType.ChestplateBoots: (["LeatherChestplate.png", "LeatherBoots.png"], [*([Color.Leather.value[1]] * 2)]),
+    ArmorType.LeggingsBoots: (["LeatherLeggings.png", "LeatherBoots.png"], [*([Color.Leather.value[1]] * 2)]),
+
+    ArmorType.HelmetChestplateLeggings: (["LeatherHelmet.png", "LeatherChestplate.png", "LeatherLeggings.png"], [*([Color.Leather.value[1]] * 3)]),
+    ArmorType.HelmetChestplateBoots: (["LeatherHelmet.png", "LeatherChestplate.png", "LeatherBoots.png"], [*([Color.Leather.value[1]] * 3)]),
+    ArmorType.HelmetLeggingsBoots: (["LeatherHelmet.png", "LeatherLeggings.png", "LeatherBoots.png"], [*([Color.Leather.value[1]] * 3)]),
+    ArmorType.ChestplateLeggingsBoots: (["LeatherChestplate.png", "LeatherLeggings.png", "LeatherBoots.png"], [*([Color.Leather.value[1]] * 3)]),
+
     ArmorType.Holy: (["HolyHelmet.webp", *baseArmorSet], ["", *([Color.Holy.value[1]] * 3)]),
     ArmorType.HolyBaby: (["HolyHelmetBaby.webp", *baseArmorSet], ["", *([Color.Holy.value[1]] * 3)]),
     ArmorType.HolyShimmer: (["HolyHelmetShimmer.webp", *baseArmorSet], ["", *([Color.Holy.value[1]] * 3)]),
