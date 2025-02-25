@@ -85,17 +85,24 @@ client = Client(command_prefix = '/', intents = intents)
 # ]
 
 shapeChoices = [
-    app_commands.Choice(name = "Vertical", value ="Vertical"),
-    app_commands.Choice(name = "Horizontal", value ="Horizontal"),
-    app_commands.Choice(name = "Square", value ="Square"),
+    app_commands.Choice(name = "Vertical", value = "Vertical"),
+    app_commands.Choice(name = "Horizontal", value = "Horizontal"),
+    app_commands.Choice(name = "Square", value = "Square"),
 ]
 normalShapeChoices = [
-    app_commands.Choice(name = "Vertical", value ="Vertical"),
-    app_commands.Choice(name = "Horizontal", value ="Horizontal"),
+    app_commands.Choice(name = "Vertical", value = "Vertical"),
+    app_commands.Choice(name = "Horizontal", value = "Horizontal"),
 ]
 armorVersionChoices = [
-    app_commands.Choice(name = "1.8.9", value ="1.8.9"),
-    app_commands.Choice(name = "1.14+", value ="1.14+")
+    app_commands.Choice(name = "1.8.9", value = "1.8.9"),
+    app_commands.Choice(name = "1.14+", value = "1.14+")
+]
+allColorTypeChoices = [
+    app_commands.Choice(name = "Fairy", value = "Fairy"),
+    app_commands.Choice(name = "OG Fairy", value = "OG Fairy"),
+    app_commands.Choice(name = "Crystal", value = "Crystal"),
+    app_commands.Choice(name = "Pure Exotics", value = "Pure Exotics"),
+    app_commands.Choice(name = "Hypixel Dyes", value = "Hypixel Dyes"),
 ]
 
 '''
@@ -1000,7 +1007,7 @@ async def displayDatabaseInfo(interaction, color: str = None, itemname: str = No
 async def displayDatabase(interaction, color: str = None, itemname: str = None, listplayers: bool = False):
     await displayDatabaseInfo.callback(interaction, color, itemname, listplayers)
 
-@client.tree.command(name = 'findsimilaritems', description = similarItemsCommandDescription)
+@client.tree.command(name = 'e', description = similarItemsCommandDescription)
 @app_commands.describe(color = similarItemsCommandColorDescription, itemname = similarItemsCommandItemNameDescription, tolerance = similarItemsCommandToleranceDescription, listplayers = similarItemsCommandListPlayersDescription)
 # @app_commands.autocomplete(color = armor_color_type_autocomplete)
 @app_commands.allowed_installs(guilds = True, users = True)
@@ -1346,6 +1353,135 @@ async def displayScanPlayer(interaction, player: str):
         await interaction.response.send_message(embed = embed, file = discordFile)
         return
     await interaction.response.send_message(embed = embed)
+
+@client.tree.command(name = 'allcolors', description = "fuck you")
+@app_commands.choices(shape = normalShapeChoices, version = armorVersionChoices, colortype = allColorTypeChoices)
+# @app_commands.autocomplete(armor = armor_type_autocomplete, colors = armor_color_type_autocomplete)
+@app_commands.allowed_installs(guilds = True, users = True)
+@app_commands.allowed_contexts(guilds = True, dms = True, private_channels = True)
+async def displayAllColors(
+        interaction,
+        colortype: str,
+        armor: str = None,
+        shape: str = None,
+        version: str = None
+):
+    if armor is None:
+        armor = "Full Set"
+    if shape is None:
+        shape = "Vertical"
+    if version is None:
+        version = "1.8.9"
+
+    if type(armor) == str:
+        armor = armor.lower().replace(' ', '').strip()
+    if type(shape) == str:
+        shape = shape.lower().replace(' ', '').strip()
+    if type(version) == str:
+        version = version.lower().replace(' ', '').strip()
+
+    if armor not in stringToArmorTypeDict:
+        await interaction.response.send_message(f"Invalid armor type '{armor}'", ephemeral=True)
+        return
+    if shape not in stringToShapeTypeDict:
+        await interaction.response.send_message(f"Invalid shape type '{shape}'", ephemeral = True)
+        return
+    if version not in stringToVersionTypeDict:
+        await interaction.response.send_message(f"Invalid version type '{version}'", ephemeral = True)
+        return
+
+    armorEnum = stringToArmorTypeDict[armor]
+    shapeEnum = stringToShapeTypeDict[shape]
+    versionEnum = stringToVersionTypeDict[version]
+
+    inputItemListList = []
+    if colortype == "Fairy":
+        for color, fairyType in allFairyHexes.items():
+            inputItemListList
+    elif colortype == "Crystal":
+        inputItemListList = allCrystalHexes
+    elif colortype == "OG Fairy":
+        inputItemListList = []
+    elif colortype == "Pure Exotics":
+        inputItemListList = []
+    elif colortype == "Hypixel Dyes":
+        inputItemListList = []
+    else:
+        await interaction.response.send_message(f"Invalid color type '{colortype}'", ephemeral = True)
+        return
+
+    print(inputItemListList)
+    return
+
+    finalImageList = []
+    for itemList in inputItemListList:
+        if itemList is None:
+            continue
+
+        currentWord = ""
+        armorEnum = None
+
+        reversedItemList = itemList[::-1]
+        armorTypeSplit = re.split(r'(\s)', reversedItemList)
+        armorTypeSplit = [x for i, x in enumerate(armorTypeSplit) if i % 2 == 0]
+        for word in armorTypeSplit:
+            word = word[::-1].strip()
+            currentWord = (currentWord + word).strip()
+            if currentWord in stringToArmorTypeDict:
+                armorEnum = stringToArmorTypeDict[word]
+                break
+
+        if armorEnum is None:
+            armorEnum = ArmorType.FullSet
+
+        itemList = re.sub(fr' {currentWord}(?!.* {currentWord})', '', itemList, 1)
+
+        hexList = []
+        if itemList is not None:
+            colorSplit = re.split(r'(\s)', itemList)
+            colorSplit = [x for i, x in enumerate(colorSplit) if i % 2 == 0]
+
+            for baseHex in colorSplit:
+                try:
+                    hexList.append(HexColor(baseHex = baseHex))
+                except Exception as e:
+                    await interaction.response.send_message(f"Invalid hex code '{baseHex}' - {e}", ephemeral = True)
+                    return
+
+        buffer, filePath, colors = GetCombinedArmorSetBuffer(
+            armorType = armorEnum,
+            hexList = hexList,
+            versionType = versionEnum,
+            shapeType = shapeEnum,
+            imageSpacing = 20,
+            imageSize = 128
+        )
+        finalImageList.append((buffer, filePath, colors))
+
+    if len(finalImageList) == 0:
+        await interaction.response.send_message("Please provide at least one armor color or armor type.", ephemeral = True)
+        return
+
+    resultImage = Image.new(mode = 'RGBA', size = (0, 0), color = (0, 0, 0, 0))
+    armorSpacing = 10
+    for i, imageData in enumerate(finalImageList):
+        buffer, filePath, colors = imageData
+
+        if shapeEnum == ShapeType.Vertical:
+            if i != 0:
+                resultImage = MergeImagesHorizontal(resultImage, Image.new(mode = 'RGBA', size = (armorSpacing, 0), color = (0, 0, 0, 0)))
+            resultImage = MergeImagesHorizontal(resultImage, Image.open(buffer))
+        elif shapeEnum == ShapeType.Horizontal:
+            if i != 0:
+                resultImage = MergeImagesVertical(resultImage, Image.new(mode = 'RGBA', size = (0, armorSpacing), color = (0, 0, 0, 0)))
+            resultImage = MergeImagesVertical(resultImage, Image.open(buffer))
+
+    buffer = io.BytesIO()
+    resultImage.save(buffer, "PNG")
+    buffer.seek(0)
+
+    discordFile = discord.File(buffer, filename = f"armorComparison.png")
+    await interaction.response.send_message(file = discordFile)
 
 with open('AIToken') as file:
     aiClient = OpenAI(api_key = file.read().strip(), base_url = "https://api.groq.com/openai/v1")

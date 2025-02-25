@@ -6,6 +6,7 @@ from Armor import ArmorType, HexColor, GetAbsoluteDifference
 itemDB = {
     "hexCode": {
         "armorType": [
+            "playerUUID",
             "playerUUID"
         ]
     }

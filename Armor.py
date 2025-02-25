@@ -17,6 +17,11 @@ class HexColor:
         if (baseHex is None or not baseHex) and (rgb is None or not rgb):
             raise ValueError("Hex code or RGB list must be set.")
 
+        if baseHex == "empty" or baseHex == "blank":
+            self.hexCode = "Blank"
+            self.RGBList = [0, 0, 0]
+            return
+
         if baseHex is not None:
             if type(baseHex) is not str:
                 raise ValueError("Hex code must be a string.")
@@ -179,11 +184,15 @@ def CreateArmorSetImage(
             else:
                 finalHexColorList.append(HexColor(baseHex=armorHex))
 
-    # if len(finalHexList) != i:
-    #     raise ValueError(f"Invalid number of hex codes for '{armorTypeString}'")
-
     armorPaths = [f"Images/{image}" for image in armorImages]
-    armorImages = [CreateArmorPieceImage(basePath=image, overlayColor=finalHexColorList[i], versionType=versionType, imageSize=imageSize) for i, image in enumerate(armorPaths)]
+
+    armorImages = []
+    for j, basePath in enumerate(armorPaths):
+        if finalHexColorList[j] is not None:
+            if finalHexColorList[j].hexCode == "Blank":
+                basePath = basePath.replace("Leather", "EmptyImage")
+
+        armorImages.append(CreateArmorPieceImage(basePath=basePath, overlayColor=finalHexColorList[j], versionType=versionType, imageSize=imageSize))
 
     croppedImageList = []
     for armorImage in armorImages:
@@ -299,20 +308,22 @@ def GetArmorPiecePath(itemType: ItemType) -> str:
     return f"Images/{itemType}.png"
 
 def GetItemPathResolution(basePath, versionType, imageSize):
-    if "Leather" in basePath:
-        if str(versionType) not in basePath:
-            splitPath = basePath.split("Leather")
-            basePath = f"{splitPath[0]}{versionType}Leather{splitPath[1]}"
+    validSplits = ["Leather", "EmptyImage"]
+    for split in validSplits:
+        if split in basePath:
+            if str(versionType) not in basePath:
+                splitPath = basePath.split(split)
+                basePath = f"{splitPath[0]}{versionType}{split}{splitPath[1]}"
 
-        if "128x" not in basePath and "256x" not in basePath:
-            targetSize = "256x"
-            if imageSize == 128:
-                targetSize = "128x"
-            elif imageSize == 256:
+            if "128x" not in basePath and "256x" not in basePath:
                 targetSize = "256x"
+                if imageSize == 128:
+                    targetSize = "128x"
+                elif imageSize == 256:
+                    targetSize = "256x"
 
-            splitPath = basePath.split("/")
-            basePath = f"{splitPath[0]}/{targetSize}{splitPath[1]}"
+                splitPath = basePath.split("/")
+                basePath = f"{splitPath[0]}/{targetSize}{splitPath[1]}"
 
     return basePath
 
