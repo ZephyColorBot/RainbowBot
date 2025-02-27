@@ -1027,18 +1027,33 @@ async def displaySimilarItems(interaction, color: str, itemname: str, tolerance:
         await interaction.response.send_message(f"Invalid hex code '{color}' - {e}", ephemeral = True)
         return
 
-    itemname = itemname.lower().strip()
-    if itemname != "any":
+    if color is None and itemname is None:
+        await interaction.response.send_message("Please provide a color or item name.", ephemeral = True)
+        return
+
+    itemID = None
+    isArmorType = False
+    if itemname is not None:
+        isValid = False
         itemID = UpdateItemID(itemname)
-        if itemID not in itemIDToItemCount:
+        armorType = str(GetArmorType(itemname)).upper().strip().replace(' ', '_')
+        if itemID in itemIDToItemCount:
+            isValid = True
+        elif armorType in itemIDToItemCount:
+            isValid = True
+            isArmorType = True
+            itemID = armorType
+        elif itemname.lower().replace("_", "").replace(" ", "").strip() == itemname.lower().replace("_", "").replace(" ", "").strip():
+            isValid = True
+            isArmorType = True
+
+        if not isValid:
             await interaction.response.send_message(f"Invalid item id '{itemname}'", ephemeral = True)
             return
-    else:
-        itemID = itemname
 
     hexCode = hexColor.GetHexCode()
 
-    matchingItemsList, matchingItemCount = GetMatchingItems(itemHex = hexColor, itemID = itemID, tolerance = tolerance)
+    matchingItemsList, matchingItemCount = GetMatchingItems(itemHex = hexColor, itemID = itemID, tolerance = tolerance, isArmorType = isArmorType)
     currentDescription = f"Found `{matchingItemCount:,}` matching items within a tolerance of `{tolerance}`."
 
     discordFile = None

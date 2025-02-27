@@ -190,24 +190,33 @@ def GetItemCount(itemID: str = None, itemHex: str = None, isArmorType: bool = Fa
 
     return 0
 
-def GetMatchingItems(itemID: str, itemHex: HexColor, tolerance: int = 0):
+def GetMatchingItems(itemID: str, itemHex: HexColor, tolerance: int = 0, isArmorType: bool = False):
     matchingItemsList = {}
     matchingItemCount = 0
     for hexCode in itemDB:
-        if itemID in itemDB[hexCode] or itemID == "any":
-            difference = GetAbsoluteDifference(HexColor(baseHex=hexCode), itemHex)
-            if difference <= tolerance:
-                tempPlayerList = []
-                if itemID == "any":
-                    for armorType in itemDB[hexCode]:
+        if not (itemID in itemDB[hexCode] or itemID == "any" or isArmorType):
+            continue
+
+        tempPlayerList = []
+        difference = GetAbsoluteDifference(HexColor(baseHex=hexCode), itemHex)
+        if difference <= tolerance:
+            if itemID in itemDB[hexCode]:
+                for player in itemDB[hexCode][itemID]:
+                    tempPlayerList.append([itemID, player])
+
+            elif itemID == "any":
+                for armorType in itemDB[hexCode]:
+                    for player in itemDB[hexCode][armorType]:
+                        tempPlayerList.append([armorType, player])
+
+            elif isArmorType:
+                for armorType in itemDB[hexCode]:
+                    if itemID in armorType:
                         for player in itemDB[hexCode][armorType]:
                             tempPlayerList.append([armorType, player])
-                else:
-                    for player in itemDB[hexCode][itemID]:
-                        tempPlayerList.append([itemID, player])
 
-                matchingItemsList[hexCode] = [tempPlayerList, difference]
-                matchingItemCount += len(tempPlayerList)
+            matchingItemsList[hexCode] = [tempPlayerList, difference]
+            matchingItemCount += len(tempPlayerList)
 
     return matchingItemsList, matchingItemCount
 
