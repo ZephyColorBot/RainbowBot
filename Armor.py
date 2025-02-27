@@ -528,7 +528,8 @@ def GetColorStatusType(baseHex):
             ColorType.TrueDye,
             ColorType.Crystal,
             ColorType.Armor,
-            ColorType.HypixelDye
+            ColorType.HypixelDye,
+            ColorType.Bleached,
         ]
 
         if any(item in matchingTypes for item in validTypes):
@@ -610,8 +611,14 @@ def GetColorStatusText(hexColor):
         elif ColorType.PureDye in colorStatus:
             typeString = "a pure color"
 
+        elif ColorType.TrueDye in colorStatus:
+            typeString = "a true color"
+
         elif ColorType.Crystal in colorStatus:
             typeString = "Crystal dyed"
+
+        elif ColorType.Bleached in colorStatus:
+            typeString = "Bleached"
 
         elif ColorType.HypixelDye in colorStatus:
             colorEnum = stringToColorDict[fixedHex]

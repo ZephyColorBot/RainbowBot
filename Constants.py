@@ -9,6 +9,7 @@ class ColorType(Enum):
     Crystal = "Crystal"
     Armor = "Armor"
     HypixelDye = "Dye"
+    Bleached = "Bleached"
     _None = "None"
 
     def __str__(self):
@@ -76,7 +77,7 @@ class Color(Enum):
     TruePurple = ("TruePurple", "7F00FF", ColorType.TrueDye)
     TruePink = ("TruePink", "FF00FF", ColorType.TrueDye)
 
-    TrueLeather = ("Leather", "A06540", ColorType.TrueDye)
+    TrueLeather = ("Leather", "A06540", ColorType.Bleached)
     Leather = TrueLeather
     TrueMint = ("Mint", "86D28D", ColorType.TrueDye)
     Mint = TrueMint

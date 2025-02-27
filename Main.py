@@ -1180,7 +1180,8 @@ async def displayColorInfo(interaction, color: str):
 
     closestPureColor = None
     closestPureColorDistance = float('inf')
-    for color in pureColorToDiscordEmotes.keys():
+    pureAndTrueColorDictionary = {**pureColorToDiscordEmotes, **trueColorToDiscordEmotes}
+    for color in pureAndTrueColorDictionary.keys():
         colorHex = color.value[1]
         colorDistance = GetAbsoluteDifference(hexColor, HexColor(baseHex = colorHex))
         if colorDistance < closestPureColorDistance:
@@ -1190,7 +1191,7 @@ async def displayColorInfo(interaction, color: str):
     if closestPureColor is not None and closestPureColorDistance < 20:
         embed.add_field(
             name = f"**Closest Pure Color**",
-            value =f"{pureColorToDiscordEmotes[closestPureColor]} `{closestPureColor.value[0]}` - {closestPureColorDistance} off",
+            value =f"{pureAndTrueColorDictionary[closestPureColor]} `{closestPureColor.value[0]}` - {closestPureColorDistance} off",
             inline = False
         )
         embed.add_field(name = "", value ="", inline = False)
@@ -1212,7 +1213,7 @@ async def displayColorInfo(interaction, color: str):
     embed.add_field(name = "", value ="", inline = False)
     embed.add_field(
         name = f"**AI Evaluation**",
-        value =f"{aiResponseData.choices[0].message.content}",
+        value =f"{aiResponseData.choices[0].message.content.strip()}",
         inline = False
     )
 
@@ -1241,10 +1242,10 @@ async def displayInfo(interaction, color: str):
 async def displayDyes(interaction):
     pureColorsDescription = ""
     trueColorsDescription = ""
-    for color in pureColorToDiscordEmotes.keys():
-        pureColorsDescription += f"{pureColorToDiscordEmotes[color]} `#{color.value[1]}` - {color.value[0]}\n"
-    for color in trueColorToDiscordEmotes.keys():
-        trueColorsDescription += f"{trueColorToDiscordEmotes[color]} `#{color.value[1]}` - {color.value[0]}\n"
+
+    pureAndTrueColorDictionary = {**pureColorToDiscordEmotes, **trueColorToDiscordEmotes}
+    for color in pureAndTrueColorDictionary.keys():
+        pureColorsDescription += f"{pureAndTrueColorDictionary[color]} `#{color.value[1]}` - {color.value[0]}\n"
 
     embed = discord.Embed(
         title = f"**Dye Info**",
