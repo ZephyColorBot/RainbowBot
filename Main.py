@@ -165,6 +165,7 @@ similarItemsCommandListPlayersDescription = 'Whether the player uuids should be 
 
 colorInfoCommandDescription = 'Displays information about a specific hex code.'
 colorInfoCommandColorDescription = 'Enter a hex code.'
+colorInfoCommandShowClosestColorDescription = 'Whether the closest pure color should be shown.'
 
 dyeInfoCommandDescription = 'Displays all pure dye hexes.'
 
@@ -1000,12 +1001,12 @@ async def displayDatabaseInfo(interaction, color: str = None, itemname: str = No
         return
     await interaction.response.send_message(embed = embed)
 @client.tree.command(name = 'database', description = databaseCommandDescription)
-@app_commands.describe(color = databaseCommandColorDescription, itemname = databaseCommandItemNameDescription, listplayers = databaseCommandListPlayersDescription)
+@app_commands.describe(color = databaseCommandColorDescription, itemname = databaseCommandItemNameDescription, listplayers = databaseCommandListPlayersDescription, listhexes = databaseCommandListHexesDescription, showitemtypes = databaseCommandShowItemTypesDescription)
 # @app_commands.autocomplete(color = armor_color_type_autocomplete)
 @app_commands.allowed_installs(guilds = True, users = True)
 @app_commands.allowed_contexts(guilds = True, dms = True, private_channels = True)
-async def displayDatabase(interaction, color: str = None, itemname: str = None, listplayers: bool = False):
-    await displayDatabaseInfo.callback(interaction, color, itemname, listplayers)
+async def displayDatabase(interaction, color: str = None, itemname: str = None, listplayers: bool = False, listhexes: bool = False, showitemtypes: bool = False):
+    await displayDatabaseInfo.callback(interaction, color, itemname, listplayers, listhexes, showitemtypes)
 
 @client.tree.command(name = 'e', description = similarItemsCommandDescription)
 @app_commands.describe(color = similarItemsCommandColorDescription, itemname = similarItemsCommandItemNameDescription, tolerance = similarItemsCommandToleranceDescription, listplayers = similarItemsCommandListPlayersDescription)
@@ -1126,11 +1127,11 @@ async def displayCloseItems(interaction, color: str, itemname: str, tolerance: i
     await displaySimilarItems.callback(interaction, color, itemname, tolerance, listplayers)
 
 @client.tree.command(name = 'colorinfo', description = colorInfoCommandDescription)
-@app_commands.describe(color = colorInfoCommandColorDescription)
+@app_commands.describe(color = colorInfoCommandColorDescription, showclosestcolor = colorInfoCommandShowClosestColorDescription)
 # @app_commands.autocomplete(color = armor_color_type_autocomplete)
 @app_commands.allowed_installs(guilds = True, users = True)
 @app_commands.allowed_contexts(guilds = True, dms = True, private_channels = True)
-async def displayColorInfo(interaction, color: str):
+async def displayColorInfo(interaction, color: str, showclosestcolor: bool = False):
     if color is None:
         await interaction.response.send_message("Please provide a color.", ephemeral = True)
         return
@@ -1188,7 +1189,9 @@ async def displayColorInfo(interaction, color: str):
             closestPureColorDistance = colorDistance
             closestPureColor = color
 
-    if closestPureColor is not None and closestPureColorDistance < 20:
+    closestPureColorDistanceMax = 999 if showclosestcolor else 20
+
+    if closestPureColor is not None and closestPureColorDistance < closestPureColorDistanceMax:
         embed.add_field(
             name = f"**Closest Pure Color**",
             value =f"{pureAndTrueColorDictionary[closestPureColor]} `{closestPureColor.value[0]}` - {closestPureColorDistance} off",
@@ -1229,12 +1232,12 @@ async def displayColorInfo(interaction, color: str):
 
     await interaction.response.send_message(embed = embed, file = discordFile)
 @client.tree.command(name = 'info', description = colorInfoCommandDescription)
-@app_commands.describe(color = colorInfoCommandColorDescription)
+@app_commands.describe(color = colorInfoCommandColorDescription, showclosestcolor = colorInfoCommandShowClosestColorDescription)
 # @app_commands.autocomplete(color = armor_color_type_autocomplete)
 @app_commands.allowed_installs(guilds = True, users = True)
 @app_commands.allowed_contexts(guilds = True, dms = True, private_channels = True)
-async def displayInfo(interaction, color: str):
-    await displayColorInfo.callback(interaction, color)
+async def displayInfo(interaction, color: str, showclosestcolor: bool = False):
+    await displayColorInfo.callback(interaction, color, showclosestcolor)
 
 @client.tree.command(name = 'dyes', description = dyeInfoCommandDescription)
 @app_commands.allowed_installs(guilds = True, users = True)
