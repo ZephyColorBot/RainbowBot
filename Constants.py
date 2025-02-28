@@ -828,6 +828,9 @@ class ArmorType(Enum):
     LegBoots = LeggingsBoots
     LegBoot = LeggingsBoots
 
+    DiamondNecron = "Diamond Necron"
+    DiaNecron = DiamondNecron
+
     def __str__(self):
         return self.value
 
@@ -987,4 +990,5 @@ itemDict = {
     ArmorType.BuildersClay: (["BuildersClayHelmet.webp", *baseArmorSet], ["", *([Color.NecronDye.value[1]] * 3)]),
 
     ArmorType.Mineral: (["MineralHelmet.webp", *baseArmorSet], ["", *([Color.Mineral.value[1]] * 3)]),
+    ArmorType.DiamondNecron: (["DiamondNecronHelmet.webp", *baseArmorSet], ["", *([Color.AquamarineDye.value[1]] * 3)]),
 }
