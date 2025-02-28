@@ -577,14 +577,14 @@ class ArmorType(Enum):
     Goblin = "Goblin"
     GoblinBaby = "Goblin Baby"
     Goldor = "Goldor"
-    GoldorCelesital = "Goldor Celesital"
+    GoldorCelestial = "Goldor Celestial"
     Lapis = "Lapis"
     Leaflet = "Leaflet"
     Leaf = Leaflet
     Maxor = "Maxor"
-    MaxorCelesital = "Maxor Celesital"
+    MaxorCelestial = "Maxor Celestial"
     Necron = "Necron"
-    NecronCelesital = "Necron Celesital"
+    NecronCelestial = "Necron Celestial"
     NecromancerLord = "Necromancer Lord"
     NecroLord = NecromancerLord
     Necromancer = NecromancerLord
@@ -609,7 +609,7 @@ class ArmorType(Enum):
     Sponge = "Sponge"
     Spooky = "Spooky"
     Storm = "Storm"
-    StormCelesital = "Storm Celesital"
+    StormCelestial = "Storm Celestial"
     Tarantula = "Tarantula"
     Tara = Tarantula
     Tuxedo = "Tuxedo"
@@ -929,14 +929,14 @@ itemDict = {
     ArmorType.Goblin: (["GoblinHelmet.webp", *baseArmorSet], ["", *([Color.Goblin.value[1]] * 3)]),
     ArmorType.GoblinBaby: (["GoblinHelmetBaby.webp", *baseArmorSet], ["", *([Color.Goblin.value[1]] * 3)]),
     ArmorType.Goldor: (["GoldorHelmet.webp", *baseArmorSet], ["", Color.GoldorChestplate.value[1], Color.GoldorLeggings.value[1], Color.GoldorBoots.value[1]]),
-    ArmorType.GoldorCelesital: (["GoldorHelmetCelestial.webp", *baseArmorSet], ["", Color.GoldorChestplate.value[1], Color.GoldorLeggings.value[1], Color.GoldorBoots.value[1]]),
+    ArmorType.GoldorCelestial: (["GoldorHelmetCelestial.webp", *baseArmorSet], ["", Color.GoldorChestplate.value[1], Color.GoldorLeggings.value[1], Color.GoldorBoots.value[1]]),
     ArmorType.Lapis: (["LapisHelmet.webp", *baseArmorSet], ["", *([Color.Lapis.value[1]] * 3)]),
     ArmorType.Leaflet: (["LeafletHelmet.webp", *baseArmorSet], ["", *([Color.Leaflet.value[1]] * 3)]),
     ArmorType.Maxor: (["MaxorHelmet.webp", *baseArmorSet], ["", Color.MaxorChestplate.value[1], Color.MaxorLeggings.value[1], Color.MaxorBoots.value[1]]),
-    ArmorType.MaxorCelesital: (["MaxorHelmetCelestial.webp", *baseArmorSet], ["", Color.MaxorChestplate.value[1], Color.MaxorLeggings.value[1], Color.MaxorBoots.value[1]]),
+    ArmorType.MaxorCelestial: (["MaxorHelmetCelestial.webp", *baseArmorSet], ["", Color.MaxorChestplate.value[1], Color.MaxorLeggings.value[1], Color.MaxorBoots.value[1]]),
     ArmorType.NecromancerLord: (["NecromancerLordHelmet.webp", *baseArmorSet], ["", Color.NecromancerLordChestplate.value[1], Color.NecromancerLordLeggings.value[1], Color.NecromancerLordBoots.value[1]]),
     ArmorType.Necron: (["NecronHelmet.webp", *baseArmorSet], ["", Color.NecronChestplate.value[1], Color.NecronLeggings.value[1], Color.NecronBoots.value[1]]),
-    ArmorType.NecronCelesital: (["NecronHelmetCelestial.webp", *baseArmorSet], ["", Color.NecronChestplate.value[1], Color.NecronLeggings.value[1], Color.NecronBoots.value[1]]),
+    ArmorType.NecronCelestial: (["NecronHelmetCelestial.webp", *baseArmorSet], ["", Color.NecronChestplate.value[1], Color.NecronLeggings.value[1], Color.NecronBoots.value[1]]),
     ArmorType.RacingHelmet: (["RacingHelmet.webp", *baseArmorSet], ["", *([Color.Carmine.value[1]] * 3)]),
     ArmorType.RisingSun: (["RisingSunHelmet.webp", "GoldChestplate.webp", "LeatherLeggings.png", "LeatherBoots.png"], ["", "", Color.RisingSunLeggings.value[1], Color.RisingSunBoots.value[1]]),
     ArmorType.ShadowAssassin: (["ShadowAssassinHelmet.webp", *baseArmorSet], ["", *([Color.ShadowAssassin.value[1]] * 3)]),
@@ -950,7 +950,7 @@ itemDict = {
     ArmorType.Sponge: (["SpongeHelmet.webp", *baseArmorSet], ["", *([Color.Sponge.value[1]] * 3)]),
     ArmorType.Spooky: (["SpookyHelmet.webp", *baseArmorSet], ["", *([Color.Spooky.value[1]] * 3)]),
     ArmorType.Storm: (["StormHelmet.webp", *baseArmorSet], ["", Color.StormChestplate.value[1], Color.StormLeggings.value[1], Color.StormBoots.value[1]]),
-    ArmorType.StormCelesital: (["StormHelmetCelestial.webp", *baseArmorSet], ["", Color.StormChestplate.value[1], Color.StormLeggings.value[1], Color.StormBoots.value[1]]),
+    ArmorType.StormCelestial: (["StormHelmetCelestial.webp", *baseArmorSet], ["", Color.StormChestplate.value[1], Color.StormLeggings.value[1], Color.StormBoots.value[1]]),
     ArmorType.Tarantula: (["LeatherHelmet.png", "ChainmailChestplate.webp", "LeatherLeggings.png", "IronBoots.webp"], [Color.Tarantula.value[1], "", Color.Tarantula.value[1], ""]),
     ArmorType.Tuxedo: ([*baseArmorSet], [Color.CheapTuxedoChestplate.value[1], Color.CheapTuxedoLeggings.value[1], Color.CheapTuxedoBoots.value[1]]),
     ArmorType.WardenHelmet: (["WardenHelmet.webp", *baseArmorSet], ["", *([Color.White.value[1]] * 3)]),
