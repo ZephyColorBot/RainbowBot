@@ -1415,8 +1415,10 @@ async def displayAllColors(
 
     inputItemListList = []
     if colortype == "Fairy":
-        for color, fairyType in allFairyHexes.items():
-            inputItemListList
+        inputItemListList = []
+
+        # for color, fairyType in allFairyHexes.items():
+            # inputItemListList =
     elif colortype == "Crystal":
         inputItemListList = allCrystalHexes
     elif colortype == "OG Fairy":

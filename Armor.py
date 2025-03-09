@@ -17,7 +17,7 @@ class HexColor:
         if (baseHex is None or not baseHex) and (rgb is None or not rgb):
             raise ValueError("Hex code or RGB list must be set.")
 
-        if baseHex == "empty" or baseHex == "blank":
+        if baseHex == "empty" or baseHex == "blank" or baseHex == "none":
             self.hexCode = "Blank"
             self.RGBList = [0, 0, 0]
             return
