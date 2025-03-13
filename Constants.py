@@ -391,6 +391,8 @@ class Color(Enum):
     WildStrawberry = WildStrawberryDye
     TentacleDye = ("Tentacle", "324D6C", ColorType.HypixelDye)
     Tentacle = TentacleDye
+    Treasure = ("Treasure", "FCD12A", ColorType.HypixelDye)
+    TreasureDye = Treasure
 
     def __str__(self):
         return self.value
