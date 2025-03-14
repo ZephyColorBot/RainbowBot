@@ -1382,11 +1382,16 @@ async def displayAllColors(
         return
 
     armorEnumString = str(armorEnum).replace(" ", "").strip().lower()
+    finalText = ""
     if len(colorList) > 0:
         for color in colorList:
             hexColor = HexColor(baseHex=color[1])
-            finalString = f"{hexColor.GetHexCode()} {armorEnumString}".strip()
+            hexCode = hexColor.GetHexCode()
+            finalString = f"{hexCode} {armorEnumString}".strip()
             inputItemListList.append(finalString)
+            if finalText != "":
+                finalText += ", "
+            finalText += f"#{hexCode}"
 
     else:
         for color, fairyType in fairyColorList:
@@ -1411,6 +1416,9 @@ async def displayAllColors(
             if itemList == ["All"]:
                 itemList = allItems
 
+            if finalText != "":
+                finalText += ", "
+            finalText += f"#{hexCode}"
             if armorEnum == ArmorType.FullSet:
                 itemHex = hexCode
                 if len(itemList) != 4:
@@ -1502,7 +1510,7 @@ async def displayAllColors(
     buffer.seek(0)
 
     discordFile = discord.File(buffer, filename = f"armorComparison.png")
-    await interaction.followup.send(file = discordFile)
+    await interaction.followup.send(content = f"{finalText}", file = discordFile)
 
 with open('AIToken') as file:
     aiClient = OpenAI(api_key = file.read().strip(), base_url = "https://api.groq.com/openai/v1")

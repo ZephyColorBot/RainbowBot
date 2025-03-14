@@ -233,7 +233,7 @@ def CreateArmorSetImage(
             y += croppedImage.height + tempItemSpacing
 
     elif shapeType == ShapeType.Horizontal:
-        width = sum([image.width for image in croppedImageList]) + (len(armorImages) - 1) * imageSpacing
+        width = sum([image.width for image in croppedImageList]) + (len(armorImages)) * imageSpacing
         height = max([image.height for image in croppedImageList])
         image = Image.new("RGBA", (width - heightOffset, height), (0, 0, 0, 0))
 
@@ -625,39 +625,6 @@ def GetColorStatusText(hexColor):
             typeString = f"{colorEnum.value[0]} dyed"
 
     return typeString, explanationString
-
-def MergeImagesHorizontal(*images: Image.Image):
-    # Calculate the total width of the result image
-    total_width = sum(image.size[0] for image in images)
-    # Find the maximum height from all images
-    max_height = max(image.size[1] for image in images)
-
-    # Create a new image with the calculated dimensions (total width, max height)
-    result = Image.new(mode='RGBA', size=(total_width, max_height), color=(0, 0, 0, 0))
-
-    # Track the x-coordinate where the next image will be pasted
-    x_offset = 0
-
-    # Paste each image onto the result image, aligned at the bottom
-    for image in images:
-        width, height = image.size
-        result.paste(im=image, box=(x_offset, max_height - height))
-        x_offset += width  # Move the x_offset by the width of the current image
-
-    return result
-
-def MergeImagesVertical(image1: Image.Image, image2: Image.Image):
-    (width1, height1) = image1.size
-    (width2, height2) = image2.size
-
-    resultWidth = max(width1, width2)
-    resultHeight = height1 + height2
-
-    result = Image.new(mode='RGBA', size=(resultWidth, resultHeight), color=(0, 0, 0, 0))
-    result.paste(im=image1, box=(0, 0))
-    result.paste(im=image2, box=(0, height1))
-
-    return result
 
 def RGBToXYZ(rgbInt: int):
     rgb = [

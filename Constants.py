@@ -30,26 +30,28 @@ class Color(Enum):
     Green = PureDarkGreen
     PureDG = PureDarkGreen
     DG = PureDarkGreen
+    PureCyan = ("Cyan", "4C7F99", ColorType.PureDye)
+    Cyan = PureCyan
     PureLightBlue = ("Light Blue", "6699D8", ColorType.PureDye)
     LightBlue = PureLightBlue
     PureLB = PureLightBlue
     LB = PureLightBlue
-    PureCyan = ("Cyan", "4C7F99", ColorType.PureDye)
-    Cyan = PureCyan
     PureDarkBlue = ("Dark Blue", "334CB2", ColorType.PureDye)
     DarkBlue = PureDarkBlue
     PureBlue = PureDarkBlue
     Blue = PureDarkBlue
     PureDB = PureDarkBlue
     DB = PureDarkBlue
-    PurePink = ("Pink", "F27FA5", ColorType.PureDye)
-    Pink = PurePink
-    PureMagenta = ("Magenta", "B24CD8", ColorType.PureDye)
-    Magenta = PureMagenta
     PurePurple = ("Purple", "7F3FB2", ColorType.PureDye)
     Purple = PurePurple
+    PureMagenta = ("Magenta", "B24CD8", ColorType.PureDye)
+    Magenta = PureMagenta
+    PurePink = ("Pink", "F27FA5", ColorType.PureDye)
+    Pink = PurePink
     PureBrown = ("Brown", "664C33", ColorType.PureDye)
     Brown = PureBrown
+    PureWhite = ("White", "FFFFFF", ColorType.PureDye)
+    White = PureWhite
     PureLightGrey = ("Light Gray", "999999", ColorType.PureDye)
     LightGrey = PureLightGrey
     PureLightGray = PureLightGrey
@@ -63,8 +65,6 @@ class Color(Enum):
     DarkGrey = PureDarkGrey
     PureDarkGray = PureDarkGrey
     DarkGray = PureDarkGrey
-    PureWhite = ("White", "FFFFFF", ColorType.PureDye)
-    White = PureWhite
     PureBlack = ("Black", "191919", ColorType.PureDye)
     Black = PureBlack
 
@@ -462,33 +462,33 @@ class Color(Enum):
         return self.value
 
 allFairyHexes = {
-    Color.FFCCE5: (["Boots"], ["Helmet", "Chestplate", "Leggings"]),
+    Color._330066: ([], ["All"]),
+    Color._4C0099: ([], ["All"]),
+    Color._6600CC: ([], ["All"]),
+    Color._7F00FF: ([], ["All"]),
+    Color._9933FF: ([], ["All"]),
+    Color.B266FF: ([], ["All"]),
+    Color.CC99FF: ([], ["All"]),
     Color.E5CCFF: ([], ["All"]),
     Color.FFCCFF: ([], ["All"]),
-    Color.FF99CC: (["Leggings", "Boots"], ["Helmet", "Chestplate"]),
     Color.FF99FF: ([], ["All"]),
-    Color.CC99FF: ([], ["All"]),
     Color.FF66FF: ([], ["All"]),
     Color.FF33FF: ([], ["All"]),
     Color.FF00FF: ([], ["All"]),
     Color.CC00CC: ([], ["All"]),
     Color._990099: ([], ["All"]),
-    Color.FF66B2: (["Chestplate", "Leggings", "Boots"], ["Helmet"]),
-    Color.FF3399: (["All"], []),
-    Color.FF007F: (["All"], []),
-    Color.CC0066: (["Helmet", "Chestplate", "Leggings"], ["Boots"]),
-    Color._99004C: (["Helmet", "Chestplate"], ["Leggings", "Boots"]),
-    Color._660033: (["Helmet"], ["Chestplate", "Leggings", "Boots"]),
     Color._660066: ([], ["All"]),
-    Color.B266FF: ([], ["All"]),
-    Color._9933FF: ([], ["All"]),
-    Color._7F00FF: ([], ["All"]),
-    Color._6600CC: ([], ["All"]),
-    Color._4C0099: ([], ["All"]),
-    Color._330066: ([], ["All"]),
+    Color._660033: (["Helmet"], ["Chestplate", "Leggings", "Boots"]),
+    Color._99004C: (["Helmet", "Chestplate"], ["Leggings", "Boots"]),
+    Color.CC0066: (["Helmet", "Chestplate", "Leggings"], ["Boots"]),
+    Color.FF007F: (["All"], []),
+    Color.FF3399: (["All"], []),
+    Color.FF66B2: (["Chestplate", "Leggings", "Boots"], ["Helmet"]),
+    Color.FF99CC: (["Leggings", "Boots"], ["Helmet", "Chestplate"]),
+    Color.FFCCE5: (["Boots"], ["Helmet", "Chestplate", "Leggings"]),
 }
 allCrystalHexes = {}
-allHypixelDyeHexes = {}
+allHypixelDyeHexes = {Color.TrueBlack.value[1]: Color.TrueBlack.value[1], Color.PureWhite.value[1]: Color.PureWhite.value[1]}
 allPureExoticHexes = {}
 pureColorToDiscordEmotes = {
     Color.PureRed:       "<:RedDye:1334768678612238357>",
