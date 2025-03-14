@@ -29,61 +29,6 @@ intents = discord.Intents.default()
 intents.message_content = True
 client = Client(command_prefix = '/', intents = intents)
 
-# armorTypeHandPickedChoices = [
-#     app_commands.Choice(name = "Full Set", value ="FullSet"),
-#     app_commands.Choice(name = "Baby Superior", value ="BabySuperior"),
-#     app_commands.Choice(name = "Baby Young", value ="BabyYoung"),
-#     app_commands.Choice(name = "Baby Wise", value ="BabyWise"),
-#     app_commands.Choice(name = "Baby Unstable", value ="BabyUnstable"),
-#     app_commands.Choice(name = "Baby Protector", value ="BabyProtector"),
-#     app_commands.Choice(name = "Baby Strong", value ="BabyStrong"),
-#     app_commands.Choice(name = "Baby Old", value ="BabyOld"),
-#     app_commands.Choice(name = "Baby Holy", value ="BabyHoly"),
-#     app_commands.Choice(name = "Angler", value ="Angler"),
-#     app_commands.Choice(name = "Lapis", value ="Lapis"),
-#     app_commands.Choice(name = "Biohazard", value ="Biohazard"),
-#     app_commands.Choice(name = "Leaflet", value ="Leaflet"),
-#     app_commands.Choice(name = "Tarantula", value ="Tarantula"),
-#     app_commands.Choice(name = "Tuxedo", value ="Tuxedo"),
-#     app_commands.Choice(name = "Spooky", value ="Spooky"),
-#     app_commands.Choice(name = "Bat", value ="Bat"),
-#     app_commands.Choice(name = "Blaze", value ="Blaze"),
-#     app_commands.Choice(name = "Frozen Blaze", value ="FrozenBlaze"),
-#     app_commands.Choice(name = "Pack", value ="Pack"),
-#     app_commands.Choice(name = "Sponge", value ="Sponge"),
-#     app_commands.Choice(name = "Necron Celestial", value ="NecronCelestial"),
-#     app_commands.Choice(name = "Storm Celestial", value ="StormCelestial"),
-#     app_commands.Choice(name = "Maxor Celestial", value ="MaxorCelestial"),
-#     app_commands.Choice(name = "Goldor Celestial", value ="GoldorCelestial"),
-# ]
-# colorHandPickedChoices = [
-#     app_commands.Choice(name = "Red", value ="Red"),
-#     app_commands.Choice(name = "Orange", value ="Orange"),
-#     app_commands.Choice(name = "Yellow", value ="Yellow"),
-#     app_commands.Choice(name = "Lime", value ="Lime"),
-#     app_commands.Choice(name = "Dark Green", value ="DarkGreen"),
-#     app_commands.Choice(name = "Light Blue", value ="LightBlue"),
-#     app_commands.Choice(name = "Cyan", value ="Cyan"),
-#     app_commands.Choice(name = "Dark Blue", value ="DarkBlue"),
-#     app_commands.Choice(name = "Pink", value ="Pink"),
-#     app_commands.Choice(name = "Magenta", value ="Magenta"),
-#     app_commands.Choice(name = "Purple", value ="Purple"),
-#     app_commands.Choice(name = "Brown", value ="Brown"),
-#     app_commands.Choice(name = "Light Grey", value ="LightGrey"),
-#     app_commands.Choice(name = "Dark Grey", value ="DarkGrey"),
-#     app_commands.Choice(name = "White", value ="White"),
-#     app_commands.Choice(name = "Black", value ="Black"),
-#     app_commands.Choice(name = "Mint", value ="Mint"),
-#     app_commands.Choice(name = "Maroon", value ="Maroon"),
-#     app_commands.Choice(name = "Navy", value ="Navy"),
-#     app_commands.Choice(name = "Ice", value ="Ice"),
-#     app_commands.Choice(name = "Gold", value ="Gold"),
-#     app_commands.Choice(name = "Young", value ="Young"),
-#     app_commands.Choice(name = "Unstable", value ="Unstable"),
-#     app_commands.Choice(name = "Protector", value ="Protector"),
-#     app_commands.Choice(name = "Wise", value ="Wise")
-# ]
-
 shapeChoices = [
     app_commands.Choice(name = "Vertical", value = "Vertical"),
     app_commands.Choice(name = "Horizontal", value = "Horizontal"),
@@ -100,6 +45,7 @@ armorVersionChoices = [
 allColorTypeChoices = [
     app_commands.Choice(name = "Fairy", value = "Fairy"),
     app_commands.Choice(name = "OG Fairy", value = "OG Fairy"),
+    app_commands.Choice(name = "All Fairy", value = "All Fairy"),
     app_commands.Choice(name = "Crystal", value = "Crystal"),
     app_commands.Choice(name = "Pure Exotics", value = "Pure Exotics"),
     app_commands.Choice(name = "Hypixel Dyes", value = "Hypixel Dyes"),
@@ -108,7 +54,6 @@ allColorTypeChoices = [
 '''
 Auto complete for some reason makes discord not allow up arrow command resending.
 '''
-
 # async def armor_type_autocomplete(interaction: discord.Interaction, current: str):
 #     return [
 #         app_commands.Choice(name = str(option), value =str(option).replace(" ", ""))
@@ -1414,25 +1359,58 @@ async def displayAllColors(
     versionEnum = stringToVersionTypeDict[version]
 
     inputItemListList = []
+    colorList = []
+    fairyColorList = []
     if colortype == "Fairy":
-        inputItemListList = []
-
-        # for color, fairyType in allFairyHexes.items():
-            # inputItemListList =
-    elif colortype == "Crystal":
-        inputItemListList = allCrystalHexes
+        fairyColorList = allFairyHexes.items()
     elif colortype == "OG Fairy":
-        inputItemListList = []
+        fairyColorList = allFairyHexes.items()
+    elif colortype == "All Fairy":
+        fairyColorList = allFairyHexes.items()
+    elif colortype == "Crystal":
+        colorList = allCrystalHexes
     elif colortype == "Pure Exotics":
-        inputItemListList = []
+        colorList = allPureExoticHexes
     elif colortype == "Hypixel Dyes":
-        inputItemListList = []
+        colorList = allHypixelDyeHexes
     else:
         await interaction.response.send_message(f"Invalid color type '{colortype}'", ephemeral = True)
         return
 
+    if len(colorList) == 0 and len(fairyColorList) == 0:
+        await interaction.response.send_message(f"No colors found for '{colortype}'", ephemeral = True)
+        return
+
+    if len(colorList) > 0:
+        for color, colorType in colorList:
+            hexColor = HexColor(baseHex=color.value[1])
+            finalString = f"{hexColor.GetHexCode()} {armorEnum.strip()}".strip()
+            inputItemListList.append(finalString)
+
+    else:
+        for color, fairyType in fairyColorList:
+            itemList = []
+            if colortype == "Fairy":
+                itemList = fairyType[0]
+            elif colortype == "OG Fairy":
+                itemList = fairyType[1]
+            elif colortype == "All Fairy":
+                itemList = fairyType[0] + fairyType[1]
+
+            if len(itemList) == 0:
+                continue
+
+            hexColor = HexColor(baseHex=color.value[1])
+            itemName = ""
+            for itemType in itemList:
+                if itemType == "All":
+                    continue
+                itemName += f"{itemType.lower()}"
+            finalString = f"{hexColor.GetHexCode()} {itemName.strip()}".strip()
+            inputItemListList.append(finalString)
+
     print(inputItemListList)
-    return
+    # return
 
     finalImageList = []
     for itemList in inputItemListList:
@@ -1464,18 +1442,19 @@ async def displayAllColors(
 
             for baseHex in colorSplit:
                 try:
-                    hexList.append(HexColor(baseHex = baseHex))
+                    print(baseHex)
+                    hexList.append(HexColor(baseHex=baseHex))
                 except Exception as e:
-                    await interaction.response.send_message(f"Invalid hex code '{baseHex}' - {e}", ephemeral = True)
+                    await interaction.response.send_message(f"Invalid hex code '{baseHex}' - {e}", ephemeral=True)
                     return
 
         buffer, filePath, colors = GetCombinedArmorSetBuffer(
-            armorType = armorEnum,
-            hexList = hexList,
-            versionType = versionEnum,
-            shapeType = shapeEnum,
-            imageSpacing = 20,
-            imageSize = 128
+            armorType=armorEnum,
+            hexList=hexList,
+            versionType=versionEnum,
+            shapeType=shapeEnum,
+            imageSpacing=20,
+            imageSize=128
         )
         finalImageList.append((buffer, filePath, colors))
 
