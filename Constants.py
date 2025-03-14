@@ -487,9 +487,9 @@ allFairyHexes = {
     Color._330066: ([], ["All"]),
     Color._990099: ([], ["All"])
 }
-allCrystalHexes = []
-allHypixelDyeHexes = []
-allPureExoticHexes = []
+allCrystalHexes = {}
+allHypixelDyeHexes = {}
+allPureExoticHexes = {}
 pureColorToDiscordEmotes = {
     Color.PureRed:       "<:RedDye:1334768678612238357>",
     Color.PureOrange:    "<:OrangeDye:1334768730101780571>",
@@ -1288,11 +1288,11 @@ def PopulateStringDictionaries():
         stringToColorDict[colorValue] = color
 
         if color.value[2] == ColorType.Crystal:
-            allCrystalHexes.append(color)
+            allCrystalHexes[color.value[1]] = colorValue
         elif color.value[2] == ColorType.HypixelDye:
-            allHypixelDyeHexes.append(color)
+            allHypixelDyeHexes[color.value[1]] = colorValue
         elif color.value[2] == ColorType.PureDye:
-            allPureExoticHexes.append(color)
+            allPureExoticHexes[color.value[1]] = colorValue
 
     for name, armorType in ArmorType.__members__.items():
         armorName = name.replace(" ", "").replace("_", "").lower().strip()

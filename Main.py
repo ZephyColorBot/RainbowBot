@@ -1368,11 +1368,11 @@ async def displayAllColors(
     elif colortype == "All Fairy":
         fairyColorList = allFairyHexes.items()
     elif colortype == "Crystal":
-        colorList = allCrystalHexes
+        colorList = allCrystalHexes.items()
     elif colortype == "Pure Exotics":
-        colorList = allPureExoticHexes
+        colorList = allPureExoticHexes.items()
     elif colortype == "Hypixel Dyes":
-        colorList = allHypixelDyeHexes
+        colorList = allHypixelDyeHexes.items()
     else:
         await interaction.response.send_message(f"Invalid color type '{colortype}'", ephemeral = True)
         return
@@ -1381,11 +1381,11 @@ async def displayAllColors(
         await interaction.response.send_message(f"No colors found for '{colortype}'", ephemeral = True)
         return
 
-    armorEnumString = str(armorEnum).replace(" ", "").strip()
+    armorEnumString = str(armorEnum).replace(" ", "").strip().lower()
     if len(colorList) > 0:
         for color in colorList:
-            hexColor = HexColor(baseHex=color.value[1])
-            finalString = f"{hexColor.GetHexCode()} {armorEnumString.lower()}".strip()
+            hexColor = HexColor(baseHex=color[1])
+            finalString = f"{hexColor.GetHexCode()} {armorEnumString}".strip()
             inputItemListList.append(finalString)
 
     else:
@@ -1404,19 +1404,21 @@ async def displayAllColors(
                 continue
 
             hexColor = HexColor(baseHex=color.value[1])
-            itemName = ""
+            itemName = armorEnumString if armorEnumString == "fullset" else ""
+            allItems = ["Helmet", "Chestplate", "Leggings", "Boots"]
             for itemType in itemList:
                 if itemType == "All":
                     continue
+                if 
                 itemName += f"{itemType.lower()}"
             finalString = f"{hexColor.GetHexCode()} {itemName.strip()}".strip()
             inputItemListList.append(finalString)
 
-    print(inputItemListList)
-    # return
+    await interaction.response.defer(thinking = True, ephemeral = False)
 
     finalImageList = []
     for itemList in inputItemListList:
+        print(itemList)
         if itemList is None:
             continue
 
@@ -1447,7 +1449,7 @@ async def displayAllColors(
                 try:
                     hexList.append(HexColor(baseHex=baseHex))
                 except Exception as e:
-                    await interaction.response.send_message(f"Invalid hex code '{baseHex}' - {e}", ephemeral=True)
+                    await interaction.followup.send(f"Invalid hex code '{baseHex}' - {e}", ephemeral=True)
                     return
 
         buffer, filePath, colors = GetCombinedArmorSetBuffer(
@@ -1461,7 +1463,7 @@ async def displayAllColors(
         finalImageList.append((buffer, filePath, colors))
 
     if len(finalImageList) == 0:
-        await interaction.response.send_message("Please provide at least one armor color or armor type.", ephemeral = True)
+        await interaction.followup.send("Please provide at least one armor color or armor type.", ephemeral = True)
         return
 
     resultImage = Image.new(mode = 'RGBA', size = (0, 0), color = (0, 0, 0, 0))
@@ -1483,7 +1485,7 @@ async def displayAllColors(
     buffer.seek(0)
 
     discordFile = discord.File(buffer, filename = f"armorComparison.png")
-    await interaction.response.send_message(file = discordFile)
+    await interaction.followup.send(file = discordFile)
 
 with open('AIToken') as file:
     aiClient = OpenAI(api_key = file.read().strip(), base_url = "https://api.groq.com/openai/v1")
