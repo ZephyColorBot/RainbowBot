@@ -239,6 +239,29 @@ class Color(Enum):
     Emerald = ("Emerald", "00FF00", ColorType.Armor)
     Mineral = ("Mineral", " CCE5FF", ColorType.Armor)
 
+    FermentoChestplate = ("Fermento Chestplate", "58890C", ColorType.Armor)
+    FermentoCP = FermentoChestplate
+    FermentoChest = FermentoChestplate
+    FermentoLeggings = ("Fermento Leggings", "6A9C1B", ColorType.Armor)
+    FermentoLegs = FermentoLeggings
+    FermentoBoots = ("Fermento Boots", "83B03B", ColorType.Armor)
+    SquashChestplate = ("Squash Chestplate", "03430E", ColorType.Armor)
+    SquashCP = SquashChestplate
+    SquashChest = SquashChestplate
+    SquashLeggings = ("Squash Leggings", "0C4A16", ColorType.Armor)
+    SquashLegs = SquashLeggings
+    SquashBoots = ("Squash Boots", "13561E", ColorType.Armor)
+    CropieChestplate = ("Cropie Chestplate", "7A2900", ColorType.Armor)
+    CropieCP = CropieChestplate
+    CropieChest = CropieChestplate
+    CropieLeggings = ("Cropie Leggings", "94451F", ColorType.Armor)
+    CropieLegs = CropieLeggings
+    CropieBoots = ("Cropie Boots", "BB6535", ColorType.Armor)
+    MelonArmor = ("Melon Armor", "899E20", ColorType.Armor)
+    Melon = MelonArmor
+
+    MagmaLord = ("Magma Lord", "6F0F08", ColorType.Armor)
+
     FF3399 = ("FF3399", "FF3399", ColorType.Fairy)
     F39 = FF3399
     FF007F = ("FF007F", "FF007F", ColorType.Fairy)
@@ -515,11 +538,15 @@ class ArmorType(Enum):
     BabyHoly = HolyBaby
     HolyShimmer = "Holy Shimmer"
     ShimmerHoly = HolyShimmer
+    HolyDrake = "Holy Drake"
+    DrakeHoly = HolyDrake
     Old = "Old"
     OldBaby = "Old Baby"
     BabyOld = OldBaby
     OldShimmer = "Old Shimmer"
     ShimmerOld = OldShimmer
+    OldDrake = "Old Drake"
+    DrakeOld = OldDrake
     Protector = "Protector"
     Prot = Protector
     ProtectorBaby = "Protector Baby"
@@ -530,11 +557,17 @@ class ArmorType(Enum):
     ShimmerProtector = ProtectorShimmer
     ProtShimmer = ProtectorShimmer
     ShimmerProt = ProtectorShimmer
+    ProtectorDrake = "Protector Drake"
+    DrakeProtector = ProtectorDrake
+    ProtDrake = ProtectorDrake
+    DrakeProt = ProtectorDrake
     Strong = "Strong"
     StrongBaby = "Strong Baby"
     BabyStrong = StrongBaby
     StrongShimmer = "Strong Shimmer"
     ShimmerStrong = StrongShimmer
+    StrongDrake = "Strong Drake"
+    DrakeStrong = StrongDrake
     Superior = "Superior"
     Sup = Superior
     SuperiorBaby = "Superior Baby"
@@ -545,6 +578,10 @@ class ArmorType(Enum):
     ShimmerSuperior = SuperiorShimmer
     SupShimmer = SuperiorShimmer
     ShimmerSup = SuperiorShimmer
+    SuperiorDrake = "Superior Drake"
+    DrakeSuperior = SuperiorDrake
+    SupDrake = SuperiorDrake
+    DrakeSup = SuperiorDrake
     Unstable = "Unstable"
     Unst = Unstable
     UnstableBaby = "Unstable Baby"
@@ -555,24 +592,48 @@ class ArmorType(Enum):
     ShimmerUnstable = UnstableShimmer
     UnstShimmer = UnstableShimmer
     ShimmerUnst = UnstableShimmer
+    UnstableDrake = "Unstable Drake"
+    DrakeUnstable = UnstableDrake
+    UnstDrake = UnstableDrake
+    DrakeUnst = UnstableDrake
     Wise = "Wise"
     WiseBaby = "Wise Baby"
     BabyWise = WiseBaby
     WiseShimmer = "Wise Shimmer"
     ShimmerWise = WiseShimmer
+    WiseDrake = "Wise Drake"
+    DrakeWise = WiseDrake
     Young = "Young"
     YoungBaby = "Young Baby"
     BabyYoung = YoungBaby
     YoungShimmer = "Young Shimmer"
     ShimmerYoung = YoungShimmer
+    YoungDrake = "Young Drake"
+    DrakeYoung = YoungDrake
     Angler = "Angler"
     Pack = "Pack"
     Bat = "Bat"
     Biohazard = "Biohazard"
     Blaze = "Blaze"
     FrozenBlaze = "Frozen Blaze"
-    FrozenBlazeIcicle = "Frozen Blaze Icicle"
     FB = FrozenBlaze
+    FrozenBlazeIcicle = "Frozen Blaze Icicle"
+    Icicle = FrozenBlazeIcicle
+    FrozenBlazeIceberg = "Frozen Blaze Iceberg"
+    FrozenBlazeIceburg = FrozenBlazeIceberg
+    Iceberg = FrozenBlazeIceberg
+    Iceburg = FrozenBlazeIceburg
+
+    EmberHelmet = "Ember Helmet"
+    Ember = EmberHelmet
+    RekindledEmber = "Rekindled Ember"
+    SmolderingEmber = "Smoldering Ember"
+    DeepSeaAngler = "Deep Sea Angler"
+    DeepSea = DeepSeaAngler
+    Sorrow = "Sorrow"
+    PaladinSorrow = "Paladin Sorrow"
+    SorrowPaladin = PaladinSorrow
+
     CloverHelmet = "Clover Helmet"
     Clover = CloverHelmet
     Glacite = "Glacite"
@@ -580,13 +641,16 @@ class ArmorType(Enum):
     GoblinBaby = "Goblin Baby"
     Goldor = "Goldor"
     GoldorCelestial = "Goldor Celestial"
+    CelestialGoldor = GoldorCelestial
     Lapis = "Lapis"
     Leaflet = "Leaflet"
     Leaf = Leaflet
     Maxor = "Maxor"
     MaxorCelestial = "Maxor Celestial"
+    CelestialMaxor = MaxorCelestial
     Necron = "Necron"
     NecronCelestial = "Necron Celestial"
+    CelestialNecron = NecronCelestial
     NecromancerLord = "Necromancer Lord"
     NecroLord = NecromancerLord
     Necromancer = NecromancerLord
@@ -601,6 +665,10 @@ class ArmorType(Enum):
     SAAdmiral = ShadowAssassinAdmiral
     SACrimson = ShadowAssassinCrimson
     SAMuave = ShadowAssassinMuave
+    ShadowAssassinSlyFox = "Shadow Assassin Sly Fox"
+    ShadowAssassinSly = ShadowAssassinSlyFox
+    SlyFox = ShadowAssassinSlyFox
+    SASlyFox = ShadowAssassinSlyFox
     Shark = "Shark"
     SnowSuit = "Snow Suit"
     SnowSuitSnowglobe = "Snow Suit Snowglobe"
@@ -612,6 +680,7 @@ class ArmorType(Enum):
     Spooky = "Spooky"
     Storm = "Storm"
     StormCelestial = "Storm Celestial"
+    CelestialStorm = StormCelestial
     Tarantula = "Tarantula"
     Tara = Tarantula
     Tuxedo = "Tuxedo"
@@ -629,6 +698,34 @@ class ArmorType(Enum):
     Reaper = ReaperMask
     ReaperSpirit = ReaperMaskSpirit
     SpiritReaper = ReaperMaskSpirit
+    OniReaperMask = "Oni Reaper Mask"
+    OniReaper = OniReaperMask
+    Oni = OniReaperMask
+    RedOniReaperMask = "Red Oni Reaper Mask"
+    RedOniReaper = RedOniReaperMask
+    RedOni = RedOniReaperMask
+    BlueOniReaperMask = "Blue Oni Reaper Mask"
+    BlueOniReaper = BlueOniReaperMask
+    BlueOni = BlueOniReaperMask
+
+    MagmaLord = "Magma Lord"
+    MagmaLordMeteor = "Magma Lord Meteor"
+    MagmaLordShark = "Magma Lord Shark"
+    MagmaLordSharkBrown = MagmaLordShark
+    MagmaLordSharkWhite = "Magma Lord Shark White"
+    MagmaLordSharkGold = "Magma Lord Shark Gold"
+    MagmaLordSharkLime = "Magma Lord Shark Lime"
+    MagmaLordSharkDiamond = "Magma Lord Shark Diamond"
+    MagmaLordSharkRose = "Magma Lord Shark Rose"
+    MagmaLordSharkRed = "Magma Lord Shark Red"
+    MagmaLordSharkPurple = "Magma Lord Shark Purple"
+    MagmaLordSharkPortal = "Magma Lord Shark Portal"
+    MagmaLordSharkLava = "Magma Lord Shark Lava"
+    MagmaLordSharkBlack = "Magma Lord Shark Black"
+    MagmaLordSharkPastel = "Magma Lord Shark Pastel"
+    MagmaLordSharkWarding = "Magma Lord Shark Warding"
+    MagmaLordSharkToxic = "Magma Lord Shark Toxic"
+
     WitherGoggles = "Wither Goggles"
     WitherGogglesCorrupt = "Corrupt Wither Goggles"
     WitherGogglesCelestial = "Celestial Wither Goggles"
@@ -638,6 +735,115 @@ class ArmorType(Enum):
     WardenHelmetTrueWarden = "True Warden"
     TrueWarden = WardenHelmetTrueWarden
     WardenTrueWarden = WardenHelmetTrueWarden
+    WardenHelmetSentinelWarden = "Sentinel Warden"
+    SentinelWarden = WardenHelmetSentinelWarden
+    WardenHelmetSentinelWardenTeal = "Sentinel Warden Teal"
+    SentinelWardenTeal = WardenHelmetSentinelWardenTeal
+    WardenHelmetSentinelWardenPurple = "Sentinel Warden Purple"
+    SentinelWardenPurple = WardenHelmetSentinelWardenPurple
+    WardenHelmetSentinelWardenPink = "Sentinel Warden Pink"
+    SentinelWardenPink = WardenHelmetSentinelWardenPink
+    WardenHelmetSentinelWardenOrange = "Sentinel Warden Orange"
+    SentinelWardenOrange = WardenHelmetSentinelWardenOrange
+    WardenHelmetSentinelWardenMaroon = "Sentinel Warden Maroon"
+    SentinelWardenMaroon = WardenHelmetSentinelWardenMaroon
+    WardenHelmetSentinelWardenGreen = "Sentinel Warden Green"
+    SentinelWardenGreen = WardenHelmetSentinelWardenGreen
+    WardenHelmetSentinelWardenBlack = "Sentinel Warden Black"
+    SentinelWardenBlack = WardenHelmetSentinelWardenBlack
+
+    MendingCrown = "Mending Crown"
+    MendingCrownCaduceus = "Caduceus Mending Crown"
+    CaduceusMendingCrown = MendingCrownCaduceus
+    MendingCrownCaduceusBlue = "Blue Caduceus Mending Crown"
+    CaduceusMendingCrownBlue = MendingCrownCaduceusBlue
+    MendingCrownCaduceusGreen = "Green Caduceus Mending Crown"
+    CaduceusMendingCrownGreen = MendingCrownCaduceusGreen
+    MendingCrownCaduceusPurple = "Purple Caduceus Mending Crown"
+    CaduceusMendingCrownPurple = MendingCrownCaduceusPurple
+    MendingCrownCaduceusRed = "Red Caduceus Mending Crown"
+    CaduceusMendingCrownRed = MendingCrownCaduceusRed
+
+    Divan = "Divan"
+    ArmorOfDivan = Divan
+    DivanGemstone = "Divan Gemstone"
+    GemstoneDivan = DivanGemstone
+    DivanGemstoneSapphire = "Gemstone Divan Sapphire"
+    GemstoneDivanSapphire = DivanGemstoneSapphire
+    SapphireDivanGemstone = DivanGemstoneSapphire
+    DivanGemstoneBlue = DivanGemstoneSapphire
+    BlueDivanGemstone = DivanGemstoneSapphire
+    BlueGemstoneDivan = DivanGemstoneSapphire
+    DivanGemstoneAmethyst = "Gemstone Divan Amethyst"
+    GemstoneDivanAmethyst = DivanGemstoneAmethyst
+    AmethystDivanGemstone = DivanGemstoneAmethyst
+    DivanGemstonePurple = DivanGemstoneAmethyst
+    PurpleDivanGemstone = DivanGemstoneAmethyst
+    PurpleGemstoneDivan = DivanGemstoneAmethyst
+    DivanGemstoneJasper = "Gemstone Divan Jasper"
+    GemstoneDivanJasper = DivanGemstoneJasper
+    JasperDivanGemstone = DivanGemstoneJasper
+    DivanGemstonePink = DivanGemstoneJasper
+    PinkDivanGemstone = DivanGemstoneJasper
+    PinkGemstoneDivan = DivanGemstoneJasper
+    DivanGemstoneRuby = "Gemstone Divan Ruby"
+    GemstoneDivanRuby = DivanGemstoneRuby
+    RubyDivanGemstone = DivanGemstoneRuby
+    DivanGemstoneRed = DivanGemstoneRuby
+    RedDivanGemstone = DivanGemstoneRuby
+    RedGemstoneDivan = DivanGemstoneRuby
+    DivanGemstoneTopaz = "Gemstone Divan Topaz"
+    GemstoneDivanTopaz = DivanGemstoneTopaz
+    TopazDivanGemstone = DivanGemstoneTopaz
+    DivanGemstoneYellow = DivanGemstoneTopaz
+    YellowDivanGemstone = DivanGemstoneTopaz
+    YellowGemstoneDivan = DivanGemstoneTopaz
+    DivanGemstoneJade = "Gemstone Divan Jade"
+    GemstoneDivanJade = DivanGemstoneJade
+    JadeDivanGemstone = DivanGemstoneJade
+    DivanGemstoneGreen = DivanGemstoneJade
+    GreenDivanGemstone = DivanGemstoneJade
+    GreenGemstoneDivan = DivanGemstoneJade
+    DivanGemstoneOpal = "Gemstone Divan Opal"
+    GemstoneDivanOpal = DivanGemstoneOpal
+    OpalDivanGemstone = DivanGemstoneOpal
+    DivanGemstoneWhite = DivanGemstoneOpal
+    WhiteDivanGemstone = DivanGemstoneOpal
+    WhiteGemstoneDivan = DivanGemstoneOpal
+    DivanGemstoneCitrine = "Gemstone Divan Citrine"
+    GemstoneDivanCitrine = DivanGemstoneCitrine
+    CitrineDivanGemstone = DivanGemstoneCitrine
+    DivanGemstoneOrange = DivanGemstoneCitrine
+    OrangeDivanGemstone = DivanGemstoneCitrine
+    OrangeGemstoneDivan = DivanGemstoneCitrine
+    GemstoneDivanAmber = GemstoneDivan
+    DivanGemstoneAmber = GemstoneDivan
+    AmberDivanGemstone = GemstoneDivan
+    DivanGemstoneGold = GemstoneDivan
+    GoldDivanGemstone = GemstoneDivan
+    GoldGemstoneDivan = GemstoneDivan
+    DivanGemstonePeridot = "Gemstone Divan Peridot"
+    GemstoneDivanPeridot = DivanGemstonePeridot
+    PeridotDivanGemstone = DivanGemstonePeridot
+    DivanGemstoneLime = DivanGemstonePeridot
+    LimeDivanGemstone = DivanGemstonePeridot
+    LimeGemstoneDivan = DivanGemstonePeridot
+    DivanGemstoneAquamarine = "Gemstone Divan Aquamarine"
+    GemstoneDivanAquamarine = DivanGemstoneAquamarine
+    AquamarineDivanGemstone = DivanGemstoneAquamarine
+    DivanGemstoneAqua = DivanGemstoneAquamarine
+    AquaDivanGemstone = DivanGemstoneAquamarine
+    AquaGemstoneDivan = DivanGemstoneAquamarine
+    DivanGemstoneOnyx = "Gemstone Divan Onyx"
+    GemstoneDivanOnyx = DivanGemstoneOnyx
+    OnyxDivanGemstone = DivanGemstoneOnyx
+    DivanGemstoneBlack = DivanGemstoneOnyx
+    BlackDivanGemstone = DivanGemstoneOnyx
+    BlackGemstoneDivan = DivanGemstoneOnyx
+
+    Diver = "Diver"
+    DiverHelmetFrozen = "Frozen Diver Helmet"
+    FrozenDiver = DiverHelmetFrozen
     DiverHelmetPuffer = "Puffer Fish Diver Helmet"
     Puffer = DiverHelmetPuffer
     DiverPuffer = DiverHelmetPuffer
@@ -652,6 +858,122 @@ class ArmorType(Enum):
     Iron = "Iron"
     Golden = "Gold"
     Diamond = "Diamond"
+
+    FermentoHelmet = "Fermento Helmet"
+    Fermento = FermentoHelmet
+    FermentoBloom = "Fermento Bloom"
+    BloomFermento = FermentoBloom
+    FermentoLeaf = "Fermento Leaf"
+    LeafFermento = FermentoLeaf
+
+    FermentoCactus = "Fermento Cactus"
+    FermentoCactusBlack = "Fermento Cactus Black"
+    FermentoCactusBlue = "Fermento Cactus Blue"
+    FermentoCactusGreen = "Fermento Cactus Green"
+    FermentoCactusOrange = "Fermento Cactus Orange"
+    FermentoCactusPurple = "Fermento Cactus Purple"
+    FermentoCactusRed = "Fermento Cactus Red"
+    FermentoCactusWhite = "Fermento Cactus White"
+    FermentoCactusYellow = "Fermento Cactus Yellow"
+    FermentoCarrot = "Fermento Carrot"
+    FermentoCarrotBlack = "Fermento Carrot Black"
+    FermentoCarrotBlue = "Fermento Carrot Blue"
+    FermentoCarrotGreen = "Fermento Carrot Green"
+    FermentoCarrotOrange = "Fermento Carrot Orange"
+    FermentoCarrotPurple = "Fermento Carrot Purple"
+    FermentoCarrotRed = "Fermento Carrot Red"
+    FermentoCarrotWhite = "Fermento Carrot White"
+    FermentoCarrotYellow = "Fermento Carrot Yellow"
+    FermentoCocoa = "Fermento Cocoa"
+    FermentoCocoaBlack = "Fermento Cocoa Black"
+    FermentoCocoaBlue = "Fermento Cocoa Blue"
+    FermentoCocoaGreen = "Fermento Cocoa Green"
+    FermentoCocoaOrange = "Fermento Cocoa Orange"
+    FermentoCocoaPurple = "Fermento Cocoa Purple"
+    FermentoCocoaRed = "Fermento Cocoa Red"
+    FermentoCocoaWhite = "Fermento Cocoa White"
+    FermentoCocoaYellow = "Fermento Cocoa Yellow"
+    FermentoMushroom = "Fermento Mushroom"
+    FermentoMushroomBlack = "Fermento Mushroom Black"
+    FermentoMushroomBlue = "Fermento Mushroom Blue"
+    FermentoMushroomGreen = "Fermento Mushroom Green"
+    FermentoMushroomOrange = "Fermento Mushroom Orange"
+    FermentoMushroomPurple = "Fermento Mushroom Purple"
+    FermentoMushroomRed = "Fermento Mushroom Red"
+    FermentoMushroomWhite = "Fermento Mushroom White"
+    FermentoMushroomYellow = "Fermento Mushroom Yellow"
+    FermentoMelon = "Fermento Melon"
+    FermentoMelonBlack = "Fermento Melon Black"
+    FermentoMelonBlue = "Fermento Melon Blue"
+    FermentoMelonGreen = "Fermento Melon Green"
+    FermentoMelonOrange = "Fermento Melon Orange"
+    FermentoMelonPurple = "Fermento Melon Purple"
+    FermentoMelonRed = "Fermento Melon Red"
+    FermentoMelonWhite = "Fermento Melon White"
+    FermentoMelonYellow = "Fermento Melon Yellow"
+    FermentoPotato = "Fermento Potato"
+    FermentoPotatoBlack = "Fermento Potato Black"
+    FermentoPotatoBlue = "Fermento Potato Blue"
+    FermentoPotatoGreen = "Fermento Potato Green"
+    FermentoPotatoOrange = "Fermento Potato Orange"
+    FermentoPotatoPurple = "Fermento Potato Purple"
+    FermentoPotatoRed = "Fermento Potato Red"
+    FermentoPotatoWhite = "Fermento Potato White"
+    FermentoPotatoYellow = "Fermento Potato Yellow"
+    FermentoPumpkin = "Fermento Pumpkin"
+    FermentoPumpkinBlack = "Fermento Pumpkin Black"
+    FermentoPumpkinBlue = "Fermento Pumpkin Blue"
+    FermentoPumpkinGreen = "Fermento Pumpkin Green"
+    FermentoPumpkinOrange = "Fermento Pumpkin Orange"
+    FermentoPumpkinPurple = "Fermento Pumpkin Purple"
+    FermentoPumpkinRed = "Fermento Pumpkin Red"
+    FermentoPumpkinWhite = "Fermento Pumpkin White"
+    FermentoPumpkinYellow = "Fermento Pumpkin Yellow"
+    FermentoSugarCane = "Fermento Sugar Cane"
+    FermentoSugarCaneBlack = "Fermento Sugar Cane Black"
+    FermentoSugarCaneBlue = "Fermento Sugar Cane Blue"
+    FermentoSugarCaneGreen = "Fermento Sugar Cane Green"
+    FermentoSugarCaneOrange = "Fermento Sugar Cane Orange"
+    FermentoSugarCanePurple = "Fermento Sugar Cane Purple"
+    FermentoSugarCaneRed = "Fermento Sugar Cane Red"
+    FermentoSugarCaneWhite = "Fermento Sugar Cane White"
+    FermentoSugarCaneYellow = "Fermento Sugar Cane Yellow"
+    FermentoCane = FermentoSugarCane
+    FermentoCaneBlack = FermentoSugarCaneBlack
+    FermentoCaneBlue = FermentoSugarCaneBlue
+    FermentoCaneGreen = FermentoSugarCaneGreen
+    FermentoCaneOrange = FermentoSugarCaneOrange
+    FermentoCanePurple = FermentoSugarCanePurple
+    FermentoCaneRed = FermentoSugarCaneRed
+    FermentoCaneWhite = FermentoSugarCaneWhite
+    FermentoCaneYellow = FermentoSugarCaneYellow
+    FermentoNetherwart = "Fermento Netherwart"
+    FermentoNetherwartBlack = "Fermento Netherwart Black"
+    FermentoNetherwartBlue = "Fermento Netherwart Blue"
+    FermentoNetherwartGreen = "Fermento Netherwart Green"
+    FermentoNetherwartOrange = "Fermento Netherwart Orange"
+    FermentoNetherwartPurple = "Fermento Netherwart Purple"
+    FermentoNetherwartRed = "Fermento Netherwart Red"
+    FermentoNetherwartWhite = "Fermento Netherwart White"
+    FermentoNetherwartYellow = "Fermento Netherwart Yellow"
+    FermentoWart = FermentoNetherwart
+    FermentoWartBlack = FermentoNetherwartBlack
+    FermentoWartBlue = FermentoNetherwartBlue
+    FermentoWartGreen = FermentoNetherwartGreen
+    FermentoWartOrange = FermentoNetherwartOrange
+    FermentoWartPurple = FermentoNetherwartPurple
+    FermentoWartRed = FermentoNetherwartRed
+    FermentoWartWhite = FermentoNetherwartWhite
+    FermentoWartYellow = FermentoNetherwartYellow
+    FermentoWheat = "Fermento Wheat"
+    FermentoWheatBlack = "Fermento Wheat Black"
+    FermentoWheatBlue = "Fermento Wheat Blue"
+    FermentoWheatGreen = "Fermento Wheat Green"
+    FermentoWheatOrange = "Fermento Wheat Orange"
+    FermentoWheatPurple = "Fermento Wheat Purple"
+    FermentoWheatRed = "Fermento Wheat Red"
+    FermentoWheatWhite = "Fermento Wheat White"
+    FermentoWheatYellow = "Fermento Wheat Yellow"
 
     Mushroom = "Mushroom"
     Mush = Mushroom
@@ -832,6 +1154,10 @@ class ArmorType(Enum):
 
     DiamondNecron = "Diamond Necron"
     DiaNecron = DiamondNecron
+    DiamondNecronKnight = "Diamond Necron Knight"
+    DiaNecronKnight = DiamondNecronKnight
+    KnightDiamondNecron = DiamondNecronKnight
+    KnightDiaNecron = DiamondNecronKnight
 
     def __str__(self):
         return self.value
@@ -898,34 +1224,49 @@ itemDict = {
     ArmorType.Holy: (["HolyHelmet.webp", *baseArmorSet], ["", *([Color.Holy.value[1]] * 3)]),
     ArmorType.HolyBaby: (["HolyHelmetBaby.webp", *baseArmorSet], ["", *([Color.Holy.value[1]] * 3)]),
     ArmorType.HolyShimmer: (["HolyHelmetShimmer.webp", *baseArmorSet], ["", *([Color.Holy.value[1]] * 3)]),
+    ArmorType.HolyDrake: (["HolyHelmetDrake.webp", *baseArmorSet], ["", *([Color.Holy.value[1]] * 3)]),
     ArmorType.Old: (["OldHelmet.webp", *baseArmorSet], ["", *([Color.Old.value[1]] * 3)]),
     ArmorType.OldBaby: (["OldHelmetBaby.webp", *baseArmorSet], ["", *([Color.Old.value[1]] * 3)]),
     ArmorType.OldShimmer: (["OldHelmetShimmer.webp", *baseArmorSet], ["", *([Color.Old.value[1]] * 3)]),
+    ArmorType.OldDrake: (["OldHelmetDrake.webp", *baseArmorSet], ["", *([Color.Old.value[1]] * 3)]),
     ArmorType.Protector: (["ProtectorHelmet.webp", *baseArmorSet], ["", *([Color.Protector.value[1]] * 3)]),
     ArmorType.ProtectorBaby: (["ProtectorHelmetBaby.webp", *baseArmorSet], ["", *([Color.Protector.value[1]] * 3)]),
     ArmorType.ProtectorShimmer: (["ProtectorHelmetShimmer.webp", *baseArmorSet], ["", *([Color.Protector.value[1]] * 3)]),
+    ArmorType.ProtectorDrake: (["ProtectorHelmetDrake.webp", *baseArmorSet], ["", *([Color.Protector.value[1]] * 3)]),
     ArmorType.Strong: (["StrongHelmet.webp", *baseArmorSet], ["", Color.StrongChestplate.value[1], Color.StrongLeggings.value[1], Color.StrongBoots.value[1]]),
     ArmorType.StrongBaby: (["StrongHelmetBaby.webp", *baseArmorSet], ["", Color.StrongChestplate.value[1], Color.StrongLeggings.value[1], Color.StrongBoots.value[1]]),
     ArmorType.StrongShimmer: (["StrongHelmetShimmer.webp", *baseArmorSet], ["", Color.StrongChestplate.value[1], Color.StrongLeggings.value[1], Color.StrongBoots.value[1]]),
+    ArmorType.StrongDrake: (["StrongHelmetDrake.webp", *baseArmorSet], ["", Color.StrongChestplate.value[1], Color.StrongLeggings.value[1], Color.StrongBoots.value[1]]),
     ArmorType.Superior: (["SuperiorHelmet.webp", *baseArmorSet], ["", Color.Superior.value[1], Color.Superior.value[1], Color.SuperiorBoots.value[1]]),
     ArmorType.SuperiorBaby: (["SuperiorHelmetBaby.webp", *baseArmorSet], ["", Color.Superior.value[1], Color.Superior.value[1], Color.SuperiorBoots.value[1]]),
     ArmorType.SuperiorShimmer: (["SuperiorHelmetShimmer.webp", *baseArmorSet], ["", Color.Superior.value[1], Color.Superior.value[1], Color.SuperiorBoots.value[1]]),
+    ArmorType.SuperiorDrake: (["SuperiorHelmetDrake.webp", *baseArmorSet], ["", Color.Superior.value[1], Color.Superior.value[1], Color.SuperiorBoots.value[1]]),
     ArmorType.Unstable: (["UnstableHelmet.webp", *baseArmorSet], ["", *([Color.Unstable.value[1]] * 3)]),
     ArmorType.UnstableBaby: (["UnstableHelmetBaby.webp", *baseArmorSet], ["", *([Color.Unstable.value[1]] * 3)]),
     ArmorType.UnstableShimmer: (["UnstableHelmetShimmer.webp", *baseArmorSet], ["", *([Color.Unstable.value[1]] * 3)]),
+    ArmorType.UnstableDrake: (["UnstableHelmetDrake.webp", *baseArmorSet], ["", *([Color.Unstable.value[1]] * 3)]),
     ArmorType.Wise: (["WiseHelmet.webp", *baseArmorSet], ["", *([Color.Wise.value[1]] * 3)]),
     ArmorType.WiseBaby: (["WiseHelmetBaby.webp", *baseArmorSet], ["", *([Color.Wise.value[1]] * 3)]),
     ArmorType.WiseShimmer: (["WiseHelmetShimmer.webp", *baseArmorSet], ["", *([Color.Wise.value[1]] * 3)]),
+    ArmorType.WiseDrake: (["WiseHelmetDrake.webp", *baseArmorSet], ["", *([Color.Wise.value[1]] * 3)]),
     ArmorType.Young: (["YoungHelmet.webp", *baseArmorSet], ["", *([Color.Young.value[1]] * 3)]),
     ArmorType.YoungBaby: (["YoungHelmetBaby.webp", *baseArmorSet], ["", *([Color.Young.value[1]] * 3)]),
     ArmorType.YoungShimmer: (["YoungHelmetShimmer.webp", *baseArmorSet], ["", *([Color.Young.value[1]] * 3)]),
+    ArmorType.YoungDrake: (["YoungHelmetDrake.webp", *baseArmorSet], ["", *([Color.Young.value[1]] * 3)]),
     ArmorType.Angler: (["AnglerHelmet.webp", *baseArmorSet], ["", *([Color.Angler.value[1]] * 3)]),
+    ArmorType.DeepSeaAngler: (["DeepSeaAnglerHelmet.webp", *baseArmorSet], ["", *([Color.Angler.value[1]] * 3)]),
     ArmorType.Pack: (["LeatherHelmet.png", "LeatherChestplate.png", "IronLeggings.webp", "IronBoots.webp"], [Color.PackHelmet.value[1], Color.PackChestplate.value[1], "", ""]),
     ArmorType.Bat: (["BatHelmet.webp", *baseArmorSet], ["", *([Color.Bat.value[1]] * 3)]),
     ArmorType.Biohazard: (["BiohazardHelmet.webp", *baseArmorSet], ["", *([Color.Biohazard.value[1]] * 3)]),
     ArmorType.Blaze: (["BlazeHelmet.webp", *baseArmorSet], ["", *([Color.Blaze.value[1]] * 3)]),
     ArmorType.FrozenBlaze: (["FrozenBlazeHelmet.webp", *baseArmorSet], ["", *([Color.FrozenBlaze.value[1]] * 3)]),
     ArmorType.FrozenBlazeIcicle: (["FrozenBlazeHelmetIcicle.webp", *baseArmorSet], ["", *([Color.FrozenBlaze.value[1]] * 3)]),
+    ArmorType.FrozenBlazeIceberg: (["FrozenBlazeHelmetIceberg.webp", *baseArmorSet], ["", *([Color.FrozenBlaze.value[1]] * 3)]),
+    ArmorType.Ember: (["EmberHelmet.webp", "ChainmailChestplate.webp", "ChainmailLeggings.webp", "ChainmailBoots.webp"], ["", "", "", ""]),
+    ArmorType.RekindledEmber: (["RekindledEmberHelmet.webp", "ChainmailChestplate.webp", "ChainmailLeggings.webp", "ChainmailBoots.webp"], ["", "", "", ""]),
+    ArmorType.SmolderingEmber: (["SmolderingEmberHelmet.webp", "ChainmailChestplate.webp", "ChainmailLeggings.webp", "ChainmailBoots.webp"], ["", "", "", ""]),
+    ArmorType.Sorrow : (["ChainmailHelmet.webp", "ChainmailChestplate.webp", "ChainmailLeggings.webp", "ChainmailBoots.webp"], ["", "", "", ""]),
+    ArmorType.SorrowPaladin: (["SorrowPaladinHelmet.webp", "ChainmailChestplate.webp", "ChainmailLeggings.webp", "ChainmailBoots.webp"], ["", "", "", ""]),
     ArmorType.CloverHelmet: (["CloverHelmet.webp", *baseArmorSet], ["", *([Color.HollyDye.value[1]] * 3)]),
     ArmorType.Glacite: (["GlaciteHelmet.webp", *baseArmorSet], ["", *([Color.Glacite.value[1]] * 3)]),
     ArmorType.Goblin: (["GoblinHelmet.webp", *baseArmorSet], ["", *([Color.Goblin.value[1]] * 3)]),
@@ -945,6 +1286,7 @@ itemDict = {
     ArmorType.ShadowAssassinAdmiral: (["ShadowAssassinHelmetAdmiral.webp", *baseArmorSet], ["", *([Color.ShadowAssassin.value[1]] * 3)]),
     ArmorType.ShadowAssassinCrimson: (["ShadowAssassinHelmetCrimson.webp", *baseArmorSet], ["", *([Color.ShadowAssassin.value[1]] * 3)]),
     ArmorType.ShadowAssassinMuave: (["ShadowAssassinHelmetMauve.webp", *baseArmorSet], ["", *([Color.ShadowAssassin.value[1]] * 3)]),
+    ArmorType.ShadowAssassinSlyFox: (["ShadowAssassinHelmetSlyFox.webp", *baseArmorSet], ["", *([Color.ShadowAssassin.value[1]] * 3)]),
     ArmorType.Shark: (["SharkHelmet.webp", *baseArmorSet], ["", *([Color.Shark.value[1]] * 3)]),
     ArmorType.SnowSuit: (["SnowSuitHelmet.webp", *baseArmorSet], ["", *([Color.SnowSuit.value[1]] * 3)]),
     ArmorType.SnowSuitSnowglobe: (["SnowSuitHelmetSnowglobe.webp", *baseArmorSet], ["", *([Color.SnowSuit.value[1]] * 3)]),
@@ -960,13 +1302,55 @@ itemDict = {
 
     ArmorType.ReaperMask: (["ReaperMaskHelmet.webp", *baseArmorSet], ["", *([Color.Reaper.value[1]] * 3)]),
     ArmorType.ReaperMaskSpirit: (["ReaperMaskHelmetSpirit.webp", *baseArmorSet], ["", *([Color.Reaper.value[1]] * 3)]),
+    ArmorType.OniReaperMask: (["OniReaperMaskHelmet.webp", *baseArmorSet], ["", *([Color.Reaper.value[1]] * 3)]),
+    ArmorType.RedOniReaperMask: (["RedOniReaperMaskHelmet.webp", *baseArmorSet], ["", *([Color.Reaper.value[1]] * 3)]),
+    ArmorType.BlueOniReaperMask: (["BlueOniReaperMaskHelmet.webp", *baseArmorSet], ["", *([Color.Reaper.value[1]] * 3)]),
+    ArmorType.MagmaLord: (["MagmaLordHelmet.webp", *baseArmorSet], ["", *([Color.MagmaLord.value[1]] * 3)]),
+    ArmorType.MagmaLordMeteor: (["MagmaLordHelmetMeteor.webp", *baseArmorSet], ["", *([Color.MagmaLord.value[1]] * 3)]),
+    ArmorType.MagmaLordSharkBrown: (["MagmaLordHelmetSharkBrown.webp", *baseArmorSet], ["", *([Color.MagmaLord.value[1]] * 3)]),
+    ArmorType.MagmaLordSharkWhite: (["MagmaLordHelmetSharkWhite.webp", *baseArmorSet], ["", *([Color.MagmaLord.value[1]] * 3)]),
+    ArmorType.MagmaLordSharkGold: (["MagmaLordHelmetSharkGold.webp", *baseArmorSet], ["", *([Color.MagmaLord.value[1]] * 3)]),
+    ArmorType.MagmaLordSharkLime: (["MagmaLordHelmetSharkLime.webp", *baseArmorSet], ["", *([Color.MagmaLord.value[1]] * 3)]),
+    ArmorType.MagmaLordSharkDiamond: (["MagmaLordHelmetSharkDiamond.webp", *baseArmorSet], ["", *([Color.MagmaLord.value[1]] * 3)]),
+    ArmorType.MagmaLordSharkRose: (["MagmaLordHelmetSharkRose.webp", *baseArmorSet], ["", *([Color.MagmaLord.value[1]] * 3)]),
+    ArmorType.MagmaLordSharkRed: (["MagmaLordHelmetSharkRed.webp", *baseArmorSet], ["", *([Color.MagmaLord.value[1]] * 3)]),
+    ArmorType.MagmaLordSharkPurple: (["MagmaLordHelmetSharkPurple.webp", *baseArmorSet], ["", *([Color.MagmaLord.value[1]] * 3)]),
+    ArmorType.MagmaLordSharkPortal: (["MagmaLordHelmetSharkPortal.webp", *baseArmorSet], ["", *([Color.MagmaLord.value[1]] * 3)]),
+    ArmorType.MagmaLordSharkLava: (["MagmaLordHelmetSharkLava.webp", *baseArmorSet], ["", *([Color.MagmaLord.value[1]] * 3)]),
+    ArmorType.MagmaLordSharkBlack: (["MagmaLordHelmetSharkBlack.webp", *baseArmorSet], ["", *([Color.MagmaLord.value[1]] * 3)]),
+    ArmorType.MagmaLordSharkPastel: (["MagmaLordHelmetSharkPastel.webp", *baseArmorSet], ["", *([Color.MagmaLord.value[1]] * 3)]),
+    ArmorType.MagmaLordSharkWarding: (["MagmaLordHelmetSharkWarding.webp", *baseArmorSet], ["", *([Color.MagmaLord.value[1]] * 3)]),
+    ArmorType.MagmaLordSharkToxic: (["MagmaLordHelmetSharkToxic.webp", *baseArmorSet], ["", *([Color.MagmaLord.value[1]] * 3)]),
     ArmorType.TarantulaBlackWidow: (["TarantulaHelmetBlackWidow.webp", "ChainmailChestplate.webp", "LeatherLeggings.png", "IronBoots.webp"], ["", "", Color.Tarantula.value[1], ""]),
     ArmorType.WardenHelmetTrueWarden: (["WardenHelmetTrueWarden.webp", *baseArmorSet], ["", *([Color.TentacleDye.value[1]] * 3)]),
+    ArmorType.SentinelWarden: (["WardenHelmetSentinel.webp", *baseArmorSet], ["", *([Color.Reaper.value[1]] * 3)]),
+    ArmorType.SentinelWardenTeal: (["WardenHelmetSentinelTeal.webp", *baseArmorSet], ["", *([Color.Reaper.value[1]] * 3)]),
+    ArmorType.SentinelWardenPurple: (["WardenHelmetSentinelPurple.webp", *baseArmorSet], ["", *([Color.Reaper.value[1]] * 3)]),
+    ArmorType.SentinelWardenPink: (["WardenHelmetSentinelPink.webp", *baseArmorSet], ["", *([Color.Reaper.value[1]] * 3)]),
+    ArmorType.SentinelWardenOrange: (["WardenHelmetSentinelOrange.webp", *baseArmorSet], ["", *([Color.Reaper.value[1]] * 3)]),
+    ArmorType.SentinelWardenMaroon: (["WardenHelmetSentinelMaroon.webp", *baseArmorSet], ["", *([Color.Reaper.value[1]] * 3)]),
+    ArmorType.SentinelWardenGreen: (["WardenHelmetSentinelGreen.webp", *baseArmorSet], ["", *([Color.Reaper.value[1]] * 3)]),
+    ArmorType.SentinelWardenBlack: (["WardenHelmetSentinelBlack.webp", *baseArmorSet], ["", *([Color.Reaper.value[1]] * 3)]),
+    ArmorType.Divan: (["DivanHelmet.webp", "GoldChestplate.webp", "GoldLeggings.webp", "GoldBoots.webp"], ["", "", "", ""]),
+    ArmorType.GemstoneDivan: (["GemstoneDivanHelmet.webp", "GoldChestplate.webp", "GoldLeggings.webp", "GoldBoots.webp"], ["", "", "", ""]),
+    ArmorType.GemstoneDivanSapphire: (["GemstoneDivanHelmetSapphire.webp", "GoldChestplate.webp", "GoldLeggings.webp", "GoldBoots.webp"], ["", "", "", ""]),
+    ArmorType.GemstoneDivanAmethyst: (["GemstoneDivanHelmetAmethyst.webp", "GoldChestplate.webp", "GoldLeggings.webp", "GoldBoots.webp"], ["", "", "", ""]),
+    ArmorType.GemstoneDivanJasper: (["GemstoneDivanHelmetJasper.webp", "GoldChestplate.webp", "GoldLeggings.webp", "GoldBoots.webp"], ["", "", "", ""]),
+    ArmorType.GemstoneDivanRuby: (["GemstoneDivanHelmetRuby.webp", "GoldChestplate.webp", "GoldLeggings.webp", "GoldBoots.webp"], ["", "", "", ""]),
+    ArmorType.GemstoneDivanTopaz: (["GemstoneDivanHelmetTopaz.webp", "GoldChestplate.webp", "GoldLeggings.webp", "GoldBoots.webp"], ["", "", "", ""]),
+    ArmorType.GemstoneDivanJade: (["GemstoneDivanHelmetJade.webp", "GoldChestplate.webp", "GoldLeggings.webp", "GoldBoots.webp"], ["", "", "", ""]),
+    ArmorType.GemstoneDivanOpal: (["GemstoneDivanHelmetOpal.webp", "GoldChestplate.webp", "GoldLeggings.webp", "GoldBoots.webp"], ["", "", "", ""]),
+    ArmorType.GemstoneDivanCitrine: (["GemstoneDivanHelmetCitrine.webp", "GoldChestplate.webp", "GoldLeggings.webp", "GoldBoots.webp"], ["", "", "", ""]),
+    ArmorType.GemstoneDivanPeridot: (["GemstoneDivanHelmetPeridot.webp", "GoldChestplate.webp", "GoldLeggings.webp", "GoldBoots.webp"], ["", "", "", ""]),
+    ArmorType.GemstoneDivanAquamarine: (["GemstoneDivanHelmetAquamarine.webp", "GoldChestplate.webp", "GoldLeggings.webp", "GoldBoots.webp"], ["", "", "", ""]),
+    ArmorType.GemstoneDivanOnyx: (["GemstoneDivanHelmetOnyx.webp", "GoldChestplate.webp", "GoldLeggings.webp", "GoldBoots.webp"], ["", "", "", ""]),
     ArmorType.WitherGoggles: (["WitherGogglesHelmet.webp", *baseArmorSet], ["", Color.StormChestplate.value[1], Color.StormLeggings.value[1], Color.StormBoots.value[1]]),
     ArmorType.WitherGogglesCorrupt: (["WitherGogglesHelmetCorrupt.webp", *baseArmorSet], ["", Color.StormChestplate.value[1], Color.StormLeggings.value[1], Color.StormBoots.value[1]]),
     ArmorType.WitherGogglesCelestial: (["WitherGogglesHelmetCelestial.webp", *baseArmorSet], ["", Color.StormChestplate.value[1], Color.StormLeggings.value[1], Color.StormBoots.value[1]]),
     ArmorType.WitherGogglesCyberpunk: (["a_WitherGogglesHelmetCyberpunk.webp", *baseArmorSet], ["", Color.StormChestplate.value[1], Color.StormLeggings.value[1], Color.StormBoots.value[1]]),
+    ArmorType.Diver: (["DiverHelmet.webp", "GoldChestplate.webp", "GoldLeggings.webp", "GoldBoots.webp"], ["", "", "", ""]),
     ArmorType.DiverHelmetPuffer: (["DiverHelmetPuffer.webp", "GoldChestplate.webp", "GoldLeggings.webp", "GoldBoots.webp"], ["", "", "", ""]),
+    ArmorType.DiverHelmetFrozen: (["DiverHelmetFrozen.webp", "GoldChestplate.webp", "GoldLeggings.webp", "GoldBoots.webp"], ["", "", "", ""]),
     ArmorType.MastiffHelmetPuppy: (["MastiffHelmetPuppy.webp", "GoldChestplate.webp", "DiamondLeggings.webp", "DiamondBoots.webp"], ["", "", "", ""]),
     ArmorType.PerfectHelmetReinforced: (["PerfectHelmetReinforced.webp", "DiamondChestplate.webp", "DiamondLeggings.webp", "DiamondBoots.webp"], ["", "", "", ""]),
     ArmorType.Chainmail: (["ChainmailHelmet.webp", "ChainmailChestplate.webp", "ChainmailLeggings.webp", "ChainmailBoots.webp"], ["", "", "", ""]),
@@ -988,9 +1372,111 @@ itemDict = {
     ArmorType.MonsterRaider: (["IronHelmet.webp", "LeatherChestplate.png", "LeatherLeggings.png", "LeatherBoots.png"], ["", Color.GuardianChestplate.value[1], Color.CreeperPants.value[1], Color.Tarantula.value[1]]),
     ArmorType.ArmorOfMagma: (fullArmorSet, [*([Color.ArmorOfMagma.value[1]] * 4)]),
     ArmorType.Emerald: (fullArmorSet, [*([Color.Emerald.value[1]] * 4)]),
-    ArmorType.GodAngler: (["DiamondHelmet.webp", *baseArmorSet], ["", "4F3B49", "595536", "461E3A"]),
+    ArmorType.GodAngler: (["AnglerHelmet.webp", *baseArmorSet], ["", "4F3B49", "595536", "461E3A"]),
     ArmorType.BuildersClay: (["BuildersClayHelmet.webp", *baseArmorSet], ["", *([Color.NecronDye.value[1]] * 3)]),
 
     ArmorType.Mineral: (["MineralHelmet.webp", *baseArmorSet], ["", *([Color.Mineral.value[1]] * 3)]),
     ArmorType.DiamondNecron: (["DiamondNecronHelmet.webp", *baseArmorSet], ["", *([Color.AquamarineDye.value[1]] * 3)]),
+    ArmorType.KnightDiamondNecron: (["KnightDiamondNecronHelmet.webp", *baseArmorSet], ["", *([Color.AquamarineDye.value[1]] * 3)]),
+
+    ArmorType.MendingCrown: (["MendingCrownHelmet.webp", *baseArmorSet], ["", *([Color.MangoDye.value[1]] * 3)]),
+    ArmorType.CaduceusMendingCrown: (["CaduceusMendingCrownHelmet.webp", *baseArmorSet], ["", *([Color.MangoDye.value[1]] * 3)]),
+    ArmorType.CaduceusMendingCrownBlue: (["CaduceusMendingCrownHelmetBlue.webp", *baseArmorSet], ["", *([Color.MangoDye.value[1]] * 3)]),
+    ArmorType.CaduceusMendingCrownGreen: (["CaduceusMendingCrownHelmetGreen.webp", *baseArmorSet], ["", *([Color.MangoDye.value[1]] * 3)]),
+    ArmorType.CaduceusMendingCrownPurple: (["CaduceusMendingCrownHelmetPurple.webp", *baseArmorSet], ["", *([Color.MangoDye.value[1]] * 3)]),
+    ArmorType.CaduceusMendingCrownRed: (["CaduceusMendingCrownHelmetRed.webp", *baseArmorSet], ["", *([Color.MangoDye.value[1]] * 3)]),
+
+    ArmorType.Fermento: (["FermentoHelmet.webp", *baseArmorSet], ["", Color.FermentoChestplate.value[1], Color.FermentoLeggings.value[1], Color.FermentoBoots.value[1]]),
+    ArmorType.FermentoLeaf: (["FermentoLeafHelmet.webp", *baseArmorSet], ["", Color.FermentoChestplate.value[1], Color.FermentoLeggings.value[1], Color.FermentoBoots.value[1]]),
+    ArmorType.FermentoBloom: (["FermentoBloomHelmet.webp", *baseArmorSet], ["", Color.FermentoChestplate.value[1], Color.FermentoLeggings.value[1], Color.FermentoBoots.value[1]]),
+    ArmorType.FermentoCactus: (["FermentoCactusHelmet.webp", *baseArmorSet], ["", Color.FermentoChestplate.value[1], Color.FermentoLeggings.value[1], Color.FermentoBoots.value[1]]),
+    ArmorType.FermentoCactusBlack: (["FermentoCactusHelmetBlack.webp", *baseArmorSet], ["", Color.FermentoChestplate.value[1], Color.FermentoLeggings.value[1], Color.FermentoBoots.value[1]]),
+    ArmorType.FermentoCactusBlue: (["FermentoCactusHelmetBlue.webp", *baseArmorSet], ["", Color.FermentoChestplate.value[1], Color.FermentoLeggings.value[1], Color.FermentoBoots.value[1]]),
+    ArmorType.FermentoCactusGreen: (["FermentoCactusHelmetGreen.webp", *baseArmorSet], ["", Color.FermentoChestplate.value[1], Color.FermentoLeggings.value[1], Color.FermentoBoots.value[1]]),
+    ArmorType.FermentoCactusOrange: (["FermentoCactusHelmetOrange.webp", *baseArmorSet], ["", Color.FermentoChestplate.value[1], Color.FermentoLeggings.value[1], Color.FermentoBoots.value[1]]),
+    ArmorType.FermentoCactusPurple: (["FermentoCactusHelmetPurple.webp", *baseArmorSet], ["", Color.FermentoChestplate.value[1], Color.FermentoLeggings.value[1], Color.FermentoBoots.value[1]]),
+    ArmorType.FermentoCactusRed: (["FermentoCactusHelmetRed.webp", *baseArmorSet], ["", Color.FermentoChestplate.value[1], Color.FermentoLeggings.value[1], Color.FermentoBoots.value[1]]),
+    ArmorType.FermentoCactusWhite: (["FermentoCactusHelmetWhite.webp", *baseArmorSet], ["", Color.FermentoChestplate.value[1], Color.FermentoLeggings.value[1], Color.FermentoBoots.value[1]]),
+    ArmorType.FermentoCactusYellow: (["FermentoCactusHelmetYellow.webp", *baseArmorSet], ["", Color.FermentoChestplate.value[1], Color.FermentoLeggings.value[1], Color.FermentoBoots.value[1]]),
+    ArmorType.FermentoCarrot: (["FermentoCarrotHelmet.webp", *baseArmorSet], ["", Color.FermentoChestplate.value[1], Color.FermentoLeggings.value[1], Color.FermentoBoots.value[1]]),
+    ArmorType.FermentoCarrotBlack: (["FermentoCarrotHelmetBlack.webp", *baseArmorSet], ["", Color.FermentoChestplate.value[1], Color.FermentoLeggings.value[1], Color.FermentoBoots.value[1]]),
+    ArmorType.FermentoCarrotBlue: (["FermentoCarrotHelmetBlue.webp", *baseArmorSet], ["", Color.FermentoChestplate.value[1], Color.FermentoLeggings.value[1], Color.FermentoBoots.value[1]]),
+    ArmorType.FermentoCarrotGreen: (["FermentoCarrotHelmetGreen.webp", *baseArmorSet], ["", Color.FermentoChestplate.value[1], Color.FermentoLeggings.value[1], Color.FermentoBoots.value[1]]),
+    ArmorType.FermentoCarrotOrange: (["FermentoCarrotHelmetOrange.webp", *baseArmorSet], ["", Color.FermentoChestplate.value[1], Color.FermentoLeggings.value[1], Color.FermentoBoots.value[1]]),
+    ArmorType.FermentoCarrotPurple: (["FermentoCarrotHelmetPurple.webp", *baseArmorSet], ["", Color.FermentoChestplate.value[1], Color.FermentoLeggings.value[1], Color.FermentoBoots.value[1]]),
+    ArmorType.FermentoCarrotRed: (["FermentoCarrotHelmetRed.webp", *baseArmorSet], ["", Color.FermentoChestplate.value[1], Color.FermentoLeggings.value[1], Color.FermentoBoots.value[1]]),
+    ArmorType.FermentoCarrotWhite: (["FermentoCarrotHelmetWhite.webp", *baseArmorSet], ["", Color.FermentoChestplate.value[1], Color.FermentoLeggings.value[1], Color.FermentoBoots.value[1]]),
+    ArmorType.FermentoCarrotYellow: (["FermentoCarrotHelmetYellow.webp", *baseArmorSet], ["", Color.FermentoChestplate.value[1], Color.FermentoLeggings.value[1], Color.FermentoBoots.value[1]]),
+    ArmorType.FermentoCocoa: (["FermentoCocoaHelmet.webp", *baseArmorSet], ["", Color.FermentoChestplate.value[1], Color.FermentoLeggings.value[1], Color.FermentoBoots.value[1]]),
+    ArmorType.FermentoCocoaBlack: (["FermentoCocoaHelmetBlack.webp", *baseArmorSet], ["", Color.FermentoChestplate.value[1], Color.FermentoLeggings.value[1], Color.FermentoBoots.value[1]]),
+    ArmorType.FermentoCocoaBlue: (["FermentoCocoaHelmetBlue.webp", *baseArmorSet], ["", Color.FermentoChestplate.value[1], Color.FermentoLeggings.value[1], Color.FermentoBoots.value[1]]),
+    ArmorType.FermentoCocoaGreen: (["FermentoCocoaHelmetGreen.webp", *baseArmorSet], ["", Color.FermentoChestplate.value[1], Color.FermentoLeggings.value[1], Color.FermentoBoots.value[1]]),
+    ArmorType.FermentoCocoaOrange: (["FermentoCocoaHelmetOrange.webp", *baseArmorSet], ["", Color.FermentoChestplate.value[1], Color.FermentoLeggings.value[1], Color.FermentoBoots.value[1]]),
+    ArmorType.FermentoCocoaPurple: (["FermentoCocoaHelmetPurple.webp", *baseArmorSet], ["", Color.FermentoChestplate.value[1], Color.FermentoLeggings.value[1], Color.FermentoBoots.value[1]]),
+    ArmorType.FermentoCocoaRed: (["FermentoCocoaHelmetRed.webp", *baseArmorSet], ["", Color.FermentoChestplate.value[1], Color.FermentoLeggings.value[1], Color.FermentoBoots.value[1]]),
+    ArmorType.FermentoCocoaWhite: (["FermentoCocoaHelmetWhite.webp", *baseArmorSet], ["", Color.FermentoChestplate.value[1], Color.FermentoLeggings.value[1], Color.FermentoBoots.value[1]]),
+    ArmorType.FermentoCocoaYellow: (["FermentoCocoaHelmetYellow.webp", *baseArmorSet], ["", Color.FermentoChestplate.value[1], Color.FermentoLeggings.value[1], Color.FermentoBoots.value[1]]),
+    ArmorType.FermentoMushroom: (["FermentoMushroomHelmet.webp", *baseArmorSet], ["", Color.FermentoChestplate.value[1], Color.FermentoLeggings.value[1], Color.FermentoBoots.value[1]]),
+    ArmorType.FermentoMushroomBlack: (["FermentoMushroomHelmetBlack.webp", *baseArmorSet], ["", Color.FermentoChestplate.value[1], Color.FermentoLeggings.value[1], Color.FermentoBoots.value[1]]),
+    ArmorType.FermentoMushroomBlue: (["FermentoMushroomHelmetBlue.webp", *baseArmorSet], ["", Color.FermentoChestplate.value[1], Color.FermentoLeggings.value[1], Color.FermentoBoots.value[1]]),
+    ArmorType.FermentoMushroomGreen: (["FermentoMushroomHelmetGreen.webp", *baseArmorSet], ["", Color.FermentoChestplate.value[1], Color.FermentoLeggings.value[1], Color.FermentoBoots.value[1]]),
+    ArmorType.FermentoMushroomOrange: (["FermentoMushroomHelmetOrange.webp", *baseArmorSet], ["", Color.FermentoChestplate.value[1], Color.FermentoLeggings.value[1], Color.FermentoBoots.value[1]]),
+    ArmorType.FermentoMushroomPurple: (["FermentoMushroomHelmetPurple.webp", *baseArmorSet], ["", Color.FermentoChestplate.value[1], Color.FermentoLeggings.value[1], Color.FermentoBoots.value[1]]),
+    ArmorType.FermentoMushroomRed: (["FermentoMushroomHelmetRed.webp", *baseArmorSet], ["", Color.FermentoChestplate.value[1], Color.FermentoLeggings.value[1], Color.FermentoBoots.value[1]]),
+    ArmorType.FermentoMushroomWhite: (["FermentoMushroomHelmetWhite.webp", *baseArmorSet], ["", Color.FermentoChestplate.value[1], Color.FermentoLeggings.value[1], Color.FermentoBoots.value[1]]),
+    ArmorType.FermentoMushroomYellow: (["FermentoMushroomHelmetYellow.webp", *baseArmorSet], ["", Color.FermentoChestplate.value[1], Color.FermentoLeggings.value[1], Color.FermentoBoots.value[1]]),
+    ArmorType.FermentoNetherwart: (["FermentoNetherwartHelmet.webp", *baseArmorSet], ["", Color.FermentoChestplate.value[1], Color.FermentoLeggings.value[1], Color.FermentoBoots.value[1]]),
+    ArmorType.FermentoNetherwartBlack: (["FermentoNetherwartHelmetBlack.webp", *baseArmorSet], ["", Color.FermentoChestplate.value[1], Color.FermentoLeggings.value[1], Color.FermentoBoots.value[1]]),
+    ArmorType.FermentoNetherwartBlue: (["FermentoNetherwartHelmetBlue.webp", *baseArmorSet], ["", Color.FermentoChestplate.value[1], Color.FermentoLeggings.value[1], Color.FermentoBoots.value[1]]),
+    ArmorType.FermentoNetherwartGreen: (["FermentoNetherwartHelmetGreen.webp", *baseArmorSet], ["", Color.FermentoChestplate.value[1], Color.FermentoLeggings.value[1], Color.FermentoBoots.value[1]]),
+    ArmorType.FermentoNetherwartOrange: (["FermentoNetherwartHelmetOrange.webp", *baseArmorSet], ["", Color.FermentoChestplate.value[1], Color.FermentoLeggings.value[1], Color.FermentoBoots.value[1]]),
+    ArmorType.FermentoNetherwartPurple: (["FermentoNetherwartHelmetPurple.webp", *baseArmorSet], ["", Color.FermentoChestplate.value[1], Color.FermentoLeggings.value[1], Color.FermentoBoots.value[1]]),
+    ArmorType.FermentoNetherwartRed: (["FermentoNetherwartHelmetRed.webp", *baseArmorSet], ["", Color.FermentoChestplate.value[1], Color.FermentoLeggings.value[1], Color.FermentoBoots.value[1]]),
+    ArmorType.FermentoNetherwartWhite: (["FermentoNetherwartHelmetWhite.webp", *baseArmorSet], ["", Color.FermentoChestplate.value[1], Color.FermentoLeggings.value[1], Color.FermentoBoots.value[1]]),
+    ArmorType.FermentoNetherwartYellow: (["FermentoNetherwartHelmetYellow.webp", *baseArmorSet], ["", Color.FermentoChestplate.value[1], Color.FermentoLeggings.value[1], Color.FermentoBoots.value[1]]),
+    ArmorType.FermentoPotato: (["FermentoPotatoHelmet.webp", *baseArmorSet], ["", Color.FermentoChestplate.value[1], Color.FermentoLeggings.value[1], Color.FermentoBoots.value[1]]),
+    ArmorType.FermentoPotatoBlack: (["FermentoPotatoHelmetBlack.webp", *baseArmorSet], ["", Color.FermentoChestplate.value[1], Color.FermentoLeggings.value[1], Color.FermentoBoots.value[1]]),
+    ArmorType.FermentoPotatoBlue: (["FermentoPotatoHelmetBlue.webp", *baseArmorSet], ["", Color.FermentoChestplate.value[1], Color.FermentoLeggings.value[1], Color.FermentoBoots.value[1]]),
+    ArmorType.FermentoPotatoGreen: (["FermentoPotatoHelmetGreen.webp", *baseArmorSet], ["", Color.FermentoChestplate.value[1], Color.FermentoLeggings.value[1], Color.FermentoBoots.value[1]]),
+    ArmorType.FermentoPotatoOrange: (["FermentoPotatoHelmetOrange.webp", *baseArmorSet], ["", Color.FermentoChestplate.value[1], Color.FermentoLeggings.value[1], Color.FermentoBoots.value[1]]),
+    ArmorType.FermentoPotatoPurple: (["FermentoPotatoHelmetPurple.webp", *baseArmorSet], ["", Color.FermentoChestplate.value[1], Color.FermentoLeggings.value[1], Color.FermentoBoots.value[1]]),
+    ArmorType.FermentoPotatoRed: (["FermentoPotatoHelmetRed.webp", *baseArmorSet], ["", Color.FermentoChestplate.value[1], Color.FermentoLeggings.value[1], Color.FermentoBoots.value[1]]),
+    ArmorType.FermentoPotatoWhite: (["FermentoPotatoHelmetWhite.webp", *baseArmorSet], ["", Color.FermentoChestplate.value[1], Color.FermentoLeggings.value[1], Color.FermentoBoots.value[1]]),
+    ArmorType.FermentoPotatoYellow: (["FermentoPotatoHelmetYellow.webp", *baseArmorSet], ["", Color.FermentoChestplate.value[1], Color.FermentoLeggings.value[1], Color.FermentoBoots.value[1]]),
+    ArmorType.FermentoPumpkin: (["FermentoPumpkinHelmet.webp", *baseArmorSet], ["", Color.FermentoChestplate.value[1], Color.FermentoLeggings.value[1], Color.FermentoBoots.value[1]]),
+    ArmorType.FermentoPumpkinBlack: (["FermentoPumpkinHelmetBlack.webp", *baseArmorSet], ["", Color.FermentoChestplate.value[1], Color.FermentoLeggings.value[1], Color.FermentoBoots.value[1]]),
+    ArmorType.FermentoPumpkinBlue: (["FermentoPumpkinHelmetBlue.webp", *baseArmorSet], ["", Color.FermentoChestplate.value[1], Color.FermentoLeggings.value[1], Color.FermentoBoots.value[1]]),
+    ArmorType.FermentoPumpkinGreen: (["FermentoPumpkinHelmetGreen.webp", *baseArmorSet], ["", Color.FermentoChestplate.value[1], Color.FermentoLeggings.value[1], Color.FermentoBoots.value[1]]),
+    ArmorType.FermentoPumpkinOrange: (["FermentoPumpkinHelmetOrange.webp", *baseArmorSet], ["", Color.FermentoChestplate.value[1], Color.FermentoLeggings.value[1], Color.FermentoBoots.value[1]]),
+    ArmorType.FermentoPumpkinPurple: (["FermentoPumpkinHelmetPurple.webp", *baseArmorSet], ["", Color.FermentoChestplate.value[1], Color.FermentoLeggings.value[1], Color.FermentoBoots.value[1]]),
+    ArmorType.FermentoPumpkinRed: (["FermentoPumpkinHelmetRed.webp", *baseArmorSet], ["", Color.FermentoChestplate.value[1], Color.FermentoLeggings.value[1], Color.FermentoBoots.value[1]]),
+    ArmorType.FermentoPumpkinWhite: (["FermentoPumpkinHelmetWhite.webp", *baseArmorSet], ["", Color.FermentoChestplate.value[1], Color.FermentoLeggings.value[1], Color.FermentoBoots.value[1]]),
+    ArmorType.FermentoPumpkinYellow: (["FermentoPumpkinHelmetYellow.webp", *baseArmorSet], ["", Color.FermentoChestplate.value[1], Color.FermentoLeggings.value[1], Color.FermentoBoots.value[1]]),
+    ArmorType.FermentoSugarCane: (["FermentoSugarCaneHelmet.webp", *baseArmorSet], ["", Color.FermentoChestplate.value[1], Color.FermentoLeggings.value[1], Color.FermentoBoots.value[1]]),
+    ArmorType.FermentoSugarCaneBlack: (["FermentoSugarCaneHelmetBlack.webp", *baseArmorSet], ["", Color.FermentoChestplate.value[1], Color.FermentoLeggings.value[1], Color.FermentoBoots.value[1]]),
+    ArmorType.FermentoSugarCaneBlue: (["FermentoSugarCaneHelmetBlue.webp", *baseArmorSet], ["", Color.FermentoChestplate.value[1], Color.FermentoLeggings.value[1], Color.FermentoBoots.value[1]]),
+    ArmorType.FermentoSugarCaneGreen: (["FermentoSugarCaneHelmetGreen.webp", *baseArmorSet], ["", Color.FermentoChestplate.value[1], Color.FermentoLeggings.value[1], Color.FermentoBoots.value[1]]),
+    ArmorType.FermentoSugarCaneOrange: (["FermentoSugarCaneHelmetOrange.webp", *baseArmorSet], ["", Color.FermentoChestplate.value[1], Color.FermentoLeggings.value[1], Color.FermentoBoots.value[1]]),
+    ArmorType.FermentoSugarCanePurple: (["FermentoSugarCaneHelmetPurple.webp", *baseArmorSet], ["", Color.FermentoChestplate.value[1], Color.FermentoLeggings.value[1], Color.FermentoBoots.value[1]]),
+    ArmorType.FermentoSugarCaneRed: (["FermentoSugarCaneHelmetRed.webp", *baseArmorSet], ["", Color.FermentoChestplate.value[1], Color.FermentoLeggings.value[1], Color.FermentoBoots.value[1]]),
+    ArmorType.FermentoSugarCaneWhite: (["FermentoSugarCaneHelmetWhite.webp", *baseArmorSet], ["", Color.FermentoChestplate.value[1], Color.FermentoLeggings.value[1], Color.FermentoBoots.value[1]]),
+    ArmorType.FermentoSugarCaneYellow: (["FermentoSugarCaneHelmetYellow.webp", *baseArmorSet], ["", Color.FermentoChestplate.value[1], Color.FermentoLeggings.value[1], Color.FermentoBoots.value[1]]),
+    ArmorType.FermentoMelon: (["FermentoMelonHelmet.webp", *baseArmorSet], ["", Color.FermentoChestplate.value[1], Color.FermentoLeggings.value[1], Color.FermentoBoots.value[1]]),
+    ArmorType.FermentoMelonBlack: (["FermentoMelonHelmetBlack.webp", *baseArmorSet], ["", Color.FermentoChestplate.value[1], Color.FermentoLeggings.value[1], Color.FermentoBoots.value[1]]),
+    ArmorType.FermentoMelonBlue: (["FermentoMelonHelmetBlue.webp", *baseArmorSet], ["", Color.FermentoChestplate.value[1], Color.FermentoLeggings.value[1], Color.FermentoBoots.value[1]]),
+    ArmorType.FermentoMelonGreen: (["FermentoMelonHelmetGreen.webp", *baseArmorSet], ["", Color.FermentoChestplate.value[1], Color.FermentoLeggings.value[1], Color.FermentoBoots.value[1]]),
+    ArmorType.FermentoMelonOrange: (["FermentoMelonHelmetOrange.webp", *baseArmorSet], ["", Color.FermentoChestplate.value[1], Color.FermentoLeggings.value[1], Color.FermentoBoots.value[1]]),
+    ArmorType.FermentoMelonPurple: (["FermentoMelonHelmetPurple.webp", *baseArmorSet], ["", Color.FermentoChestplate.value[1], Color.FermentoLeggings.value[1], Color.FermentoBoots.value[1]]),
+    ArmorType.FermentoMelonRed: (["FermentoMelonHelmetRed.webp", *baseArmorSet], ["", Color.FermentoChestplate.value[1], Color.FermentoLeggings.value[1], Color.FermentoBoots.value[1]]),
+    ArmorType.FermentoMelonWhite: (["FermentoMelonHelmetWhite.webp", *baseArmorSet], ["", Color.FermentoChestplate.value[1], Color.FermentoLeggings.value[1], Color.FermentoBoots.value[1]]),
+    ArmorType.FermentoMelonYellow: (["FermentoMelonHelmetYellow.webp", *baseArmorSet], ["", Color.FermentoChestplate.value[1], Color.FermentoLeggings.value[1], Color.FermentoBoots.value[1]]),
+    ArmorType.FermentoWheat: (["FermentoWheatHelmet.webp", *baseArmorSet], ["", Color.FermentoChestplate.value[1], Color.FermentoLeggings.value[1], Color.FermentoBoots.value[1]]),
+    ArmorType.FermentoWheatBlack: (["FermentoWheatHelmetBlack.webp", *baseArmorSet], ["", Color.FermentoChestplate.value[1], Color.FermentoLeggings.value[1], Color.FermentoBoots.value[1]]),
+    ArmorType.FermentoWheatBlue: (["FermentoWheatHelmetBlue.webp", *baseArmorSet], ["", Color.FermentoChestplate.value[1], Color.FermentoLeggings.value[1], Color.FermentoBoots.value[1]]),
+    ArmorType.FermentoWheatGreen: (["FermentoWheatHelmetGreen.webp", *baseArmorSet], ["", Color.FermentoChestplate.value[1], Color.FermentoLeggings.value[1], Color.FermentoBoots.value[1]]),
+    ArmorType.FermentoWheatOrange: (["FermentoWheatHelmetOrange.webp", *baseArmorSet], ["", Color.FermentoChestplate.value[1], Color.FermentoLeggings.value[1], Color.FermentoBoots.value[1]]),
+    ArmorType.FermentoWheatPurple: (["FermentoWheatHelmetPurple.webp", *baseArmorSet], ["", Color.FermentoChestplate.value[1], Color.FermentoLeggings.value[1], Color.FermentoBoots.value[1]]),
+    ArmorType.FermentoWheatRed: (["FermentoWheatHelmetRed.webp", *baseArmorSet], ["", Color.FermentoChestplate.value[1], Color.FermentoLeggings.value[1], Color.FermentoBoots.value[1]]),
+    ArmorType.FermentoWheatWhite: (["FermentoWheatHelmetWhite.webp", *baseArmorSet], ["", Color.FermentoChestplate.value[1], Color.FermentoLeggings.value[1], Color.FermentoBoots.value[1]]),
+    ArmorType.FermentoWheatYellow: (["FermentoWheatHelmetYellow.webp", *baseArmorSet], ["", Color.FermentoChestplate.value[1], Color.FermentoLeggings.value[1], Color.FermentoBoots.value[1]]),
 }

@@ -38,7 +38,7 @@ for itemKey in itemDict:
     filePaths = item[0]
     for imagePath in filePaths:
         try:
-            if "Leather" in imagePath:
+            if "Leather" in imagePath or "Empty" in imagePath:
                 continue
             image = Image.open(f"Images/{imagePath}")
             image.close()
@@ -65,5 +65,5 @@ for itemKey in itemDict:
 
 # print(stringToArmorTypeDict)
 
-print(GetHexDifference(HexColor(baseHex="fcbb07"), HexColor(baseHex="ffbc0b")))
+# print(GetHexDifference(HexColor(baseHex="fcbb07"), HexColor(baseHex="ffbc0b")))
 # print(calculate_lab_distance("fcbb07", "ffbc0b"))
