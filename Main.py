@@ -1381,10 +1381,11 @@ async def displayAllColors(
         await interaction.response.send_message(f"No colors found for '{colortype}'", ephemeral = True)
         return
 
+    armorEnumString = str(armorEnum).replace(" ", "").strip()
     if len(colorList) > 0:
-        for color, colorType in colorList:
+        for color in colorList:
             hexColor = HexColor(baseHex=color.value[1])
-            finalString = f"{hexColor.GetHexCode()} {armorEnum.strip()}".strip()
+            finalString = f"{hexColor.GetHexCode()} {armorEnumString.lower()}".strip()
             inputItemListList.append(finalString)
 
     else:
@@ -1396,6 +1397,8 @@ async def displayAllColors(
                 itemList = fairyType[1]
             elif colortype == "All Fairy":
                 itemList = fairyType[0] + fairyType[1]
+                if len(itemList) == 4:
+                    itemList = ["All"]
 
             if len(itemList) == 0:
                 continue
@@ -1442,7 +1445,6 @@ async def displayAllColors(
 
             for baseHex in colorSplit:
                 try:
-                    print(baseHex)
                     hexList.append(HexColor(baseHex=baseHex))
                 except Exception as e:
                     await interaction.response.send_message(f"Invalid hex code '{baseHex}' - {e}", ephemeral=True)
