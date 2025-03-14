@@ -1404,21 +1404,38 @@ async def displayAllColors(
                 continue
 
             hexColor = HexColor(baseHex=color.value[1])
-            itemName = armorEnumString if armorEnumString == "fullset" else ""
+            hexCode = hexColor.GetHexCode()
+            itemHex = ""
+            itemName = armorEnumString if armorEnumString != "fullset" else ""
             allItems = ["Helmet", "Chestplate", "Leggings", "Boots"]
-            for itemType in itemList:
-                if itemType == "All":
-                    continue
-                if 
-                itemName += f"{itemType.lower()}"
-            finalString = f"{hexColor.GetHexCode()} {itemName.strip()}".strip()
+            if itemList == ["All"]:
+                itemList = allItems
+
+            if armorEnum == ArmorType.FullSet:
+                itemHex = hexCode
+                if len(itemList) != 4:
+                    for itemType in itemList:
+                        itemName += f"{itemType.lower()}"
+            else:
+                i = -1
+                armorData = itemDict[armorEnum]
+                for armorColorData in armorData[1]:
+                    i += 1
+                    if armorColorData:
+                        if allItems[i] in itemList:
+                            itemHex += f"{hexCode} "
+                        else:
+                            itemHex += "empty "
+
+            if itemHex.replace("empty", "").strip() == "":
+                continue
+            finalString = f"{itemHex.strip()} {itemName.strip()}".strip()
             inputItemListList.append(finalString)
 
     await interaction.response.defer(thinking = True, ephemeral = False)
 
     finalImageList = []
     for itemList in inputItemListList:
-        print(itemList)
         if itemList is None:
             continue
 

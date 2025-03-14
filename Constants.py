@@ -302,46 +302,47 @@ class Color(Enum):
     FinalDestinationLegs = FinalDestinationLeggings
     FinalDestinationBoots = ("Final Destination Boots", "0A0011", ColorType.Armor)
 
-    FF3399 = ("FF3399", "FF3399", ColorType.Fairy)
-    F39 = FF3399
-    FF007F = ("FF007F", "FF007F", ColorType.Fairy)
-    _660033 = ("660033", "660033", ColorType.Fairy)
-    _603 = _660033
-    _99004C = ("99004C", "99004C", ColorType.Fairy)
-    CC0066 = ("CC0066", "CC0066", ColorType.Fairy)
-    C06 = CC0066
-    FF66B2 = ("FF66B2", "FF66B2", ColorType.Fairy)
-    FF99CC = ("FF99CC", "FF99CC", ColorType.Fairy)
-    F9C = FF99CC
     FFCCE5 = ("FFCCE5", "FFCCE5", ColorType.Fairy)
-    _660066 = ("660066", "660066", ColorType.Fairy)
-    _606 = _660066
-    _990099 = ("990099", "990099", ColorType.Fairy)
-    _909 = _990099
-    CC00CC = ("CC00CC", "CC00CC", ColorType.Fairy)
-    C0C = CC00CC
-    FF00FF = ("FF00FF", "FF00FF", ColorType.Fairy)
-    F0F = FF00FF
-    FF33FF = ("FF33FF", "FF33FF", ColorType.Fairy)
-    F3F = FF33FF
-    FF66FF = ("FF66FF", "FF66FF", ColorType.Fairy)
-    F6F = FF66FF
-    FF99FF = ("FF99FF", "FF99FF", ColorType.Fairy)
-    F9F = FF99FF
-    FFCCFF = ("FFCCFF", "FFCCFF", ColorType.Fairy)
     E5CCFF = ("E5CCFF", "E5CCFF", ColorType.Fairy)
-    ECF = E5CCFF
+    FFCCFF = ("FFCCFF", "FFCCFF", ColorType.Fairy)
+    FF99CC = ("FF99CC", "FF99CC", ColorType.Fairy)
+    FF99FF = ("FF99FF", "FF99FF", ColorType.Fairy)
     CC99FF = ("CC99FF", "CC99FF", ColorType.Fairy)
-    C9F = CC99FF
+    FF66FF = ("FF66FF", "FF66FF", ColorType.Fairy)
+    FF33FF = ("FF33FF", "FF33FF", ColorType.Fairy)
+    FF00FF = ("FF00FF", "FF00FF", ColorType.Fairy)
+    CC00CC = ("CC00CC", "CC00CC", ColorType.Fairy)
+    _990099 = ("990099", "990099", ColorType.Fairy)
+    FF66B2 = ("FF66B2", "FF66B2", ColorType.Fairy)
+    FF3399 = ("FF3399", "FF3399", ColorType.Fairy)
+    FF007F = ("FF007F", "FF007F", ColorType.Fairy)
+    CC0066 = ("CC0066", "CC0066", ColorType.Fairy)
+    _99004C = ("99004C", "99004C", ColorType.Fairy)
+    _660033 = ("660033", "660033", ColorType.Fairy)
+    _660066 = ("660066", "660066", ColorType.Fairy)
     B266FF = ("B266FF", "B266FF", ColorType.Fairy)
-    B6F = B266FF
     _9933FF = ("9933FF", "9933FF", ColorType.Fairy)
-    _93F = _9933FF
     _7F00FF = ("7F00FF", "7F00FF", ColorType.Fairy)
     _6600CC = ("6600CC", "6600CC", ColorType.Fairy)
-    _60C = _6600CC
     _4C0099 = ("4C0099", "4C0099", ColorType.Fairy)
     _330066 = ("330066", "330066", ColorType.Fairy)
+
+    F39 = FF3399
+    _603 = _660033
+    C06 = CC0066
+    F9C = FF99CC
+    _606 = _660066
+    _909 = _990099
+    C0C = CC00CC
+    F0F = FF00FF
+    F3F = FF33FF
+    F6F = FF66FF
+    F9F = FF99FF
+    ECF = E5CCFF
+    C9F = CC99FF
+    B6F = B266FF
+    _93F = _9933FF
+    _60C = _6600CC
     _306 = _330066
 
     FCF3FF = ("FCF3FF", "FCF3FF", ColorType.Crystal)
@@ -462,30 +463,29 @@ class Color(Enum):
 
 allFairyHexes = {
     Color.FFCCE5: (["Boots"], ["Helmet", "Chestplate", "Leggings"]),
+    Color.E5CCFF: ([], ["All"]),
+    Color.FFCCFF: ([], ["All"]),
     Color.FF99CC: (["Leggings", "Boots"], ["Helmet", "Chestplate"]),
+    Color.FF99FF: ([], ["All"]),
+    Color.CC99FF: ([], ["All"]),
+    Color.FF66FF: ([], ["All"]),
+    Color.FF33FF: ([], ["All"]),
+    Color.FF00FF: ([], ["All"]),
+    Color.CC00CC: ([], ["All"]),
+    Color._990099: ([], ["All"]),
     Color.FF66B2: (["Chestplate", "Leggings", "Boots"], ["Helmet"]),
     Color.FF3399: (["All"], []),
     Color.FF007F: (["All"], []),
     Color.CC0066: (["Helmet", "Chestplate", "Leggings"], ["Boots"]),
     Color._99004C: (["Helmet", "Chestplate"], ["Leggings", "Boots"]),
     Color._660033: (["Helmet"], ["Chestplate", "Leggings", "Boots"]),
-
-    Color.FF99FF: ([], ["All"]),
-    Color.FFCCFF: ([], ["All"]),
-    Color.E5CCFF: ([], ["All"]),
-    Color.CC99FF: ([], ["All"]),
-    Color.CC00CC: ([], ["All"]),
-    Color.FF00FF: ([], ["All"]),
-    Color.FF33FF: ([], ["All"]),
-    Color.FF66FF: ([], ["All"]),
+    Color._660066: ([], ["All"]),
     Color.B266FF: ([], ["All"]),
     Color._9933FF: ([], ["All"]),
     Color._7F00FF: ([], ["All"]),
-    Color._660066: ([], ["All"]),
     Color._6600CC: ([], ["All"]),
     Color._4C0099: ([], ["All"]),
     Color._330066: ([], ["All"]),
-    Color._990099: ([], ["All"])
 }
 allCrystalHexes = {}
 allHypixelDyeHexes = {}
