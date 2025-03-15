@@ -626,6 +626,33 @@ def GetColorStatusText(hexColor):
 
     return typeString, explanationString
 
+def MergeImagesHorizontal(*images: Image.Image):
+    total_width = sum(image.size[0] for image in images)
+    max_height = max(image.size[1] for image in images)
+
+    result = Image.new(mode='RGBA', size=(total_width, max_height), color=(0, 0, 0, 0))
+    x_offset = 0
+
+    for image in images:
+        width, height = image.size
+        result.paste(im=image, box=(x_offset, max_height - height))
+        x_offset += width
+
+    return result
+
+def MergeImagesVertical(image1: Image.Image, image2: Image.Image):
+    (width1, height1) = image1.size
+    (width2, height2) = image2.size
+
+    resultWidth = max(width1, width2)
+    resultHeight = height1 + height2
+
+    result = Image.new(mode='RGBA', size=(resultWidth, resultHeight), color=(0, 0, 0, 0))
+    result.paste(im=image1, box=(0, 0))
+    result.paste(im=image2, box=(0, height1))
+
+    return result
+
 def RGBToXYZ(rgbInt: int):
     rgb = [
         ((rgbInt >> 16) & 0xFF) / 255.0,
