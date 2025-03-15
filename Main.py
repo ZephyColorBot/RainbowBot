@@ -831,11 +831,11 @@ async def displayDatabaseInfo(interaction, color: str = None, itemname: str = No
 
     hexCode = hexColor.GetHexCode() if hexColor is not None else None
 
-    for crystalColor in allCrystalHexes:
+    for crystalColor in allCrystalHexes.keys():
         if hexCode is not None and hexCode == crystalColor.value[1]:
             await interaction.response.send_message(f"Crystal hexes can\'t be scanned.", ephemeral = True)
             return
-    for fairyColor in allFairyHexes:
+    for fairyColor in allFairyHexes.keys():
         if hexCode is not None and hexCode == fairyColor.value[1]:
             await interaction.response.send_message(f"Fairy hexes can\'t be scanned.", ephemeral = True)
             return
@@ -1362,7 +1362,7 @@ async def displayAllColors(
     colorList = []
     fairyColorList = []
     if colortype == "Fairy":
-        fairyColorList = allFairyHexes.items()
+        fairyColorList = list(allFairyHexes.items())[::-1]
     elif colortype == "OG Fairy":
         fairyColorList = allFairyHexes.items()
     elif colortype == "All Fairy":

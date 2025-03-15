@@ -1288,11 +1288,11 @@ def PopulateStringDictionaries():
         stringToColorDict[colorValue] = color
 
         if color.value[2] == ColorType.Crystal:
-            allCrystalHexes[color.value[1]] = colorValue
+            allCrystalHexes[color] = colorValue
         elif color.value[2] == ColorType.HypixelDye:
-            allHypixelDyeHexes[color.value[1]] = colorValue
+            allHypixelDyeHexes[color] = colorValue
         elif color.value[2] == ColorType.PureDye:
-            allPureExoticHexes[color.value[1]] = colorValue
+            allPureExoticHexes[color] = colorValue
 
     for name, armorType in ArmorType.__members__.items():
         armorName = name.replace(" ", "").replace("_", "").lower().strip()
