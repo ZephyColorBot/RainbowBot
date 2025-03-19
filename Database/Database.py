@@ -1,6 +1,6 @@
 import re
 
-from Armor import ArmorType, HexColor, GetAbsoluteDifference
+from Armor import ArmorType, HexColor, GetAbsoluteDifference, GetVisualDifference
 
 '''
 itemDB = {
@@ -190,7 +190,7 @@ def GetItemCount(itemID: str = None, itemHex: str = None, isArmorType: bool = Fa
 
     return 0
 
-def GetMatchingItems(itemID: str, itemHex: HexColor, tolerance: int = 0, isArmorType: bool = False):
+def GetMatchingItems(itemID: str, itemHex: HexColor, tolerance: float = 0, isArmorType: bool = False, visualDistance: bool = False):
     matchingItemsList = {}
     matchingItemCount = 0
     for hexCode in itemDB:
@@ -198,7 +198,11 @@ def GetMatchingItems(itemID: str, itemHex: HexColor, tolerance: int = 0, isArmor
             continue
 
         tempPlayerList = []
-        difference = GetAbsoluteDifference(HexColor(baseHex=hexCode), itemHex)
+        if visualDistance:
+            difference = GetVisualDifference(HexColor(baseHex=hexCode), itemHex)
+        else:
+            difference = GetAbsoluteDifference(HexColor(baseHex=hexCode), itemHex)
+
         if difference <= tolerance:
             if itemID in itemDB[hexCode]:
                 for player in itemDB[hexCode][itemID]:

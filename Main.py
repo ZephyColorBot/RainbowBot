@@ -50,6 +50,10 @@ allColorTypeChoices = [
     app_commands.Choice(name = "Pure Exotics", value = "Pure Exotics"),
     app_commands.Choice(name = "Hypixel Dyes", value = "Hypixel Dyes"),
 ]
+visualOrAbsoluteDistanceChoices = [
+    app_commands.Choice(name = "Visual Distance", value = "Visual"),
+    app_commands.Choice(name = "Absolute Difference", value = "Absolute")
+]
 
 '''
 Auto complete for some reason makes discord not allow up arrow command resending.
@@ -107,6 +111,7 @@ similarItemsCommandColorDescription = 'Hex code to scan for.'
 similarItemsCommandItemNameDescription = 'ItemName or ItemId to scan for.'
 similarItemsCommandToleranceDescription = 'The amount off a hex code can be.'
 similarItemsCommandListPlayersDescription = 'Whether the player uuids should be listed (Requires Permission).'
+similarItemsCommandVisualOrAbsoluteDistanceDescription = 'Whether the visual or absolute distance should be used.'
 
 colorInfoCommandDescription = 'Displays information about a specific hex code.'
 colorInfoCommandColorDescription = 'Enter a hex code.'
@@ -970,19 +975,24 @@ async def displayDatabaseInfo(interaction, color: str = None, itemname: str = No
 async def displayDatabase(interaction, color: str = None, itemname: str = None, listplayers: bool = False, listhexes: bool = False, showitemtypes: bool = False):
     await displayDatabaseInfo.callback(interaction, color, itemname, listplayers, listhexes, showitemtypes)
 
-@client.tree.command(name = 'e', description = similarItemsCommandDescription)
-@app_commands.describe(color = similarItemsCommandColorDescription, itemname = similarItemsCommandItemNameDescription, tolerance = similarItemsCommandToleranceDescription, listplayers = similarItemsCommandListPlayersDescription)
+@client.tree.command(name = 'findsimilaritems', description = similarItemsCommandDescription)
+@app_commands.describe(
+    color = similarItemsCommandColorDescription,
+    itemname = similarItemsCommandItemNameDescription,
+    tolerance = similarItemsCommandToleranceDescription,
+    listplayers = similarItemsCommandListPlayersDescription,
+    visual_or_absolute_distance = similarItemsCommandVisualOrAbsoluteDistanceDescription
+)
+@app_commands.choices(visual_or_absolute_distance = visualOrAbsoluteDistanceChoices)
 # @app_commands.autocomplete(color = armor_color_type_autocomplete)
 @app_commands.allowed_installs(guilds = True, users = True)
 @app_commands.allowed_contexts(guilds = True, dms = True, private_channels = True)
-async def displaySimilarItems(interaction, color: str, itemname: str, tolerance: int = 25, listplayers: bool = False):
+async def displaySimilarItems(interaction, color: str, itemname: str, tolerance: int = -1, listplayers: bool = False, visual_or_absolute_distance: str = None):
     if color is None and itemname is None:
         await interaction.response.send_message("Please provide a color or item name.", ephemeral = True)
         return
 
-    if tolerance is None or tolerance < 0:
-        await interaction.response.send_message("Please provide a valid tolerance.", ephemeral = True)
-        return
+
 
     try:
         hexColor = HexColor(baseHex = color)
@@ -992,6 +1002,26 @@ async def displaySimilarItems(interaction, color: str, itemname: str, tolerance:
 
     if color is None and itemname is None:
         await interaction.response.send_message("Please provide a color or item name.", ephemeral = True)
+        return
+
+    if visual_or_absolute_distance is not None:
+        if visual_or_absolute_distance.lower() == "visual":
+            visualDistance = True
+        elif visual_or_absolute_distance.lower() == "absolute":
+            visualDistance = False
+        else:
+            await interaction.response.send_message("Please provide a valid distance type.", ephemeral = True)
+            return
+    else:
+        visualDistance = False
+
+    if tolerance == -1 and visualDistance:
+        tolerance = 10
+    elif tolerance == -1:
+        tolerance = 25
+
+    if tolerance is None or tolerance < 0:
+        await interaction.response.send_message("Please provide a valid tolerance.", ephemeral=True)
         return
 
     itemID = None
@@ -1018,8 +1048,11 @@ async def displaySimilarItems(interaction, color: str, itemname: str, tolerance:
 
     await interaction.response.defer(thinking=True, ephemeral=False)
 
-    matchingItemsList, matchingItemCount = GetMatchingItems(itemHex = hexColor, itemID = itemID, tolerance = tolerance, isArmorType = isArmorType)
-    currentDescription = f"Found `{matchingItemCount:,}` matching items within a tolerance of `{tolerance}`."
+    matchingItemsList, matchingItemCount = GetMatchingItems(itemHex = hexColor, itemID = itemID, tolerance = tolerance, isArmorType = isArmorType, visualDistance = visualDistance)
+
+    distanceDescription = "visual distance" if visualDistance else "absolute difference"
+    toleranceString = f"{tolerance:.2f}" if visualDistance else f"{tolerance}"
+    currentDescription = f"Found `{matchingItemCount:,}` matching items within a {distanceDescription} of `{toleranceString}`."
 
     discordFile = None
     if matchingItemCount > 0:
@@ -1037,7 +1070,7 @@ async def displaySimilarItems(interaction, color: str, itemname: str, tolerance:
         currentOffAmount = 0
         for playerList in sorted(matchingItemsList.items(), key = lambda x: x[1][1]):
             offAmount = playerList[1][1]
-            if currentOffAmount != offAmount:
+            if currentOffAmount != offAmount and playerList[1][0]:
                 currentOffAmount = offAmount
                 if i != -1:
                     tempDescription += f"\n"
@@ -1047,7 +1080,9 @@ async def displaySimilarItems(interaction, color: str, itemname: str, tolerance:
                     tempDescription += f"\n"
 
                 playerString = f"{playerData[1]}\n" if shouldListPlayers else ""
-                tempDescription += f"{playerString}{extraString}#{playerList[0]} - {playerData[0]} - {offAmount}"
+
+                toleranceString = f"{offAmount:.2f}" if visualDistance else f"{offAmount}"
+                tempDescription += f"{playerString}{extraString}#{playerList[0]} - {playerData[0]} - {toleranceString}"
 
         if matchingItemCount > 25:
             buffer = io.BytesIO()
@@ -1076,19 +1111,33 @@ async def displaySimilarItems(interaction, color: str, itemname: str, tolerance:
         return
     await interaction.followup.send(embed = embed)
 @client.tree.command(name = 'findnearbyitems', description = similarItemsCommandDescription)
-@app_commands.describe(color = similarItemsCommandColorDescription, itemname = similarItemsCommandItemNameDescription, tolerance = similarItemsCommandToleranceDescription, listplayers = similarItemsCommandListPlayersDescription)
+@app_commands.describe(
+    color = similarItemsCommandColorDescription,
+    itemname = similarItemsCommandItemNameDescription,
+    tolerance = similarItemsCommandToleranceDescription,
+    listplayers = similarItemsCommandListPlayersDescription,
+    visual_or_absolute_distance = similarItemsCommandVisualOrAbsoluteDistanceDescription
+)
+@app_commands.choices(visual_or_absolute_distance = visualOrAbsoluteDistanceChoices)
 # @app_commands.autocomplete(color = armor_color_type_autocomplete)
 @app_commands.allowed_installs(guilds = True, users = True)
 @app_commands.allowed_contexts(guilds = True, dms = True, private_channels = True)
-async def displayNearbyItems(interaction, color: str, itemname: str, tolerance: int = 25, listplayers: bool = False):
-    await displaySimilarItems.callback(interaction, color, itemname, tolerance, listplayers)
+async def displayNearbyItems(interaction, color: str, itemname: str, tolerance: int = -1, listplayers: bool = False, visual_or_absolute_distance: str = None):
+    await displaySimilarItems.callback(interaction, color, itemname, tolerance, listplayers, visual_or_absolute_distance)
 @client.tree.command(name = 'findcloseitems', description = similarItemsCommandDescription)
-@app_commands.describe(color = similarItemsCommandColorDescription, itemname = similarItemsCommandItemNameDescription, tolerance = similarItemsCommandToleranceDescription, listplayers = similarItemsCommandListPlayersDescription)
+@app_commands.describe(
+    color = similarItemsCommandColorDescription,
+    itemname = similarItemsCommandItemNameDescription,
+    tolerance = similarItemsCommandToleranceDescription,
+    listplayers = similarItemsCommandListPlayersDescription,
+    visual_or_absolute_distance = similarItemsCommandVisualOrAbsoluteDistanceDescription
+)
+@app_commands.choices(visual_or_absolute_distance = visualOrAbsoluteDistanceChoices)
 # @app_commands.autocomplete(color = armor_color_type_autocomplete)
 @app_commands.allowed_installs(guilds = True, users = True)
 @app_commands.allowed_contexts(guilds = True, dms = True, private_channels = True)
-async def displayCloseItems(interaction, color: str, itemname: str, tolerance: int = 25, listplayers: bool = False):
-    await displaySimilarItems.callback(interaction, color, itemname, tolerance, listplayers)
+async def displayCloseItems(interaction, color: str, itemname: str, tolerance: int = -1, listplayers: bool = False, visual_or_absolute_distance: str = None):
+    await displaySimilarItems.callback(interaction, color, itemname, tolerance, listplayers, visual_or_absolute_distance)
 
 @client.tree.command(name = 'colorinfo', description = colorInfoCommandDescription)
 @app_commands.describe(color = colorInfoCommandColorDescription, showclosestcolor = colorInfoCommandShowClosestColorDescription)
