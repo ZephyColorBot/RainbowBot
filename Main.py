@@ -144,6 +144,9 @@ async def displayColor(interaction, colors: str):
     image.save(buffer, "PNG")
     buffer.seek(0)
 
+    if len(colorString) > 2000:
+        colorString = " "
+
     discordFile = discord.File(buffer, filename = "colorSquare.png")
     await interaction.response.send_message(f"**{colorString}**", file = discordFile)
 @client.tree.command(name = 'colour', description = colorCommandDescription)
