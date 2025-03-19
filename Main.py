@@ -139,6 +139,8 @@ async def displayColor(interaction, colors: str):
             colorString += ", "
         colorString += f"#{hexColor.GetHexCode()}"
 
+    await interaction.response.defer(thinking=True, ephemeral=False)
+
     buffer = io.BytesIO()
     image = CreateColorSquare(colorList)
     image.save(buffer, "PNG")
@@ -148,7 +150,7 @@ async def displayColor(interaction, colors: str):
         colorString = " "
 
     discordFile = discord.File(buffer, filename = "colorSquare.png")
-    await interaction.response.send_message(f"**{colorString}**", file = discordFile)
+    await interaction.followup.send(content=f"**{colorString}**", file = discordFile)
 @client.tree.command(name = 'colour', description = colorCommandDescription)
 @app_commands.describe(colors = colorCommandColorsDescription)
 @app_commands.allowed_installs(guilds = True, users = True)
@@ -217,6 +219,8 @@ async def displayArmor(interaction, colors: str, armor: str = None, shape: str =
                 await interaction.response.send_message(f"Invalid hex code '{baseHex}' - {e}", ephemeral = True)
                 return
 
+    await interaction.response.defer(thinking=True, ephemeral=False)
+
     buffer, filePath, colors = GetCombinedArmorSetBuffer(
         armorType = armorEnum,
         hexList = colorList,
@@ -231,7 +235,7 @@ async def displayArmor(interaction, colors: str, armor: str = None, shape: str =
         colorString += f"#{baseHex.GetHexCode()}"
 
     discordFile = discord.File(buffer, filename = filePath)
-    await interaction.response.send_message(f"**{colorString}**", file = discordFile)
+    await interaction.followup.send(content=f"**{colorString}**", file = discordFile)
 @client.tree.command(name = 'armour', description = armorCommandDescription)
 @app_commands.choices(shape = shapeChoices, version = armorVersionChoices)
 # @app_commands.autocomplete(armor = armor_type_autocomplete, colors = armor_color_type_autocomplete)
@@ -312,6 +316,8 @@ async def displayMix(
         await interaction.response.send_message("Error: Cannot combine colors and crafting sequences.", ephemeral = True)
         return
 
+    await interaction.response.defer(thinking=True, ephemeral=False)
+
     inputColorList = []
     finalHex = None
     colorString = ""
@@ -342,7 +348,7 @@ async def displayMix(
                     hexColor = HexColor(baseHex = baseHex)
                     hexColorList.append(hexColor)
                 except Exception as e:
-                    await interaction.response.send_message(f"Invalid hex code '{baseHex}' - {e}", ephemeral = True)
+                    await interaction.followup.send(content=f"Invalid hex code '{baseHex}' - {e}", ephemeral = True)
                     return
 
                 if tempColorString != "":
@@ -366,7 +372,7 @@ async def displayMix(
                     hexColor = HexColor(baseHex = baseHex)
                     hexList.append(hexColor)
                 except Exception as e:
-                    await interaction.response.send_message(f"Invalid hex code '{baseHex}' - {e}", ephemeral = True)
+                    await interaction.followup.send(content=f"Invalid hex code '{baseHex}' - {e}", ephemeral = True)
                     return
 
             for baseHex in hexList:
@@ -396,13 +402,13 @@ async def displayMix(
             outputversion = outputversion.lower().replace(' ', '').strip()
 
         if outputarmor not in stringToArmorTypeDict:
-            await interaction.response.send_message(f"Invalid armor type '{outputarmor}'", ephemeral = True)
+            await interaction.followup.send(content=f"Invalid armor type '{outputarmor}'", ephemeral = True)
             return
         if outputshape not in stringToShapeTypeDict:
-            await interaction.response.send_message(f"Invalid shape type '{outputshape}'", ephemeral = True)
+            await interaction.followup.send(content=f"Invalid shape type '{outputshape}'", ephemeral = True)
             return
         if outputversion not in stringToVersionTypeDict:
-            await interaction.response.send_message(f"Invalid version type '{outputversion}'", ephemeral = True)
+            await interaction.followup.send(content=f"Invalid version type '{outputversion}'", ephemeral = True)
             return
 
         armorEnum = stringToArmorTypeDict[outputarmor]
@@ -425,7 +431,7 @@ async def displayMix(
         buffer.seek(0)
 
     discordFile = discord.File(buffer, filename = filePath)
-    await interaction.response.send_message(f"**{colorString}**", file = discordFile)
+    await interaction.followup.send(content=f"**{colorString}**", file = discordFile)
 
 @client.tree.command(name = 'help', description = helpCommandDescription)
 @app_commands.allowed_installs(guilds = True, users = True)
@@ -543,6 +549,8 @@ async def displayColorStatusExotic(interaction, color: str):
         await interaction.response.send_message(f"Invalid hex code '{color}' - {e}", ephemeral = True)
         return
 
+    await interaction.response.defer(thinking=True, ephemeral=False)
+
     statusString, explanationString = GetColorStatusText(hexColor)
 
     embed = discord.Embed(
@@ -561,7 +569,7 @@ async def displayColorStatusExotic(interaction, color: str):
     embed.set_footer(text = footerText, icon_url = avatarLink)
     embed.timestamp = interaction.created_at
 
-    await interaction.response.send_message(embed = embed, file = discordFile)
+    await interaction.followup.send(embed = embed, file = discordFile)
 @client.tree.command(name = 'crystal', description = exoticCommandDescription)
 @app_commands.describe(color = exoticCommandColorDescription)
 @app_commands.allowed_installs(guilds = True, users = True)
@@ -624,6 +632,8 @@ async def displayCompareArmor(
     shapeEnum = stringToShapeTypeDict[shape]
     versionEnum = stringToVersionTypeDict[version]
 
+    await interaction.response.defer(thinking=True, ephemeral=False)
+
     finalImageList = []
     for itemList in inputItemListList:
         if itemList is None:
@@ -656,7 +666,7 @@ async def displayCompareArmor(
                 try:
                     hexList.append(HexColor(baseHex = baseHex))
                 except Exception as e:
-                    await interaction.response.send_message(f"Invalid hex code '{baseHex}' - {e}", ephemeral = True)
+                    await interaction.followup.send(content=f"Invalid hex code '{baseHex}' - {e}", ephemeral = True)
                     return
 
         buffer, filePath, colors = GetCombinedArmorSetBuffer(
@@ -670,7 +680,7 @@ async def displayCompareArmor(
         finalImageList.append((buffer, filePath, colors))
 
     if len(finalImageList) == 0:
-        await interaction.response.send_message("Please provide at least one armor color or armor type.", ephemeral = True)
+        await interaction.followup.send(content="Please provide at least one armor color or armor type.", ephemeral = True)
         return
 
     resultImage = Image.new(mode = 'RGBA', size = (0, 0), color = (0, 0, 0, 0))
@@ -692,7 +702,7 @@ async def displayCompareArmor(
     buffer.seek(0)
 
     discordFile = discord.File(buffer, filename = f"armorComparison.png")
-    await interaction.response.send_message(file = discordFile)
+    await interaction.followup.send(file = discordFile)
 
 @client.tree.command(name = 'hexdifference', description = hexDifferenceCommandDescription)
 @app_commands.describe(color1=hexDifferenceCommandColor1Description, color2=hexDifferenceCommandColor2Description)
@@ -715,6 +725,8 @@ async def displayHexDifference(interaction, color1: str, color2: str):
     hex2 = hexColor2.GetHexCode()
     rgb1 = hexColor1.GetRGBList()
     rgb2 = hexColor2.GetRGBList()
+
+    await interaction.response.defer(thinking=True, ephemeral=False)
 
     absoluteDifference, eulerDistance = GetHexDifference(hexColor1, hexColor2)
     absoluteDifferenceString = f"{absoluteDifference}"
@@ -753,7 +765,7 @@ async def displayHexDifference(interaction, color1: str, color2: str):
     embed.set_footer(text = footerText, icon_url = avatarLink)
     embed.timestamp = interaction.created_at
 
-    await interaction.response.send_message(embed = embed, file = discordFile)
+    await interaction.followup.send(embed = embed, file = discordFile)
 @client.tree.command(name = 'checkdifference', description = hexDifferenceCommandDescription)
 @app_commands.describe(color1=hexDifferenceCommandColor1Description, color2=hexDifferenceCommandColor2Description)
 # @app_commands.autocomplete(color1=armor_color_type_autocomplete, color2=armor_color_type_autocomplete)
@@ -842,6 +854,8 @@ async def displayDatabaseInfo(interaction, color: str = None, itemname: str = No
         if hexCode is not None and hexCode == fairyColor.value[1]:
             await interaction.response.send_message(f"Fairy hexes can\'t be scanned.", ephemeral = True)
             return
+
+    await interaction.response.defer(thinking=True, ephemeral=False)
 
     itemCount = GetItemCount(itemHex = hexCode, itemID = itemID, isArmorType = isArmorType)
     currentDescription = f"Found `{itemCount:,}` matching items."
@@ -945,9 +959,9 @@ async def displayDatabaseInfo(interaction, color: str = None, itemname: str = No
     embed.timestamp = interaction.created_at
 
     if discordFile:
-        await interaction.response.send_message(embed = embed, file = discordFile)
+        await interaction.followup.send(embed = embed, file = discordFile)
         return
-    await interaction.response.send_message(embed = embed)
+    await interaction.followup.send(embed = embed)
 @client.tree.command(name = 'database', description = databaseCommandDescription)
 @app_commands.describe(color = databaseCommandColorDescription, itemname = databaseCommandItemNameDescription, listplayers = databaseCommandListPlayersDescription, listhexes = databaseCommandListHexesDescription, showitemtypes = databaseCommandShowItemTypesDescription)
 # @app_commands.autocomplete(color = armor_color_type_autocomplete)
@@ -1001,6 +1015,8 @@ async def displaySimilarItems(interaction, color: str, itemname: str, tolerance:
             return
 
     hexCode = hexColor.GetHexCode()
+
+    await interaction.response.defer(thinking=True, ephemeral=False)
 
     matchingItemsList, matchingItemCount = GetMatchingItems(itemHex = hexColor, itemID = itemID, tolerance = tolerance, isArmorType = isArmorType)
     currentDescription = f"Found `{matchingItemCount:,}` matching items within a tolerance of `{tolerance}`."
@@ -1056,9 +1072,9 @@ async def displaySimilarItems(interaction, color: str, itemname: str, tolerance:
     embed.timestamp = interaction.created_at
 
     if discordFile:
-        await interaction.response.send_message(embed = embed, file = discordFile)
+        await interaction.followup.send(embed = embed, file = discordFile)
         return
-    await interaction.response.send_message(embed = embed)
+    await interaction.followup.send(embed = embed)
 @client.tree.command(name = 'findnearbyitems', description = similarItemsCommandDescription)
 @app_commands.describe(color = similarItemsCommandColorDescription, itemname = similarItemsCommandItemNameDescription, tolerance = similarItemsCommandToleranceDescription, listplayers = similarItemsCommandListPlayersDescription)
 # @app_commands.autocomplete(color = armor_color_type_autocomplete)
@@ -1089,6 +1105,8 @@ async def displayColorInfo(interaction, color: str, showclosestcolor: bool = Fal
     except Exception as e:
         await interaction.response.send_message(f"Invalid hex code '{color}' - {e}", ephemeral = True)
         return
+
+    await interaction.response.defer(thinking=True, ephemeral=False)
 
     hexCode = hexColor.GetHexCode()
     rgb = hexColor.GetRGBList()
@@ -1178,7 +1196,7 @@ async def displayColorInfo(interaction, color: str, showclosestcolor: bool = Fal
     embed.set_footer(text = footerText, icon_url = avatarLink)
     embed.timestamp = interaction.created_at
 
-    await interaction.response.send_message(embed = embed, file = discordFile)
+    await interaction.followup.send(embed = embed, file = discordFile)
 @client.tree.command(name = 'info', description = colorInfoCommandDescription)
 @app_commands.describe(color = colorInfoCommandColorDescription, showclosestcolor = colorInfoCommandShowClosestColorDescription)
 # @app_commands.autocomplete(color = armor_color_type_autocomplete)
@@ -1241,6 +1259,8 @@ async def displayScanPlayer(interaction, player: str):
         "Content-Type": "application/json"
     }
 
+    await interaction.response.defer(thinking=True, ephemeral=False)
+
     async with aiohttp.ClientSession() as session:
         try:
             async with session.get(f"https://crafthead.net/profile/{playerData}", headers = headers) as response:
@@ -1255,10 +1275,10 @@ async def displayScanPlayer(interaction, player: str):
             print("1 ERROR", json.dumps(str(error)), error)
 
     if playerUUID is None or playerUsername is None:
-        await interaction.response.send_message(f"Error when looking up '{player}'.", ephemeral = True)
+        await interaction.followup.send(content=f"Error when looking up '{player}'.", ephemeral = True)
         return
     if playerUUID not in playerUUIDToItemList:
-        await interaction.response.send_message(f"Player '{player}' not found in the database.", ephemeral = True)
+        await interaction.followup.send(content=f"Player '{player}' not found in the database.", ephemeral = True)
         return
 
     playerItemList = playerUUIDToItemList[playerUUID]
@@ -1317,9 +1337,9 @@ async def displayScanPlayer(interaction, player: str):
     embed.timestamp = interaction.created_at
 
     if discordFile:
-        await interaction.response.send_message(embed = embed, file = discordFile)
+        await interaction.followup.send(embed = embed, file = discordFile)
         return
-    await interaction.response.send_message(embed = embed)
+    await interaction.followup.send(embed = embed)
 
 @client.tree.command(name = 'allcolors', description = "fuck you")
 @app_commands.choices(shape = normalShapeChoices, version = armorVersionChoices, colortype = allColorTypeChoices)
@@ -1384,6 +1404,8 @@ async def displayAllColors(
         await interaction.response.send_message(f"No colors found for '{colortype}'", ephemeral = True)
         return
 
+    await interaction.response.defer(thinking=True, ephemeral=False)
+
     armorEnumString = str(armorEnum).replace(" ", "").strip().lower()
     finalText = ""
     if len(colorList) > 0:
@@ -1395,7 +1417,6 @@ async def displayAllColors(
             if finalText != "":
                 finalText += ", "
             finalText += f"#{hexCode}"
-
     else:
         for color, fairyType in fairyColorList:
             itemList = []
@@ -1443,8 +1464,6 @@ async def displayAllColors(
             finalString = f"{itemHex.strip()} {itemName.strip()}".strip()
             inputItemListList.append(finalString)
 
-    await interaction.response.defer(thinking = True, ephemeral = False)
-
     finalImageList = []
     for itemList in inputItemListList:
         if itemList is None:
@@ -1477,7 +1496,7 @@ async def displayAllColors(
                 try:
                     hexList.append(HexColor(baseHex=baseHex))
                 except Exception as e:
-                    await interaction.followup.send(f"Invalid hex code '{baseHex}' - {e}", ephemeral=True)
+                    await interaction.followup.send(content=f"Invalid hex code '{baseHex}' - {e}", ephemeral=True)
                     return
 
         buffer, filePath, colors = GetCombinedArmorSetBuffer(
@@ -1491,7 +1510,7 @@ async def displayAllColors(
         finalImageList.append((buffer, filePath, colors))
 
     if len(finalImageList) == 0:
-        await interaction.followup.send("Please provide at least one armor color or armor type.", ephemeral = True)
+        await interaction.followup.send(content="Please provide at least one armor color or armor type.", ephemeral = True)
         return
 
     resultImage = Image.new(mode = 'RGBA', size = (0, 0), color = (0, 0, 0, 0))
