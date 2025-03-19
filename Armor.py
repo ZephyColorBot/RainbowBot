@@ -122,6 +122,9 @@ def CreateColorSquare(
         x0, y0 = col * imageSize, row * imageSize
         x1, y1 = x0 + imageSize - 1, y0 + imageSize - 1
 
+        if color.hexCode == "Blank":
+            draw.rectangle((x0, y0, x1, y1), fill=(0, 0, 0, 0))
+            continue
         draw.rectangle((x0, y0, x1, y1), fill=tuple(color.GetRGBList()))
 
     return image
