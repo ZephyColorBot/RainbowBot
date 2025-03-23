@@ -1,6 +1,4 @@
-import re
-
-from Armor import ArmorType, HexColor, GetAbsoluteDifference, GetVisualDifference
+from Armor import HexColor, GetAbsoluteDifference, GetVisualDifference
 
 '''
 itemDB = {
@@ -17,61 +15,6 @@ itemDB = {}
 hexCodeToItemCount = {}
 itemIDToItemCount = {}
 totalDatabaseItems = 0
-
-def GetArmorType(itemString: str):
-    itemString = itemString.replace("_", " ")
-    armorTypeSplit = re.split('', itemString)
-
-    currentWord = ""
-    if len(armorTypeSplit) > 100:
-        return None
-
-    for i, letter in enumerate(armorTypeSplit):
-        letter = letter.lower().strip()
-        currentWord += letter
-        for armor in ArmorType.__members__:
-            if currentWord == armor.lower():
-                return ArmorType[armor]
-    return None
-
-helmetNames = sorted(["helmet", "helm"], key=len, reverse=True)
-chestplateNames = sorted(["chestplate", "chest", "cp"], key=len, reverse=True)
-leggingsNames = sorted(["leggings", "legging", "legs", "leg", "pants", "pant"], key=len, reverse=True)
-bootsNames = sorted(["boots", "boot"], key=len, reverse=True)
-def UpdateItemID(itemString: str):
-    doPrint = False
-
-    armorType = GetArmorType(itemString)
-    if doPrint:
-        print(f"1 {itemString} - {armorType}")
-    if armorType is None:
-        return None
-
-    itemString = itemString.lower().replace("_", " ").strip()
-    armorTypeName = armorType.value.lower()
-
-    if doPrint:
-        print(f"2 {itemString} - {armorTypeName}")
-
-    for name in helmetNames + chestplateNames + leggingsNames + bootsNames:
-        armorTypeName = armorTypeName.replace(name, "").strip()
-
-    itemType = itemString.replace(armorTypeName, "").strip()
-    if doPrint:
-        print(f"3 {itemString} - {armorTypeName} - {itemType}")
-
-    if itemType in helmetNames:
-        itemType = "helmet"
-    elif itemType in chestplateNames:
-        itemType = "chestplate"
-    elif itemType in leggingsNames:
-        itemType = "leggings"
-    elif itemType in bootsNames:
-        itemType = "boots"
-    else:
-        itemType = ""
-
-    return f"{armorTypeName} {itemType}".strip().replace(" ", "_").upper()
 
 def LoadDatabase(filePath):
     global totalDatabaseItems

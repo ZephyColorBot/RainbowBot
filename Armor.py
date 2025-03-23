@@ -1,3 +1,4 @@
+import re
 import io
 import math
 import imageio
@@ -5,6 +6,7 @@ import numpy as np
 
 from PIL import Image, ImageDraw
 from Constants import *
+from Database import Database
 
 class HexColor:
     hexCode: str = None
@@ -731,3 +733,77 @@ def GetHexDifference(hexColor1: HexColor, hexColor2: HexColor):
     visualDifference = GetVisualDifference(hexColor1, hexColor2)
 
     return absoluteDifference, visualDifference
+
+def GetArmorType(itemString: str):
+    itemString = itemString.replace("_", " ")
+    armorTypeSplit = re.split('', itemString)
+
+    currentWord = ""
+    if len(armorTypeSplit) > 100:
+        return None
+
+    for i, letter in enumerate(armorTypeSplit):
+        letter = letter.lower().strip()
+        currentWord += letter
+        for armor in ArmorType.__members__:
+            if currentWord == armor.lower():
+                return ArmorType[armor]
+    return None
+
+helmetNames = sorted(["helmet", "helm"], key=len, reverse=True)
+chestplateNames = sorted(["chestplate", "chest", "cp"], key=len, reverse=True)
+leggingsNames = sorted(["leggings", "legging", "legs", "leg", "pants", "pant"], key=len, reverse=True)
+bootsNames = sorted(["boots", "boot"], key=len, reverse=True)
+def UpdateItemID(itemString: str):
+    doPrint = False
+
+    armorType = GetArmorType(itemString)
+    if doPrint:
+        print(f"1 {itemString} - {armorType}")
+    if armorType is None:
+        return None
+
+    itemString = itemString.lower().replace("_", " ").strip()
+    armorTypeName = armorType.value.lower()
+
+    if doPrint:
+        print(f"2 {itemString} - {armorTypeName}")
+
+    for name in helmetNames + chestplateNames + leggingsNames + bootsNames:
+        armorTypeName = armorTypeName.replace(name, "").strip()
+
+    itemType = itemString.replace(armorTypeName, "").strip()
+    if doPrint:
+        print(f"3 {itemString} - {armorTypeName} - {itemType}")
+
+    if itemType in helmetNames:
+        itemType = "helmet"
+    elif itemType in chestplateNames:
+        itemType = "chestplate"
+    elif itemType in leggingsNames:
+        itemType = "leggings"
+    elif itemType in bootsNames:
+        itemType = "boots"
+    else:
+        itemType = ""
+
+    return f"{armorTypeName} {itemType}".strip().replace(" ", "_").upper()
+
+def GetValidItemIDFromItemName(itemName):
+    itemID = None
+    isArmorType = False
+    isValid = False
+    if itemName is not None:
+        itemID = UpdateItemID(itemName)
+        armorType = str(GetArmorType(itemName)).upper().strip().replace(' ', '_')
+        if itemID in Database.itemIDToItemCount:
+            isValid = True
+        elif armorType in Database.itemIDToItemCount:
+            isValid = True
+            isArmorType = True
+            itemID = armorType
+        elif itemName.lower().replace("_", "").replace(" ", "").strip() == itemName.lower().replace("_", "").replace(" ", "").strip():
+            isValid = True
+            isArmorType = True
+
+    return isValid, itemID, isArmorType

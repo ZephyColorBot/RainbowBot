@@ -822,7 +822,6 @@ async def displayDatabaseInfo(interaction, color: str = None, itemname: str = No
         return
 
     hexColor = None
-    itemID = None
     if color is not None:
         try:
             hexColor = HexColor(baseHex = color)
@@ -830,18 +829,8 @@ async def displayDatabaseInfo(interaction, color: str = None, itemname: str = No
             await interaction.response.send_message(f"Invalid hex code '{color}' - {e}", ephemeral = True)
             return
 
-    itemID = None
-    isArmorType = False
-    if itemname is not None:
-        itemID = UpdateItemID(itemname)
-        armorType = str(GetArmorType(itemname)).upper().strip().replace(' ', '_')
-        if armorType in itemIDToItemCount:
-            isArmorType = True
-            itemID = armorType
-        elif itemname.lower().replace("_", "").replace(" ", "").strip() == itemname.lower().replace("_", "").replace(" ", "").strip():
-            isArmorType = True
-
-    if not itemID:
+    isValid, itemID, isArmorType = GetValidItemIDFromItemName(itemname)
+    if not isValid and itemname is not None:
         await interaction.response.send_message(f"Invalid item id '{itemname}'", ephemeral = True)
         return
 
@@ -1018,18 +1007,8 @@ async def displaySimilarItems(interaction, color: str, itemname: str, tolerance:
         await interaction.response.send_message("Please provide a valid tolerance.", ephemeral=True)
         return
 
-    itemID = None
-    isArmorType = False
-    if itemname is not None:
-        itemID = UpdateItemID(itemname)
-        armorType = str(GetArmorType(itemname)).upper().strip().replace(' ', '_')
-        if armorType in itemIDToItemCount:
-            isArmorType = True
-            itemID = armorType
-        elif itemname.lower().replace("_", "").replace(" ", "").strip() == itemname.lower().replace("_", "").replace(" ", "").strip():
-            isArmorType = True
-
-    if not itemID:
+    isValid, itemID, isArmorType = GetValidItemIDFromItemName(itemname)
+    if not itemID and not isValid:
         await interaction.response.send_message(f"Invalid item id '{itemname}'", ephemeral = True)
         return
 
