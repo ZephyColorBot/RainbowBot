@@ -830,24 +830,20 @@ async def displayDatabaseInfo(interaction, color: str = None, itemname: str = No
             await interaction.response.send_message(f"Invalid hex code '{color}' - {e}", ephemeral = True)
             return
 
+    itemID = None
     isArmorType = False
     if itemname is not None:
-        isValid = False
         itemID = UpdateItemID(itemname)
         armorType = str(GetArmorType(itemname)).upper().strip().replace(' ', '_')
-        if itemID in itemIDToItemCount:
-            isValid = True
-        elif armorType in itemIDToItemCount:
-            isValid = True
+        if armorType in itemIDToItemCount:
             isArmorType = True
             itemID = armorType
         elif itemname.lower().replace("_", "").replace(" ", "").strip() == itemname.lower().replace("_", "").replace(" ", "").strip():
-            isValid = True
             isArmorType = True
 
-        if not isValid:
-            await interaction.response.send_message(f"Invalid item id '{itemname}'", ephemeral = True)
-            return
+    if not itemID:
+        await interaction.response.send_message(f"Invalid item id '{itemname}'", ephemeral = True)
+        return
 
     hexCode = hexColor.GetHexCode() if hexColor is not None else None
 
@@ -992,8 +988,6 @@ async def displaySimilarItems(interaction, color: str, itemname: str, tolerance:
         await interaction.response.send_message("Please provide a color or item name.", ephemeral = True)
         return
 
-
-
     try:
         hexColor = HexColor(baseHex = color)
     except Exception as e:
@@ -1027,22 +1021,17 @@ async def displaySimilarItems(interaction, color: str, itemname: str, tolerance:
     itemID = None
     isArmorType = False
     if itemname is not None:
-        isValid = False
         itemID = UpdateItemID(itemname)
         armorType = str(GetArmorType(itemname)).upper().strip().replace(' ', '_')
-        if itemID in itemIDToItemCount:
-            isValid = True
-        elif armorType in itemIDToItemCount:
-            isValid = True
+        if armorType in itemIDToItemCount:
             isArmorType = True
             itemID = armorType
         elif itemname.lower().replace("_", "").replace(" ", "").strip() == itemname.lower().replace("_", "").replace(" ", "").strip():
-            isValid = True
             isArmorType = True
 
-        if not isValid:
-            await interaction.response.send_message(f"Invalid item id '{itemname}'", ephemeral = True)
-            return
+    if not itemID:
+        await interaction.response.send_message(f"Invalid item id '{itemname}'", ephemeral = True)
+        return
 
     hexCode = hexColor.GetHexCode()
 
