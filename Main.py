@@ -122,11 +122,11 @@ dyeInfoCommandDescription = 'Displays all pure dye hexes.'
 scanPlayerCommandDescription = 'Scan the database for a specific player. (Doesn\'t scan their current items)'
 scanPlayerCommandPlayerDescription = 'Player UUID/Username to scan for.'
 
-@client.tree.command(name = 'color', description = colorCommandDescription, extras = {"contexts": [0, 1, 2], "integration_types": [0, 1]})
+@client.tree.command(name = 'color', description = colorCommandDescription)
 @app_commands.describe(colors = colorCommandColorsDescription)
 @app_commands.allowed_installs(guilds = True, users = True)
 @app_commands.allowed_contexts(guilds = True, dms = True, private_channels = True)
-async def displayColor(interaction, colors: str):
+async def displayColor(interaction, colors: str, maxcolumns: int = None, maxrows: int = None):
     originalHexList = re.split(r'(\s)', colors)
     originalHexList = [x for i, x in enumerate(originalHexList) if i % 2 == 0]
 
@@ -144,10 +144,15 @@ async def displayColor(interaction, colors: str):
             colorString += ", "
         colorString += f"#{hexColor.GetHexCode()}"
 
+    if maxcolumns is None:
+        maxcolumns = -1
+    if maxrows is None:
+        maxrows = -1
+
     await interaction.response.defer(thinking=True, ephemeral=False)
 
     buffer = io.BytesIO()
-    image = CreateColorSquare(colorList)
+    image = CreateColorSquare(hexColorList=colorList, maxColumns = maxcolumns, maxRows = maxrows)
     image.save(buffer, "PNG")
     buffer.seek(0)
 

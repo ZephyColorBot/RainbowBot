@@ -107,20 +107,38 @@ class HexColor:
         return rgb[0] << 16 | rgb[1] << 8 | rgb[2]
 
 def CreateColorSquare(
-        hexColorList: list[HexColor],
-        imageSize: int = 128
+    hexColorList: list[HexColor],
+    imageSize: int = 128,
+    maxColumns: int = -1,
+    maxRows: int = -1
 ):
-    side = math.ceil(math.sqrt(len(hexColorList)))
-    rows = math.ceil(len(hexColorList) / side)
-    width = side * imageSize
+    total = len(hexColorList)
+    if maxColumns == -1 and maxRows == -1:
+        columns = math.ceil(math.sqrt(total))
+        rows = math.ceil(total / columns)
+    elif maxColumns != -1 and maxRows == -1:
+        columns = maxColumns
+        rows = math.ceil(total / columns)
+    elif maxColumns == -1 and maxRows != -1:
+        rows = maxRows
+        columns = math.ceil(total / rows)
+    else:
+        columns = maxColumns
+        rows = maxRows
+        max_cells = columns * rows
+        hexColorList = hexColorList[:max_cells]
+
+    width = columns * imageSize
     height = rows * imageSize
 
     image = Image.new("RGBA", (width, height), color=(0, 0, 0, 0))
     draw = ImageDraw.Draw(image)
 
     for i, color in enumerate(hexColorList):
-        row = i // side
-        col = i % side
+        row = i // columns
+        col = i % columns
+        if row >= rows:
+            break
         x0, y0 = col * imageSize, row * imageSize
         x1, y1 = x0 + imageSize - 1, y0 + imageSize - 1
 
