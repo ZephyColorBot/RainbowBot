@@ -19,18 +19,19 @@ totalDatabaseItems = 0
 def LoadDatabase(filePath):
     global totalDatabaseItems
     with open(filePath) as file:
-        for line in file:
+        for index, line in enumerate(file):
             line = line.strip()
 
             if not line:
                 continue
 
-            baseHex, armorType, playerUUID = line.split(" ")
-            itemID = armorType.upper()
-            playerUUID = playerUUID.upper()
-            # itemID = UpdateItemID(armorType)
-            # if itemID is None:
-            #     print(f"Error: Invalid itemID '{armorType}'")
+            try:
+                baseHex, armorType, playerUUID = line.split(" ")
+                itemID = armorType.upper()
+                playerUUID = playerUUID.upper()
+            except Exception as e:
+                print(f"Error Loading database line #{index}: '{line}' | {e}")
+                continue
 
             try:
                 hexColor = HexColor(baseHex=baseHex)
