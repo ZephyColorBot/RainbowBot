@@ -1017,6 +1017,8 @@ async def displaySimilarItems(interaction, color: str, itemname: str, tolerance:
         if not itemID and not isValid:
             await interaction.response.send_message(f"Invalid item id '{itemname}'", ephemeral = True)
             return
+    else:
+        itemID = itemname
 
     hexCode = hexColor.GetHexCode()
 
