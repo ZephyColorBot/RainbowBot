@@ -1013,7 +1013,7 @@ async def displaySimilarItems(interaction, color: str, itemname: str, tolerance:
         return
 
     isValid, itemID, isArmorType = GetValidItemIDFromItemName(itemname)
-    if not itemID and not isValid:
+    if not itemID and not isValid and itemname != "any":
         await interaction.response.send_message(f"Invalid item id '{itemname}'", ephemeral = True)
         return
 
