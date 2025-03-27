@@ -616,7 +616,12 @@ async def displayCompareArmor(
     inputItemListList = [set1, set2, set3, set4, set5]
 
     if setliststring is not None:
-        setList = setliststring.split('|')
+        setList = []
+        if ", " in setliststring:
+            setList = setliststring.split(', ')
+        elif "|" in setliststring:
+            setList = setliststring.split('|')
+
         for setItem in setList:
             setItem = setItem.strip()
             if setItem:
@@ -645,12 +650,13 @@ async def displayCompareArmor(
     await interaction.response.defer(thinking=True, ephemeral=False)
 
     finalImageList = []
+    lastArmor = None
     for itemList in inputItemListList:
         if itemList is None:
             continue
 
         currentWord = ""
-        armorEnum = None
+        armorEnum = lastArmor
 
         reversedItemList = itemList[::-1]
         armorTypeSplit = re.split(r'(\s)', reversedItemList)
@@ -660,6 +666,7 @@ async def displayCompareArmor(
             currentWord = (currentWord + word).strip()
             if currentWord in stringToArmorTypeDict:
                 armorEnum = stringToArmorTypeDict[word]
+                lastArmor = armorEnum
                 break
 
         if armorEnum is None:
