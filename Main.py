@@ -1246,7 +1246,10 @@ async def displayDyes(interaction):
 
     pureAndTrueColorDictionary = {**pureColorToDiscordEmotes, **trueColorToDiscordEmotes}
     for color in pureAndTrueColorDictionary.keys():
-        pureColorsDescription += f"{pureAndTrueColorDictionary[color]} `#{color.value[1]}` - {color.value[0]}\n"
+        if color in pureColorToDiscordEmotes:
+            pureColorsDescription += f"{pureAndTrueColorDictionary[color]} `#{color.value[1]}` - {color.value[0]}\n"
+        else:
+            trueColorsDescription += f"{pureAndTrueColorDictionary[color]} `#{color.value[1]}` - {color.value[0]}\n"
 
     embed = discord.Embed(
         title = f"**Dye Info**",
