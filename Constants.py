@@ -494,16 +494,16 @@ pureColorToDiscordEmotes = {
     Color.PureYellow:    "<:YellowDye:1334768821923352586>",
     Color.PureLime:      "<:LimeDye:1334768853988675636>",
     Color.PureDarkGreen: "<:DarkGreenDye:1334768739895218187>",
-    Color.PureLightBlue: "<:LightBlueDye:1334768799215259667>",
     Color.PureCyan:      "<:CyanDye:1334768832471896124>",
+    Color.PureLightBlue: "<:LightBlueDye:1334768799215259667>",
     Color.PureDarkBlue:  "<:DarkBlueDye:1334768754734665748>",
-    Color.PurePink:      "<:PinkDye:1334768777581170739>",
-    Color.PureMagenta:   "<:MagentaDye:1334768786229956729>",
     Color.PurePurple:    "<:PurpleDye:1334768766613192734>",
+    Color.PureMagenta:   "<:MagentaDye:1334768786229956729>",
+    Color.PurePink:      "<:PinkDye:1334768777581170739>",
     Color.PureBrown:     "<:BrownDye:1334768649809956955>",
+    Color.PureWhite:     "<:WhiteDye:1334768808656769024>",
     Color.PureLightGrey: "<:LightGrayDye:1334768841963733044>",
     Color.PureDarkGrey:  "<:DarkGrayDye:1334768865334399078>",
-    Color.PureWhite:     "<:WhiteDye:1334768808656769024>",
     Color.PureBlack:     "<:BlackDye:1334768718890139679>"
 }
 trueColorToDiscordEmotes = {

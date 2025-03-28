@@ -1,10 +1,9 @@
 /.idea
 /.venv
-/Output
 /PSD
-BotToken
 /__pycache__
 /Old
-Database/
+BotToken
 AIToken
 /Database/__pycache__
+/Database

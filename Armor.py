@@ -6,7 +6,6 @@ import numpy as np
 
 from PIL import Image, ImageDraw
 from Constants import *
-from Database import Database
 
 class HexColor:
     hexCode: str = None
@@ -806,22 +805,3 @@ def UpdateItemID(itemString: str):
         itemType = ""
 
     return f"{armorTypeName} {itemType}".strip().replace(" ", "_").upper()
-
-def GetValidItemIDFromItemName(itemName):
-    itemID = None
-    isArmorType = False
-    isValid = False
-    if itemName is not None:
-        itemID = UpdateItemID(itemName)
-        armorType = str(GetArmorType(itemName)).upper().strip().replace(' ', '_')
-        if itemID in Database.itemIDToItemCount:
-            isValid = True
-        elif armorType in Database.itemIDToItemCount:
-            isValid = True
-            isArmorType = True
-            itemID = armorType
-        elif itemName.lower().replace("_", "").replace(" ", "").strip() == itemName.lower().replace("_", "").replace(" ", "").strip():
-            isValid = True
-            isArmorType = True
-
-    return isValid, itemID, isArmorType

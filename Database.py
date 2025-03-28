@@ -1,4 +1,4 @@
-from Armor import HexColor, GetAbsoluteDifference, GetVisualDifference
+from Armor import HexColor, GetAbsoluteDifference, GetVisualDifference, UpdateItemID, GetArmorType
 
 '''
 itemDB = {
@@ -134,6 +134,25 @@ def GetItemCount(itemID: str = None, itemHex: str = None, isArmorType: bool = Fa
 
     return 0
 
+def GetValidItemIDFromItemName(itemName):
+    itemID = None
+    isArmorType = False
+    isValid = False
+    if itemName is not None:
+        itemID = UpdateItemID(itemName)
+        armorType = str(GetArmorType(itemName)).upper().strip().replace(' ', '_')
+        if itemID in itemIDToItemCount:
+            isValid = True
+        elif armorType in itemIDToItemCount:
+            isValid = True
+            isArmorType = True
+            itemID = armorType
+        elif itemName.lower().replace("_", "").replace(" ", "").strip() == itemName.lower().replace("_", "").replace(" ", "").strip():
+            isValid = True
+            isArmorType = True
+
+    return isValid, itemID, isArmorType
+
 def GetMatchingItems(itemID: str, itemHex: HexColor, tolerance: float = 0, isArmorType: bool = False, visualDistance: bool = False):
     matchingItemsList = {}
     matchingItemCount = 0
@@ -167,50 +186,3 @@ def GetMatchingItems(itemID: str, itemHex: HexColor, tolerance: float = 0, isArm
             matchingItemCount += len(tempPlayerList)
 
     return matchingItemsList, matchingItemCount
-
-# LoadDatabase("Combined-S.html")
-
-# print(GetDatabasePlayers(itemID="LAPIS_CHEST", itemHex="211A1B"))
-# print(GetDatabasePlayers(itemID="LAPIS_CHEST"))
-# print(GetDatabasePlayers(itemHex="211A1B"))
-
-# print(GetItemCount(itemID="LAPIS_CHEST", itemHex="211A1B"))
-# print(GetItemCount(itemID="LAPIS_CHEST"))
-# print(GetItemCount(itemHex="211A1B"))
-
-# print(3, GetArmorType("LAPIS_CHEST"))
-# print(3, GetArmorType("LAPIS CHEST"))
-# print(3, GetArmorType("LAPIS_CP"))
-# print(3, GetArmorType("LAPISchestplate"))
-# print(3, GetArmorType("anglerlegs"))
-# print(3, GetArmorType("lapisboots"))
-# print(3, GetArmorType("lapis_helmet"))
-
-# print(3, UpdateItemID("LAPIS_CHEST"))
-# print(3, UpdateItemID("LAPIS CHEST"))
-# print(3, UpdateItemID("LAPIS_CP"))
-# print(3, UpdateItemID("LAPISchestplate"))
-# print(3, UpdateItemID("anglerlegs"))
-# print(3, UpdateItemID("lapisboots"))
-# print(3, UpdateItemID("OBSIDIAN_CHESTPLATE"))
-# print(3, UpdateItemID("CREEPER_LEGGINGS"))
-# print(3, UpdateItemID("ZOMBIE_SOLDIER_CHESTPLATE"))
-# print(3, UpdateItemID("RANCHERS_BOOTS"))
-# print(3, UpdateItemID("MAGMAHELMET"))
-# print(3, UpdateItemID("MAGMA_HELMET"))
-# print(3, UpdateItemID("FARMER_BOOTS"))
-# print(3, UpdateItemID("STEREO_PANTS"))
-# print(3, UpdateItemID("STARRED_SHADOW_ASSASSIN_BOOTS"))
-# print(3, UpdateItemID("FARM_SUIT_HELMET"))
-# print(3, UpdateItemID("CHEAP_TUXEDO_BOOTS"))
-# print(3, UpdateItemID("GOLDOR_BOOTS"))
-# print(3, UpdateItemID("CHEAP_TUXEDO_LEGS"))
-# print(3, UpdateItemID("CHEAP_TUXEDO_CHEST"))
-# print(3, UpdateItemID("FANCY_TUXEDO_LEGS"))
-# print(3, UpdateItemID("FANCY_TUXEDO_BOOTS"))
-# print(3, UpdateItemID("FANCY_TUXEDO_CHEST"))
-# print(3, UpdateItemID("GOLDOR_LEGS"))
-# print(3, UpdateItemID("PACK"))
-
-# print(4, len(GetDatabasePlayers(itemHex="7fcc19", itemID="young", isArmorType=True)))
-# print(4, GetItemCount(itemHex="7fcc19", itemID="young", isArmorType=True))

@@ -2,11 +2,11 @@ import aiohttp
 import discord
 
 from discord.ext import commands
-from discord import app_commands
-from Database.Database import *
+from discord import app_commands, Forbidden
 from openai import OpenAI
 from ColorNames import *
 from Armor import *
+from Database import *
 
 defaultColor = discord.Color(0xD2EBEB)
 avatarLink = "https://cdn.discordapp.com/avatars/1000919610251558993/7c7d0e2f2d831a5241b9053fd0ca6fd1.webp"
@@ -47,7 +47,9 @@ allColorTypeChoices = [
     app_commands.Choice(name = "OG Fairy", value = "OG Fairy"),
     app_commands.Choice(name = "All Fairy", value = "All Fairy"),
     app_commands.Choice(name = "Crystal", value = "Crystal"),
-    app_commands.Choice(name = "Pure Exotics", value = "Pure Exotics"),
+    app_commands.Choice(name = "Pure Colors", value = "Pure Colors"),
+    app_commands.Choice(name = "True Colors", value = "True Colors"),
+    app_commands.Choice(name = "Pure+True Colors", value = "Pure+True Colors"),
     app_commands.Choice(name = "Hypixel Dyes", value = "Hypixel Dyes"),
 ]
 visualOrAbsoluteDistanceChoices = [
@@ -151,16 +153,23 @@ async def displayColor(interaction, colors: str, maxcolumns: int = None, maxrows
 
     await interaction.response.defer(thinking=True, ephemeral=False)
 
-    buffer = io.BytesIO()
-    image = CreateColorSquare(hexColorList=colorList, maxColumns = maxcolumns, maxRows = maxrows)
-    image.save(buffer, "PNG")
-    buffer.seek(0)
+    try:
+        buffer = io.BytesIO()
+        image = CreateColorSquare(hexColorList=colorList, maxColumns = maxcolumns, maxRows = maxrows)
+        image.save(buffer, "PNG")
+        buffer.seek(0)
 
-    if len(colorString) > 2000:
-        colorString = " "
+        if len(colorString) > 2000:
+            colorString = " "
 
-    discordFile = discord.File(buffer, filename = "colorSquare.png")
-    await interaction.followup.send(content=f"**{colorString}**", file = discordFile)
+        discordFile = discord.File(buffer, filename = "colorSquare.png")
+        try:
+            await interaction.followup.send(content=f"**{colorString}**", file = discordFile)
+        except Forbidden as e:
+            await interaction.followup.send(content = f"Error: Bot has no permissions to send images.", ephemeral = True)
+    except Exception as e:
+        await interaction.followup.send(content = f"Unexpected Error: {e}", ephemeral = True)
+
 @client.tree.command(name = 'colour', description = colorCommandDescription)
 @app_commands.describe(colors = colorCommandColorsDescription)
 @app_commands.allowed_installs(guilds = True, users = True)
@@ -231,21 +240,28 @@ async def displayArmor(interaction, colors: str, armor: str = None, shape: str =
 
     await interaction.response.defer(thinking=True, ephemeral=False)
 
-    buffer, filePath, colors = GetCombinedArmorSetBuffer(
-        armorType = armorEnum,
-        hexList = colorList,
-        versionType = versionEnum,
-        shapeType = shapeEnum,
-        imageSpacing = 20,
-        imageSize = 128
-    )
-    for baseHex in colors:
-        if colorString != "":
-            colorString += ", "
-        colorString += f"#{baseHex.GetHexCode()}"
+    try:
+        buffer, filePath, colors = GetCombinedArmorSetBuffer(
+            armorType = armorEnum,
+            hexList = colorList,
+            versionType = versionEnum,
+            shapeType = shapeEnum,
+            imageSpacing = 20,
+            imageSize = 128
+        )
+        for baseHex in colors:
+            if colorString != "":
+                colorString += ", "
+            colorString += f"#{baseHex.GetHexCode()}"
 
-    discordFile = discord.File(buffer, filename = filePath)
-    await interaction.followup.send(content=f"**{colorString}**", file = discordFile)
+        discordFile = discord.File(buffer, filename = filePath)
+        try:
+            await interaction.followup.send(content=f"**{colorString}**", file = discordFile)
+        except Forbidden as e:
+            await interaction.followup.send(content = f"Error: Bot has no permissions to send images.", ephemeral = True)
+    except Exception as e:
+        await interaction.followup.send(content = f"Unexpected Error: {e}", ephemeral = True)
+
 @client.tree.command(name = 'armour', description = armorCommandDescription)
 @app_commands.choices(shape = shapeChoices, version = armorVersionChoices)
 # @app_commands.autocomplete(armor = armor_type_autocomplete, colors = armor_color_type_autocomplete)
@@ -328,120 +344,130 @@ async def displayMix(
 
     await interaction.response.defer(thinking=True, ephemeral=False)
 
-    inputColorList = []
-    finalHex = None
-    colorString = ""
-    if colors is None:
-        if craftingsequence1 is not None:
-            colorSplit = re.split(r'(\s)', craftingsequence1)
-            inputColorList += [[x for i, x in enumerate(colorSplit) if i % 2 == 0]]
-
-            if craftingsequence2 is not None:
-                colorSplit = re.split(r'(\s)', craftingsequence2)
+    try:
+        inputColorList = []
+        finalHex = None
+        colorString = ""
+        if colors is None:
+            if craftingsequence1 is not None:
+                colorSplit = re.split(r'(\s)', craftingsequence1)
                 inputColorList += [[x for i, x in enumerate(colorSplit) if i % 2 == 0]]
 
-                if craftingsequence3 is not None:
-                    colorSplit = re.split(r'(\s)', craftingsequence3)
+                if craftingsequence2 is not None:
+                    colorSplit = re.split(r'(\s)', craftingsequence2)
                     inputColorList += [[x for i, x in enumerate(colorSplit) if i % 2 == 0]]
 
-        i = -1
-        for colorList in inputColorList:
-            i += 1
-            if colorString != "":
-                colorString += "\n"
-            colorString += f"__Step {i+1}:__ "
+                    if craftingsequence3 is not None:
+                        colorSplit = re.split(r'(\s)', craftingsequence3)
+                        inputColorList += [[x for i, x in enumerate(colorSplit) if i % 2 == 0]]
 
-            hexColorList = []
-            tempColorString = ""
-            for baseHex in colorList:
-                try:
-                    hexColor = HexColor(baseHex = baseHex)
-                    hexColorList.append(hexColor)
-                except Exception as e:
-                    await interaction.followup.send(content=f"Invalid hex code '{baseHex}' - {e}", ephemeral = True)
-                    return
-
-                if tempColorString != "":
-                    tempColorString += " + "
-                tempColorString += f"#{hexColor.GetHexCode()}"
-
-            colorString += tempColorString
-
-            if finalHex is None:
-                finalHex = MixHexColorList(hexColorList[0], hexColorList[1:])
-            else:
-                finalHex = MixHexColorList(finalHex, hexColorList)
-    else:
-        colorSplit = re.split(r'(\s)', colors)
-        inputColorList += [[x for i, x in enumerate(colorSplit) if i % 2 == 0]]
-
-        for colorList in inputColorList:
-            hexList = []
-            for baseHex in colorList:
-                try:
-                    hexColor = HexColor(baseHex = baseHex)
-                    hexList.append(hexColor)
-                except Exception as e:
-                    await interaction.followup.send(content=f"Invalid hex code '{baseHex}' - {e}", ephemeral = True)
-                    return
-
-            for baseHex in hexList:
+            i = -1
+            for colorList in inputColorList:
+                i += 1
                 if colorString != "":
-                    colorString += " + "
-                colorString += f"#{baseHex.GetHexCode()}"
+                    colorString += "\n"
+                colorString += f"__Step {i+1}:__ "
+
+                hexColorList = []
+                tempColorString = ""
+                for baseHex in colorList:
+                    try:
+                        hexColor = HexColor(baseHex = baseHex)
+                        hexColorList.append(hexColor)
+                    except Exception as e:
+                        await interaction.followup.send(content=f"Invalid hex code '{baseHex}' - {e}", ephemeral = True)
+                        return
+
+                    if tempColorString != "":
+                        tempColorString += " + "
+                    tempColorString += f"#{hexColor.GetHexCode()}"
+
+                colorString += tempColorString
 
                 if finalHex is None:
-                    finalHex = baseHex
+                    finalHex = MixHexColorList(hexColorList[0], hexColorList[1:])
                 else:
-                    finalHex = MixHexColorList(finalHex, [baseHex])
+                    finalHex = MixHexColorList(finalHex, hexColorList)
+        else:
+            colorSplit = re.split(r'(\s)', colors)
+            inputColorList += [[x for i, x in enumerate(colorSplit) if i % 2 == 0]]
 
-    colorString += f" = #{finalHex.GetHexCode()}"
-    if outputarmor is not None or outputshape is not None or outputversion is not None:
-        if outputarmor is None:
-            outputarmor = "Full Set"
-        if outputshape is None:
-            outputshape = "Vertical"
-        if outputversion is None:
-            outputversion = "1.8.9"
+            for colorList in inputColorList:
+                hexList = []
+                for baseHex in colorList:
+                    try:
+                        hexColor = HexColor(baseHex = baseHex)
+                        hexList.append(hexColor)
+                    except Exception as e:
+                        await interaction.followup.send(content=f"Invalid hex code '{baseHex}' - {e}", ephemeral = True)
+                        return
 
-        if type(outputarmor) == str:
-            outputarmor = outputarmor.lower().replace(' ', '').strip()
-        if type(outputshape) == str:
-            outputshape = outputshape.lower().replace(' ', '').strip()
-        if type(outputversion) == str:
-            outputversion = outputversion.lower().replace(' ', '').strip()
+                for baseHex in hexList:
+                    if colorString != "":
+                        colorString += " + "
+                    colorString += f"#{baseHex.GetHexCode()}"
 
-        if outputarmor not in stringToArmorTypeDict:
-            await interaction.followup.send(content=f"Invalid armor type '{outputarmor}'", ephemeral = True)
-            return
-        if outputshape not in stringToShapeTypeDict:
-            await interaction.followup.send(content=f"Invalid shape type '{outputshape}'", ephemeral = True)
-            return
-        if outputversion not in stringToVersionTypeDict:
-            await interaction.followup.send(content=f"Invalid version type '{outputversion}'", ephemeral = True)
-            return
+                    if finalHex is None:
+                        finalHex = baseHex
+                    else:
+                        finalHex = MixHexColorList(finalHex, [baseHex])
+    except Exception as e:
+        await interaction.followup.send(content = f"Unexpected mixing hex: {e}", ephemeral = True)
+        return
 
-        armorEnum = stringToArmorTypeDict[outputarmor]
-        shapeEnum = stringToShapeTypeDict[outputshape]
-        versionEnum = stringToVersionTypeDict[outputversion]
+    try:
+        colorString += f" = #{finalHex.GetHexCode()}"
+        if outputarmor is not None or outputshape is not None or outputversion is not None:
+            if outputarmor is None:
+                outputarmor = "Full Set"
+            if outputshape is None:
+                outputshape = "Vertical"
+            if outputversion is None:
+                outputversion = "1.8.9"
 
-        buffer, filePath, colors = GetCombinedArmorSetBuffer(
-            armorType = armorEnum,
-            hexList = [finalHex],
-            versionType = versionEnum,
-            shapeType = shapeEnum,
-            imageSpacing = 20,
-            imageSize = 128
-        )
-    else:
-        filePath = "colorSquare.png"
-        buffer = io.BytesIO()
-        image = CreateColorSquare([finalHex])
-        image.save(buffer, "PNG")
-        buffer.seek(0)
+            if type(outputarmor) == str:
+                outputarmor = outputarmor.lower().replace(' ', '').strip()
+            if type(outputshape) == str:
+                outputshape = outputshape.lower().replace(' ', '').strip()
+            if type(outputversion) == str:
+                outputversion = outputversion.lower().replace(' ', '').strip()
 
-    discordFile = discord.File(buffer, filename = filePath)
-    await interaction.followup.send(content=f"**{colorString}**", file = discordFile)
+            if outputarmor not in stringToArmorTypeDict:
+                await interaction.followup.send(content=f"Invalid armor type '{outputarmor}'", ephemeral = True)
+                return
+            if outputshape not in stringToShapeTypeDict:
+                await interaction.followup.send(content=f"Invalid shape type '{outputshape}'", ephemeral = True)
+                return
+            if outputversion not in stringToVersionTypeDict:
+                await interaction.followup.send(content=f"Invalid version type '{outputversion}'", ephemeral = True)
+                return
+
+            armorEnum = stringToArmorTypeDict[outputarmor]
+            shapeEnum = stringToShapeTypeDict[outputshape]
+            versionEnum = stringToVersionTypeDict[outputversion]
+
+            buffer, filePath, colors = GetCombinedArmorSetBuffer(
+                armorType = armorEnum,
+                hexList = [finalHex],
+                versionType = versionEnum,
+                shapeType = shapeEnum,
+                imageSpacing = 20,
+                imageSize = 128
+            )
+        else:
+            filePath = "colorSquare.png"
+            buffer = io.BytesIO()
+            image = CreateColorSquare([finalHex])
+            image.save(buffer, "PNG")
+            buffer.seek(0)
+
+        discordFile = discord.File(buffer, filename = filePath)
+        try:
+            await interaction.followup.send(content=f"**{colorString}**", file = discordFile)
+        except Forbidden as e:
+            await interaction.followup.send(content = f"Error: Bot has no permissions to send images.", ephemeral = True)
+    except Exception as e:
+        await interaction.followup.send(content = f"Unexpected Error: {e}", ephemeral = True)
 
 @client.tree.command(name = 'help', description = helpCommandDescription)
 @app_commands.allowed_installs(guilds = True, users = True)
@@ -561,25 +587,32 @@ async def displayColorStatusExotic(interaction, color: str):
 
     await interaction.response.defer(thinking=True, ephemeral=False)
 
-    statusString, explanationString = GetColorStatusText(hexColor)
+    try:
+        statusString, explanationString = GetColorStatusText(hexColor)
 
-    embed = discord.Embed(
-        title = f"__**#{hexColor.GetHexCode()}**__ is {statusString}.",
-        description = f"{explanationString}",
-        color = discord.Color(int(f"0x{hexColor.GetHexCode()}", 16))
-    )
+        embed = discord.Embed(
+            title = f"__**#{hexColor.GetHexCode()}**__ is {statusString}.",
+            description = f"{explanationString}",
+            color = discord.Color(int(f"0x{hexColor.GetHexCode()}", 16))
+        )
 
-    colorSquare = CreateColorSquare([hexColor], imageSize = 128)
-    buffer = io.BytesIO()
-    colorSquare.save(buffer, "PNG")
-    buffer.seek(0)
-    discordFile = discord.File(buffer, filename = "colorSquare.png")
+        colorSquare = CreateColorSquare([hexColor], imageSize = 128)
+        buffer = io.BytesIO()
+        colorSquare.save(buffer, "PNG")
+        buffer.seek(0)
+        discordFile = discord.File(buffer, filename = "colorSquare.png")
 
-    embed.set_image(url = f"attachment://colorSquare.png")
-    embed.set_footer(text = footerText, icon_url = avatarLink)
-    embed.timestamp = interaction.created_at
+        embed.set_image(url = f"attachment://colorSquare.png")
+        embed.set_footer(text = footerText, icon_url = avatarLink)
+        embed.timestamp = interaction.created_at
 
-    await interaction.followup.send(embed = embed, file = discordFile)
+        try:
+            await interaction.followup.send(embed = embed, file = discordFile)
+        except Forbidden as e:
+            await interaction.followup.send(content = f"Error: Bot has no permissions to send images.", ephemeral = True)
+    except Exception as e:
+        await interaction.followup.send(content = f"Unexpected Error: {e}", ephemeral = True)
+
 @client.tree.command(name = 'crystal', description = exoticCommandDescription)
 @app_commands.describe(color = exoticCommandColorDescription)
 @app_commands.allowed_installs(guilds = True, users = True)
@@ -650,76 +683,86 @@ async def displayCompareArmor(
     await interaction.response.defer(thinking=True, ephemeral=False)
 
     finalImageList = []
-    lastArmor = None
-    for itemList in inputItemListList:
-        if itemList is None:
-            continue
+    try:
+        lastArmor = None
+        for itemList in inputItemListList:
+            if itemList is None:
+                continue
 
-        currentWord = ""
-        armorEnum = lastArmor
+            currentWord = ""
+            armorEnum = lastArmor
 
-        reversedItemList = itemList[::-1]
-        armorTypeSplit = re.split(r'(\s)', reversedItemList)
-        armorTypeSplit = [x for i, x in enumerate(armorTypeSplit) if i % 2 == 0]
-        for word in armorTypeSplit:
-            word = word[::-1].strip()
-            currentWord = (currentWord + word).strip()
-            if currentWord in stringToArmorTypeDict:
-                armorEnum = stringToArmorTypeDict[word]
-                lastArmor = armorEnum
-                break
+            reversedItemList = itemList[::-1]
+            armorTypeSplit = re.split(r'(\s)', reversedItemList)
+            armorTypeSplit = [x for i, x in enumerate(armorTypeSplit) if i % 2 == 0]
+            for word in armorTypeSplit:
+                word = word[::-1].strip()
+                currentWord = (currentWord + word).strip()
+                if currentWord in stringToArmorTypeDict:
+                    armorEnum = stringToArmorTypeDict[word]
+                    lastArmor = armorEnum
+                    break
 
-        if armorEnum is None:
-            armorEnum = ArmorType.FullSet
+            if armorEnum is None:
+                armorEnum = ArmorType.FullSet
 
-        itemList = re.sub(fr' {currentWord}(?!.* {currentWord})', '', itemList, 1)
+            itemList = re.sub(fr' {currentWord}(?!.* {currentWord})', '', itemList, 1)
 
-        hexList = []
-        if itemList is not None:
-            colorSplit = re.split(r'(\s)', itemList)
-            colorSplit = [x for i, x in enumerate(colorSplit) if i % 2 == 0]
+            hexList = []
+            if itemList is not None:
+                colorSplit = re.split(r'(\s)', itemList)
+                colorSplit = [x for i, x in enumerate(colorSplit) if i % 2 == 0]
 
-            for baseHex in colorSplit:
-                try:
-                    hexList.append(HexColor(baseHex = baseHex))
-                except Exception as e:
-                    await interaction.followup.send(content=f"Invalid hex code '{baseHex}' - {e}", ephemeral = True)
-                    return
+                for baseHex in colorSplit:
+                    try:
+                        hexList.append(HexColor(baseHex = baseHex))
+                    except Exception as e:
+                        await interaction.followup.send(content=f"Invalid hex code '{baseHex}' - {e}", ephemeral = True)
+                        return
 
-        buffer, filePath, colors = GetCombinedArmorSetBuffer(
-            armorType = armorEnum,
-            hexList = hexList,
-            versionType = versionEnum,
-            shapeType = shapeEnum,
-            imageSpacing = 20,
-            imageSize = 128
-        )
-        finalImageList.append((buffer, filePath, colors))
-
-    if len(finalImageList) == 0:
-        await interaction.followup.send(content="Please provide at least one armor color or armor type.", ephemeral = True)
+            buffer, filePath, colors = GetCombinedArmorSetBuffer(
+                armorType = armorEnum,
+                hexList = hexList,
+                versionType = versionEnum,
+                shapeType = shapeEnum,
+                imageSpacing = 20,
+                imageSize = 128
+            )
+            finalImageList.append((buffer, filePath, colors))
+    except Exception as e:
+        await interaction.followup.send(content = f"Unexpected Error creating armors: {e}", ephemeral = True)
         return
 
-    resultImage = Image.new(mode = 'RGBA', size = (0, 0), color = (0, 0, 0, 0))
-    armorSpacing = 10
-    for i, imageData in enumerate(finalImageList):
-        buffer, filePath, colors = imageData
+    try:
+        if len(finalImageList) == 0:
+            await interaction.followup.send(content="Please provide at least one armor color or armor type.", ephemeral = True)
+            return
 
-        if shapeEnum == ShapeType.Vertical:
-            if i != 0:
-                resultImage = MergeImagesHorizontal(resultImage, Image.new(mode = 'RGBA', size = (armorSpacing, 0), color = (0, 0, 0, 0)))
-            resultImage = MergeImagesHorizontal(resultImage, Image.open(buffer))
-        elif shapeEnum == ShapeType.Horizontal:
-            if i != 0:
-                resultImage = MergeImagesVertical(resultImage, Image.new(mode = 'RGBA', size = (0, armorSpacing), color = (0, 0, 0, 0)))
-            resultImage = MergeImagesVertical(resultImage, Image.open(buffer))
+        resultImage = Image.new(mode = 'RGBA', size = (0, 0), color = (0, 0, 0, 0))
+        armorSpacing = 10
+        for i, imageData in enumerate(finalImageList):
+            buffer, filePath, colors = imageData
 
-    buffer = io.BytesIO()
-    resultImage.save(buffer, "PNG")
-    buffer.seek(0)
+            if shapeEnum == ShapeType.Vertical:
+                if i != 0:
+                    resultImage = MergeImagesHorizontal(resultImage, Image.new(mode = 'RGBA', size = (armorSpacing, 0), color = (0, 0, 0, 0)))
+                resultImage = MergeImagesHorizontal(resultImage, Image.open(buffer))
+            elif shapeEnum == ShapeType.Horizontal:
+                if i != 0:
+                    resultImage = MergeImagesVertical(resultImage, Image.new(mode = 'RGBA', size = (0, armorSpacing), color = (0, 0, 0, 0)))
+                resultImage = MergeImagesVertical(resultImage, Image.open(buffer))
 
-    discordFile = discord.File(buffer, filename = f"armorComparison.png")
-    await interaction.followup.send(file = discordFile)
+        buffer = io.BytesIO()
+        resultImage.save(buffer, "PNG")
+        buffer.seek(0)
+
+        discordFile = discord.File(buffer, filename = f"armorComparison.png")
+        try:
+            await interaction.followup.send(file = discordFile)
+        except Forbidden as e:
+            await interaction.followup.send(content = f"Error: Bot has no permissions to send images.", ephemeral = True)
+    except Exception as e:
+        await interaction.followup.send(content=f"Unexpected Error combining armors: {e}", ephemeral=True)
 
 @client.tree.command(name = 'hexdifference', description = hexDifferenceCommandDescription)
 @app_commands.describe(color1=hexDifferenceCommandColor1Description, color2=hexDifferenceCommandColor2Description)
@@ -745,44 +788,54 @@ async def displayHexDifference(interaction, color1: str, color2: str):
 
     await interaction.response.defer(thinking=True, ephemeral=False)
 
-    absoluteDifference, eulerDistance = GetHexDifference(hexColor1, hexColor2)
-    absoluteDifferenceString = f"{absoluteDifference}"
-    eulerDistanceString = f"{eulerDistance:.2f}"
+    try:
+        absoluteDifference, eulerDistance = GetHexDifference(hexColor1, hexColor2)
+        absoluteDifferenceString = f"{absoluteDifference}"
+        eulerDistanceString = f"{eulerDistance:.2f}"
 
-    explanationString = f"**Absolute Difference: __{absoluteDifferenceString}__**\n**Visual Distance: __{eulerDistanceString}__**\n-# Use /visualdistance for more information."
+        explanationString = f"**Absolute Difference: __{absoluteDifferenceString}__**\n**Visual Distance: __{eulerDistanceString}__**\n-# Use /visualdistance for more information."
 
-    embed = discord.Embed(
-        title = f"__**#{hex1} vs #{hex2}**__",
-        color = discord.Color(int(f"0x{hex1}", 16))
-    )
-    embed.add_field(name = "", value = "", inline = False)
-    embed.add_field(
-        name = f"**#{hex1}:**",
-        value =f"**RGB**\n{tuple(rgb1)}",
-        inline = True)
-    embed.add_field(
-        name = f"**#{hex2}:**",
-        value =f"**RGB**\n{tuple(rgb2)}",
-        inline = True)
+        embed = discord.Embed(
+            title = f"__**#{hex1} vs #{hex2}**__",
+            color = discord.Color(int(f"0x{hex1}", 16))
+        )
+        embed.add_field(name = "", value = "", inline = False)
+        embed.add_field(
+            name = f"**#{hex1}:**",
+            value =f"**RGB**\n{tuple(rgb1)}",
+            inline = True)
+        embed.add_field(
+            name = f"**#{hex2}:**",
+            value =f"**RGB**\n{tuple(rgb2)}",
+            inline = True)
 
-    embed.add_field(name = "", value ="", inline = False)
-    embed.add_field(
-        name = "",
-        value =f"{explanationString}",
-        inline = False
-    )
+        embed.add_field(name = "", value ="", inline = False)
+        embed.add_field(
+            name = "",
+            value =f"{explanationString}",
+            inline = False
+        )
+    except Exception as e:
+        await interaction.followup.send(content=f"Unexpected Error getting hex difference: {e}", ephemeral=True)
 
-    colorSquare = CreateColorSquare([hexColor1, hexColor2], imageSize = 128)
-    buffer = io.BytesIO()
-    colorSquare.save(buffer, "PNG")
-    buffer.seek(0)
-    discordFile = discord.File(buffer, filename = "colorSquare.png")
+    try:
+        colorSquare = CreateColorSquare([hexColor1, hexColor2], imageSize = 128)
+        buffer = io.BytesIO()
+        colorSquare.save(buffer, "PNG")
+        buffer.seek(0)
+        discordFile = discord.File(buffer, filename = "colorSquare.png")
 
-    embed.set_image(url = f"attachment://colorSquare.png")
-    embed.set_footer(text = footerText, icon_url = avatarLink)
-    embed.timestamp = interaction.created_at
+        embed.set_image(url = f"attachment://colorSquare.png")
+        embed.set_footer(text = footerText, icon_url = avatarLink)
+        embed.timestamp = interaction.created_at
 
-    await interaction.followup.send(embed = embed, file = discordFile)
+        try:
+            await interaction.followup.send(embed = embed, file = discordFile)
+        except Forbidden as e:
+            await interaction.followup.send(content = f"Error: Bot has no permissions to send images.", ephemeral = True)
+    except Exception as e:
+        await interaction.followup.send(content=f"Unexpected Error creating color square: {e}", ephemeral=True)
+
 @client.tree.command(name = 'checkdifference', description = hexDifferenceCommandDescription)
 @app_commands.describe(color1=hexDifferenceCommandColor1Description, color2=hexDifferenceCommandColor2Description)
 # @app_commands.autocomplete(color1=armor_color_type_autocomplete, color2=armor_color_type_autocomplete)
@@ -859,111 +912,118 @@ async def displayDatabaseInfo(interaction, color: str = None, itemname: str = No
 
     await interaction.response.defer(thinking=True, ephemeral=False)
 
-    itemCount = GetItemCount(itemHex = hexCode, itemID = itemID, isArmorType = isArmorType)
-    currentDescription = f"Found `{itemCount:,}` matching items."
+    try:
+        itemCount = GetItemCount(itemHex = hexCode, itemID = itemID, isArmorType = isArmorType)
+        currentDescription = f"Found `{itemCount:,}` matching items."
 
-    databasePlayers = GetDatabasePlayers(itemHex = hexCode, itemID = itemID, isArmorType = isArmorType)
+        databasePlayers = GetDatabasePlayers(itemHex = hexCode, itemID = itemID, isArmorType = isArmorType)
 
-    combinedItemDict = {}
-    for playerUUID in databasePlayers:
-        for item, baseHex in databasePlayers[playerUUID]:
-            if item not in combinedItemDict:
-                combinedItemDict[item] = []
-            combinedItemDict[item].append(baseHex)
+        combinedItemDict = {}
+        for playerUUID in databasePlayers:
+            for item, baseHex in databasePlayers[playerUUID]:
+                if item not in combinedItemDict:
+                    combinedItemDict[item] = []
+                combinedItemDict[item].append(baseHex)
 
-    discordFile = None
-    if listplayers or listhexes:
-        canListPlayers = interaction.user.id in allowedDatabaseUsers and listplayers
+        discordFile = None
+        if listplayers or listhexes:
+            canListPlayers = interaction.user.id in allowedDatabaseUsers and listplayers
 
-        playerCount = len(databasePlayers.items())
-        if playerCount > 0:
-            itemCount = sum([len(value) for value in databasePlayers.values()])
+            playerCount = len(databasePlayers.items())
+            if playerCount > 0:
+                itemCount = sum([len(value) for value in databasePlayers.values()])
 
-            extraString = ""
-            if itemCount <= 25:
-                extraString = "- "
+                extraString = ""
+                if itemCount <= 25:
+                    extraString = "- "
 
-            tempDescription = ""
-            i = -1
-            currentPlayerUUID = ""
-            for playerUUID in dict(sorted(databasePlayers.items(), key = lambda sortedItem: len(sortedItem[1]), reverse = True)):
-                if currentPlayerUUID != playerUUID:
-                    currentPlayerUUID = playerUUID
-                    if i != -1:
-                        tempDescription += f"\n"
-                    if canListPlayers:
-                        tempDescription += f"\n**{playerUUID.lower()}**"
-                for item, baseHex in databasePlayers[playerUUID]:
+                tempDescription = ""
+                i = -1
+                currentPlayerUUID = ""
+                for playerUUID in dict(sorted(databasePlayers.items(), key = lambda sortedItem: len(sortedItem[1]), reverse = True)):
+                    if currentPlayerUUID != playerUUID:
+                        currentPlayerUUID = playerUUID
+                        if i != -1:
+                            tempDescription += f"\n"
+                        if canListPlayers:
+                            tempDescription += f"\n**{playerUUID.lower()}**"
+                    for item, baseHex in databasePlayers[playerUUID]:
+                        i += 1
+                        tempDescription += f"\n{extraString}#{baseHex} - {item}"
+
+                tempDescription = tempDescription.strip()
+
+                if itemCount > 25:
+                    buffer = io.BytesIO()
+                    buffer.write(tempDescription.replace("**", "").encode())
+                    buffer.seek(0)
+
+                    fileName = ""
+                    if hexCode and itemID:
+                        fileName = f"{hexCode}_{itemID}.txt"
+                    elif itemID is not None:
+                        fileName = f"{itemID}.txt"
+                    elif hexCode is not None:
+                        fileName = f"{hexCode}.txt"
+                    discordFile = discord.File(buffer, filename = fileName)
+                else:
+                    currentDescription += f"\n\n__**Items:**__\n{tempDescription}"
+
+            if not canListPlayers and listplayers:
+                currentDescription += "\n\nNo permission to list players."
+
+        descriptionName = ""
+        itemList = [f"#{hexCode}", itemID]
+        for item in itemList:
+            if item is not None and item != "#None":
+                if descriptionName != "":
+                    descriptionName += " - "
+                descriptionName += f"{item}"
+
+        combinedItemCounts = ""
+        if showitemtypes or len(combinedItemDict) <= 15:
+            if isArmorType or itemID is None:
+                i = -1
+                currentArmorType = ""
+
+                for item in sorted(combinedItemDict.items(), key = lambda sortedItem: sortedItem, reverse = False):
+                    armorType = item[0].split("_")[0]
+                    if currentArmorType != armorType:
+                        currentArmorType = armorType
+                        if i != -1:
+                            combinedItemCounts += f"\n"
+
                     i += 1
-                    tempDescription += f"\n{extraString}#{baseHex} - {item}"
+                    if i != 0:
+                        combinedItemCounts += "\n"
+                    combinedItemCounts += f"{item[0]} - {len(item[1])}"
 
-            tempDescription = tempDescription.strip()
+                combinedItemCounts += "\n\n"
+        else:
+            currentDescription += "\n-# Add showitemtypes to display all item counts."
 
-            if itemCount > 25:
-                buffer = io.BytesIO()
-                buffer.write(tempDescription.replace("**", "").encode())
-                buffer.seek(0)
+        color = defaultColor
+        if hexCode is not None:
+            color = discord.Color(int(f"0x{hexCode}", 16))
+        embed = discord.Embed(
+            title = f"**{descriptionName}**",
+            description = f"{combinedItemCounts}{currentDescription}",
+            color = color
+        )
 
-                fileName = ""
-                if hexCode and itemID:
-                    fileName = f"{hexCode}_{itemID}.txt"
-                elif itemID is not None:
-                    fileName = f"{itemID}.txt"
-                elif hexCode is not None:
-                    fileName = f"{hexCode}.txt"
-                discordFile = discord.File(buffer, filename = fileName)
-            else:
-                currentDescription += f"\n\n__**Items:**__\n{tempDescription}"
+        embed.set_footer(text = footerText, icon_url = avatarLink)
+        embed.timestamp = interaction.created_at
 
-        if not canListPlayers and listplayers:
-            currentDescription += "\n\nNo permission to list players."
+        if discordFile:
+            try:
+                await interaction.followup.send(embed = embed, file = discordFile)
+            except Forbidden as e:
+                await interaction.followup.send(content=f"Error: Bot has no permissions to send files.", ephemeral=True)
+            return
+        await interaction.followup.send(embed = embed)
+    except Exception as e:
+        await interaction.followup.send(content=f"Unexpected Error: {e}", ephemeral=True)
 
-    descriptionName = ""
-    itemList = [f"#{hexCode}", itemID]
-    for item in itemList:
-        if item is not None and item != "#None":
-            if descriptionName != "":
-                descriptionName += " - "
-            descriptionName += f"{item}"
-
-    combinedItemCounts = ""
-    if showitemtypes or len(combinedItemDict) <= 15:
-        if isArmorType or itemID is None:
-            i = -1
-            currentArmorType = ""
-
-            for item in sorted(combinedItemDict.items(), key = lambda sortedItem: sortedItem, reverse = False):
-                armorType = item[0].split("_")[0]
-                if currentArmorType != armorType:
-                    currentArmorType = armorType
-                    if i != -1:
-                        combinedItemCounts += f"\n"
-
-                i += 1
-                if i != 0:
-                    combinedItemCounts += "\n"
-                combinedItemCounts += f"{item[0]} - {len(item[1])}"
-
-            combinedItemCounts += "\n\n"
-    else:
-        currentDescription += "\n-# Add showitemtypes to display all item counts."
-
-    color = defaultColor
-    if hexCode is not None:
-        color = discord.Color(int(f"0x{hexCode}", 16))
-    embed = discord.Embed(
-        title = f"**{descriptionName}**",
-        description = f"{combinedItemCounts}{currentDescription}",
-        color = color
-    )
-
-    embed.set_footer(text = footerText, icon_url = avatarLink)
-    embed.timestamp = interaction.created_at
-
-    if discordFile:
-        await interaction.followup.send(embed = embed, file = discordFile)
-        return
-    await interaction.followup.send(embed = embed)
 @client.tree.command(name = 'database', description = databaseCommandDescription)
 @app_commands.describe(color = databaseCommandColorDescription, itemname = databaseCommandItemNameDescription, listplayers = databaseCommandListPlayersDescription, listhexes = databaseCommandListHexesDescription, showitemtypes = databaseCommandShowItemTypesDescription)
 # @app_commands.autocomplete(color = armor_color_type_autocomplete)
@@ -1031,68 +1091,75 @@ async def displaySimilarItems(interaction, color: str, itemname: str, tolerance:
 
     await interaction.response.defer(thinking=True, ephemeral=False)
 
-    matchingItemsList, matchingItemCount = GetMatchingItems(itemHex = hexColor, itemID = itemID, tolerance = tolerance, isArmorType = isArmorType, visualDistance = visualDistance)
+    try:
+        matchingItemsList, matchingItemCount = GetMatchingItems(itemHex = hexColor, itemID = itemID, tolerance = tolerance, isArmorType = isArmorType, visualDistance = visualDistance)
 
-    distanceDescription = "visual distance" if visualDistance else "absolute difference"
-    toleranceString = f"{tolerance:.2f}" if visualDistance else f"{tolerance}"
-    currentDescription = f"Found `{matchingItemCount:,}` matching items within a {distanceDescription} of `{toleranceString}`."
+        distanceDescription = "visual distance" if visualDistance else "absolute difference"
+        toleranceString = f"{tolerance:.2f}" if visualDistance else f"{tolerance}"
+        currentDescription = f"Found `{matchingItemCount:,}` matching items within a {distanceDescription} of `{toleranceString}`."
 
-    discordFile = None
-    if matchingItemCount > 0:
-        extraString = ""
-        if matchingItemCount <= 25:
-            extraString = "- "
+        discordFile = None
+        if matchingItemCount > 0:
+            extraString = ""
+            if matchingItemCount <= 25:
+                extraString = "- "
 
-        shouldListPlayers = False
-        if listplayers:
-            if interaction.user.id in allowedDatabaseUsers:
-                shouldListPlayers = True
+            shouldListPlayers = False
+            if listplayers:
+                if interaction.user.id in allowedDatabaseUsers:
+                    shouldListPlayers = True
 
-        i = -1
-        tempDescription = ""
-        currentOffAmount = 0
-        for playerList in sorted(matchingItemsList.items(), key = lambda x: x[1][1]):
-            offAmount = playerList[1][1]
-            if currentOffAmount != offAmount and playerList[1][0]:
-                currentOffAmount = offAmount
-                if i != -1:
-                    tempDescription += f"\n"
-            for playerData in playerList[1][0]:
-                i += 1
-                if i != 0:
-                    tempDescription += f"\n"
+            i = -1
+            tempDescription = ""
+            currentOffAmount = 0
+            for playerList in sorted(matchingItemsList.items(), key = lambda x: x[1][1]):
+                offAmount = playerList[1][1]
+                if currentOffAmount != offAmount and playerList[1][0]:
+                    currentOffAmount = offAmount
+                    if i != -1:
+                        tempDescription += f"\n"
+                for playerData in playerList[1][0]:
+                    i += 1
+                    if i != 0:
+                        tempDescription += f"\n"
 
-                playerString = f"{playerData[1]}\n" if shouldListPlayers else ""
+                    playerString = f"{playerData[1]}\n" if shouldListPlayers else ""
 
-                toleranceString = f"{offAmount:.2f}" if visualDistance else f"{offAmount}"
-                tempDescription += f"{playerString}{extraString}#{playerList[0]} - {playerData[0]} - {toleranceString}"
+                    toleranceString = f"{offAmount:.2f}" if visualDistance else f"{offAmount}"
+                    tempDescription += f"{playerString}{extraString}#{playerList[0]} - {playerData[0]} - {toleranceString}"
 
-        if matchingItemCount > 25:
-            buffer = io.BytesIO()
-            buffer.write(tempDescription.encode())
-            buffer.seek(0)
+            if matchingItemCount > 25:
+                buffer = io.BytesIO()
+                buffer.write(tempDescription.encode())
+                buffer.seek(0)
 
-            fileName = f"{hexCode}_{itemID.upper()}_{tolerance}.txt"
-            discordFile = discord.File(buffer, filename = fileName)
-        else:
-            currentDescription += f"\n\n__**Items:**__\n{tempDescription}"
+                fileName = f"{hexCode}_{itemID.upper()}_{tolerance}.txt"
+                discordFile = discord.File(buffer, filename = fileName)
+            else:
+                currentDescription += f"\n\n__**Items:**__\n{tempDescription}"
 
-        if not shouldListPlayers and listplayers:
-            currentDescription += "\n\nNo permission to list players."
+            if not shouldListPlayers and listplayers:
+                currentDescription += "\n\nNo permission to list players."
 
-    embed = discord.Embed(
-        title = f"**#{hexCode} - {itemID.upper()}**",
-        description = f"{currentDescription}",
-        color = discord.Color(int(f"0x{hexCode}", 16))
-    )
+        embed = discord.Embed(
+            title = f"**#{hexCode} - {itemID.upper()}**",
+            description = f"{currentDescription}",
+            color = discord.Color(int(f"0x{hexCode}", 16))
+        )
 
-    embed.set_footer(text = footerText, icon_url = avatarLink)
-    embed.timestamp = interaction.created_at
+        embed.set_footer(text = footerText, icon_url = avatarLink)
+        embed.timestamp = interaction.created_at
 
-    if discordFile:
-        await interaction.followup.send(embed = embed, file = discordFile)
-        return
-    await interaction.followup.send(embed = embed)
+        if discordFile:
+            try:
+                await interaction.followup.send(embed = embed, file = discordFile)
+            except Forbidden as e:
+                await interaction.followup.send(content=f"Error: Bot has no permissions to send files.", ephemeral=True)
+            return
+        await interaction.followup.send(embed = embed)
+    except Exception as e:
+        await interaction.followup.send(content=f"Unexpected Error combining armors: {e}", ephemeral=True)
+
 @client.tree.command(name = 'findnearbyitems', description = similarItemsCommandDescription)
 @app_commands.describe(
     color = similarItemsCommandColorDescription,
@@ -1140,95 +1207,111 @@ async def displayColorInfo(interaction, color: str, showclosestcolor: bool = Fal
 
     await interaction.response.defer(thinking=True, ephemeral=False)
 
-    hexCode = hexColor.GetHexCode()
-    rgb = hexColor.GetRGBList()
-    nearestColorName = GetNearestColorName(hexCode)
+    try:
+        hexCode = hexColor.GetHexCode()
+        rgb = hexColor.GetRGBList()
+        nearestColorName = GetNearestColorName(hexCode)
 
-    aiResponseData = aiClient.chat.completions.create(
-        model = "llama-3.1-8b-instant",
-        messages = [
-            {"role": "system", "content":
-                "You are a master color inspector." +
-                "\nYour job is to analyze any given hex color with precision, providing a detailed description of its appearance." +
-                "\nKeep responses short and to the point, focusing on the most important aspects of the color." +
-                "\nResponses should be tailored to the specific color, avoiding generic or repetitive descriptions."
-            },
-            {"role": "user", "content": f"{hexCode}"},
-        ],
-        stream = False
-    )
+        aiResponseData = aiClient.chat.completions.create(
+            model = "llama-3.1-8b-instant",
+            messages = [
+                {"role": "system", "content":
+                    "You are a master color inspector." +
+                    "\nYour job is to analyze any given hex color with precision, providing a detailed description of its appearance." +
+                    "\nKeep responses short and to the point, focusing on the most important aspects of the color." +
+                    "\nResponses should be tailored to the specific color, avoiding generic or repetitive descriptions."
+                },
+                {"role": "user", "content": f"{hexCode}"},
+            ],
+            stream = False
+        )
+    except Exception as e:
+        await interaction.followup.send(content=f"Unexpected Error getting AI response: {e}", ephemeral=True)
+        return
 
-    embed = discord.Embed(
-        title = f"**{nearestColorName}**",
-        description = "",
-        color = discord.Color(int(f"0x{hexCode}", 16))
-    )
-    embed.add_field(name = "", value ="", inline = False)
-    embed.add_field(
-        name = f"**Hex**",
-        value =f"#{hexCode}",
-        inline = True
-    )
-    embed.add_field(name = "", value ="", inline = False)
-    embed.add_field(
-        name = f"**RGB**",
-        value =f"{tuple(rgb)}",
-        inline = True
-    )
-    embed.add_field(name = "", value ="", inline = False)
+    try:
 
-    closestPureColor = None
-    closestPureColorDistance = float('inf')
-    pureAndTrueColorDictionary = {**pureColorToDiscordEmotes, **trueColorToDiscordEmotes}
-    for color in pureAndTrueColorDictionary.keys():
-        colorHex = color.value[1]
-        colorDistance = GetAbsoluteDifference(hexColor, HexColor(baseHex = colorHex))
-        if colorDistance < closestPureColorDistance:
-            closestPureColorDistance = colorDistance
-            closestPureColor = color
-
-    closestPureColorDistanceMax = 999 if showclosestcolor else 20
-
-    if closestPureColor is not None and closestPureColorDistance < closestPureColorDistanceMax:
+        embed = discord.Embed(
+            title = f"**{nearestColorName}**",
+            description = "",
+            color = discord.Color(int(f"0x{hexCode}", 16))
+        )
+        embed.add_field(name = "", value ="", inline = False)
         embed.add_field(
-            name = f"**Closest Pure Color**",
-            value =f"{pureAndTrueColorDictionary[closestPureColor]} `{closestPureColor.value[0]}` - {closestPureColorDistance} off",
-            inline = False
+            name = f"**Hex**",
+            value =f"#{hexCode}",
+            inline = True
+        )
+        embed.add_field(name = "", value ="", inline = False)
+        embed.add_field(
+            name = f"**RGB**",
+            value =f"{tuple(rgb)}",
+            inline = True
         )
         embed.add_field(name = "", value ="", inline = False)
 
-    statusString, explanationString = GetColorStatusText(hexColor)
-    if not explanationString:
-        embed.add_field(
-            name = f"**Color Status**",
-            value =f"__**#{hexColor.GetHexCode()}**__ is {statusString}.",
-            inline = False
-        )
+        closestPureColor = None
+        closestPureColorDistance = float('inf')
+        pureAndTrueColorDictionary = {**pureColorToDiscordEmotes, **trueColorToDiscordEmotes}
+        for color in pureAndTrueColorDictionary.keys():
+            colorHex = color.value[1]
+            colorDistance = GetAbsoluteDifference(hexColor, HexColor(baseHex = colorHex))
+            if colorDistance < closestPureColorDistance:
+                closestPureColorDistance = colorDistance
+                closestPureColor = color
+
+        closestPureColorDistanceMax = 999 if showclosestcolor else 20
+
+        if closestPureColor is not None and closestPureColorDistance < closestPureColorDistanceMax:
+            embed.add_field(
+                name = f"**Closest Pure Color**",
+                value =f"{pureAndTrueColorDictionary[closestPureColor]} `{closestPureColor.value[0]}` - {closestPureColorDistance} off",
+                inline = False
+            )
+            embed.add_field(name = "", value ="", inline = False)
+
+        statusString, explanationString = GetColorStatusText(hexColor)
+        if not explanationString:
+            embed.add_field(
+                name = f"**Color Status**",
+                value =f"__**#{hexColor.GetHexCode()}**__ is {statusString}.",
+                inline = False
+            )
+            embed.add_field(name = "", value ="", inline = False)
+        else:
+            embed.add_field(
+                name = f"**Color Status**",
+                value =f"__**#{hexColor.GetHexCode()}**__ is {statusString}.\n{explanationString}",
+                inline = False
+            )
         embed.add_field(name = "", value ="", inline = False)
-    else:
         embed.add_field(
-            name = f"**Color Status**",
-            value =f"__**#{hexColor.GetHexCode()}**__ is {statusString}.\n{explanationString}",
+            name = f"**AI Evaluation**",
+            value =f"{aiResponseData.choices[0].message.content.strip()}",
             inline = False
         )
-    embed.add_field(name = "", value ="", inline = False)
-    embed.add_field(
-        name = f"**AI Evaluation**",
-        value =f"{aiResponseData.choices[0].message.content.strip()}",
-        inline = False
-    )
+    except Exception as e:
+        await interaction.followup.send(content=f"Unexpected Error getting closest color: {e}", ephemeral=True)
+        return
 
-    colorSquare = CreateColorSquare([hexColor], imageSize = 128)
-    buffer = io.BytesIO()
-    colorSquare.save(buffer, "PNG")
-    buffer.seek(0)
-    discordFile = discord.File(buffer, filename = "colorSquare.png")
+    try:
+        colorSquare = CreateColorSquare([hexColor], imageSize = 128)
+        buffer = io.BytesIO()
+        colorSquare.save(buffer, "PNG")
+        buffer.seek(0)
+        discordFile = discord.File(buffer, filename = "colorSquare.png")
 
-    embed.set_thumbnail(url = f"attachment://colorSquare.png")
-    embed.set_footer(text = footerText, icon_url = avatarLink)
-    embed.timestamp = interaction.created_at
+        embed.set_thumbnail(url = f"attachment://colorSquare.png")
+        embed.set_footer(text = footerText, icon_url = avatarLink)
+        embed.timestamp = interaction.created_at
 
-    await interaction.followup.send(embed = embed, file = discordFile)
+        try:
+            await interaction.followup.send(embed = embed, file = discordFile)
+        except Forbidden as e:
+            await interaction.followup.send(content = f"Error: Bot has no permissions to send images.", ephemeral = True)
+    except Exception as e:
+        await interaction.followup.send(content=f"Unexpected Error creating color square: {e}", ephemeral=True)
+
 @client.tree.command(name = 'info', description = colorInfoCommandDescription)
 @app_commands.describe(color = colorInfoCommandColorDescription, showclosestcolor = colorInfoCommandShowClosestColorDescription)
 # @app_commands.autocomplete(color = armor_color_type_autocomplete)
@@ -1296,85 +1379,95 @@ async def displayScanPlayer(interaction, player: str):
 
     await interaction.response.defer(thinking=True, ephemeral=False)
 
-    async with aiohttp.ClientSession() as session:
-        try:
-            async with session.get(f"https://crafthead.net/profile/{playerData}", headers = headers) as response:
-                if response.status == 200:
-                    playerInfo = await response.json()
-                    if "name" in playerInfo:
-                        playerUsername = str(playerInfo["name"])
-                        playerUUID = str(playerInfo["id"]).upper()
-                else:
-                    print(f"Request failed with status code: {response.status}")
-        except Exception as error:
-            print("1 ERROR", json.dumps(str(error)), error)
+    try:
+        async with aiohttp.ClientSession() as session:
+            try:
+                async with session.get(f"https://crafthead.net/profile/{playerData}", headers = headers) as response:
+                    if response.status == 200:
+                        playerInfo = await response.json()
+                        if "name" in playerInfo:
+                            playerUsername = str(playerInfo["name"])
+                            playerUUID = str(playerInfo["id"]).upper()
+                    else:
+                        print(f"Request failed with status code: {response.status}")
+            except Exception as error:
+                print("1 ERROR", json.dumps(str(error)), error)
 
-    if playerUUID is None or playerUsername is None:
-        await interaction.followup.send(content=f"Error when looking up '{player}'.", ephemeral = True)
+        if playerUUID is None or playerUsername is None:
+            await interaction.followup.send(content=f"Error when looking up '{player}'.", ephemeral = True)
+            return
+        if playerUUID not in playerUUIDToItemList:
+            await interaction.followup.send(content=f"Player '{player}' not found in the database.", ephemeral = True)
+            return
+    except Exception as e:
+        await interaction.followup.send(content=f"Unexpected Error getting player username: {e}", ephemeral=True)
         return
-    if playerUUID not in playerUUIDToItemList:
-        await interaction.followup.send(content=f"Player '{player}' not found in the database.", ephemeral = True)
-        return
 
-    playerItemList = playerUUIDToItemList[playerUUID]
-    playerItemCount = len(playerItemList)
+    try:
+        playerItemList = playerUUIDToItemList[playerUUID]
+        playerItemCount = len(playerItemList)
 
-    discordFile = None
-    currentDescription = ""
-    if playerItemCount > 0:
-        extraString = ""
-        if playerItemCount <= 25:
-            extraString = "- "
+        discordFile = None
+        currentDescription = ""
+        if playerItemCount > 0:
+            extraString = ""
+            if playerItemCount <= 25:
+                extraString = "- "
 
-        tempDescription = ""
-        i = -1
-        for item in sorted(playerItemList, key = lambda x: x[0]):
-            i += 1
-            if i != 0:
-                tempDescription += f"\n"
-            tempDescription += f"{extraString}#{item[1]} {extraString}{item[0]}"
+            tempDescription = ""
+            i = -1
+            for item in sorted(playerItemList, key = lambda x: x[0]):
+                i += 1
+                if i != 0:
+                    tempDescription += f"\n"
+                tempDescription += f"{extraString}#{item[1]} {extraString}{item[0]}"
 
-        if playerItemCount > 25:
-            buffer = io.BytesIO()
-            buffer.write(tempDescription.encode())
-            buffer.seek(0)
+            if playerItemCount > 25:
+                buffer = io.BytesIO()
+                buffer.write(tempDescription.encode())
+                buffer.seek(0)
 
-            fileName = f"{playerUUID}.txt"
-            discordFile = discord.File(buffer, filename = fileName)
+                fileName = f"{playerUUID}.txt"
+                discordFile = discord.File(buffer, filename = fileName)
+            else:
+                currentDescription += f"{tempDescription}"
+
+        embed = discord.Embed(
+            title = f"**{playerUsername}**",
+            description = f" ",
+            color = defaultColor
+        )
+        embed.add_field(
+            name = f"**UUID:**",
+            value =f"{playerUUID}",
+            inline = False
+        )
+        embed.add_field(name = "", value ="", inline = False)
+        if currentDescription != "":
+            embed.add_field(
+                name = f"**Items ({playerItemCount}):**",
+                value =f"{currentDescription}\n-# *Only shows historical database items.",
+                inline = False
+            )
         else:
-            currentDescription += f"{tempDescription}"
+            embed.add_field(
+                name = f"**Items:**",
+                value =f"Player has* `{playerItemCount:,}` items.\n-# *Only shows historical database items.",
+                inline = False
+            )
 
-    embed = discord.Embed(
-        title = f"**{playerUsername}**",
-        description = f" ",
-        color = defaultColor
-    )
-    embed.add_field(
-        name = f"**UUID:**",
-        value =f"{playerUUID}",
-        inline = False
-    )
-    embed.add_field(name = "", value ="", inline = False)
-    if currentDescription != "":
-        embed.add_field(
-            name = f"**Items ({playerItemCount}):**",
-            value =f"{currentDescription}\n-# *Only shows historical database items.",
-            inline = False
-        )
-    else:
-        embed.add_field(
-            name = f"**Items:**",
-            value =f"Player has* `{playerItemCount:,}` items.\n-# *Only shows historical database items.",
-            inline = False
-        )
+        embed.set_footer(text = footerText, icon_url = avatarLink)
+        embed.timestamp = interaction.created_at
 
-    embed.set_footer(text = footerText, icon_url = avatarLink)
-    embed.timestamp = interaction.created_at
-
-    if discordFile:
-        await interaction.followup.send(embed = embed, file = discordFile)
-        return
-    await interaction.followup.send(embed = embed)
+        if discordFile:
+            try:
+                await interaction.followup.send(embed = embed, file = discordFile)
+            except Forbidden as e:
+                await interaction.followup.send(content=f"Error: Bot has no permissions to send files.", ephemeral=True)
+            return
+        await interaction.followup.send(embed = embed)
+    except Exception as e:
+        await interaction.followup.send(content=f"Unexpected Error combining armors: {e}", ephemeral=True)
 
 @client.tree.command(name = 'allcolors', description = "fuck you")
 @app_commands.choices(shape = normalShapeChoices, version = armorVersionChoices, colortype = allColorTypeChoices)
@@ -1422,13 +1515,20 @@ async def displayAllColors(
     if colortype == "Fairy":
         fairyColorList = list(allFairyHexes.items())[::-1]
     elif colortype == "OG Fairy":
-        fairyColorList = allFairyHexes.items()
+        fairyColorList = list(allFairyHexes.items())
     elif colortype == "All Fairy":
-        fairyColorList = allFairyHexes.items()
+        fairyColorList = list(allFairyHexes.items())
     elif colortype == "Crystal":
-        colorList = allCrystalHexes.items()
-    elif colortype == "Pure Exotics":
-        colorList = allPureExoticHexes.items()
+        colorList = list(allCrystalHexes.items())
+    elif colortype == "Pure Colors":
+        colorList = list(allPureExoticHexes.items())
+    elif colortype == "True Colors":
+        for color in trueColorToDiscordEmotes.keys():
+            colorList.append(color)
+    elif colortype == "Pure+True Colors":
+        colorList = list(allPureExoticHexes.items())
+        for color in trueColorToDiscordEmotes.keys():
+            colorList.append(color)
     elif colortype == "Hypixel Dyes":
         colorList = allHypixelDyeHexes.items()
     else:
@@ -1441,138 +1541,158 @@ async def displayAllColors(
 
     await interaction.response.defer(thinking=True, ephemeral=False)
 
-    armorEnumString = str(armorEnum).replace(" ", "").strip().lower()
-    finalText = ""
-    if len(colorList) > 0:
-        for color in colorList:
-            hexColor = HexColor(baseHex=color[1])
-            hexCode = hexColor.GetHexCode()
-            finalString = f"{hexCode} {armorEnumString}".strip()
-            inputItemListList.append(finalString)
-            if finalText != "":
-                finalText += ", "
-            finalText += f"#{hexCode}"
-    else:
-        for color, fairyType in fairyColorList:
-            itemList = []
-            if colortype == "Fairy":
-                itemList = fairyType[0]
-            elif colortype == "OG Fairy":
-                itemList = fairyType[1]
-            elif colortype == "All Fairy":
-                itemList = fairyType[0] + fairyType[1]
-                if len(itemList) == 4:
-                    itemList = ["All"]
+    try:
 
-            if len(itemList) == 0:
-                continue
-
-            hexColor = HexColor(baseHex=color.value[1])
-            hexCode = hexColor.GetHexCode()
-            itemHex = ""
-            itemName = armorEnumString if armorEnumString != "fullset" else ""
-            allItems = ["Helmet", "Chestplate", "Leggings", "Boots"]
-            if itemList == ["All"]:
-                itemList = allItems
-
-            if finalText != "":
-                finalText += ", "
-            finalText += f"#{hexCode}"
-            if armorEnum == ArmorType.FullSet:
-                itemHex = hexCode
-                if len(itemList) != 4:
-                    for itemType in itemList:
-                        itemName += f"{itemType.lower()}"
-            else:
-                i = -1
-                armorData = itemDict[armorEnum]
-                for armorColorData in armorData[1]:
-                    i += 1
-                    if armorColorData:
-                        if allItems[i] in itemList:
-                            itemHex += f"{hexCode} "
-                        else:
-                            itemHex += "empty "
-
-            if itemHex.replace("empty", "").strip() == "":
-                continue
-            finalString = f"{itemHex.strip()} {itemName.strip()}".strip()
-            inputItemListList.append(finalString)
-
-    finalImageList = []
-    for itemList in inputItemListList:
-        if itemList is None:
-            continue
-
-        currentWord = ""
-        armorEnum = None
-
-        reversedItemList = itemList[::-1]
-        armorTypeSplit = re.split(r'(\s)', reversedItemList)
-        armorTypeSplit = [x for i, x in enumerate(armorTypeSplit) if i % 2 == 0]
-        for word in armorTypeSplit:
-            word = word[::-1].strip()
-            currentWord = (currentWord + word).strip()
-            if currentWord in stringToArmorTypeDict:
-                armorEnum = stringToArmorTypeDict[word]
-                break
-
-        if armorEnum is None:
-            armorEnum = ArmorType.FullSet
-
-        itemList = re.sub(fr' {currentWord}(?!.* {currentWord})', '', itemList, 1)
-
-        hexList = []
-        if itemList is not None:
-            colorSplit = re.split(r'(\s)', itemList)
-            colorSplit = [x for i, x in enumerate(colorSplit) if i % 2 == 0]
-
-            for baseHex in colorSplit:
+        armorEnumString = str(armorEnum).replace(" ", "").strip().lower()
+        finalText = ""
+        if len(colorList) > 0:
+            for color in colorList:
                 try:
-                    hexList.append(HexColor(baseHex=baseHex))
+                    hexColor = HexColor(baseHex=color[1])
                 except Exception as e:
-                    await interaction.followup.send(content=f"Invalid hex code '{baseHex}' - {e}", ephemeral=True)
-                    return
+                    hexColor = HexColor(baseHex=color.value[1])
+                hexCode = hexColor.GetHexCode()
+                finalString = f"{hexCode} {armorEnumString}".strip()
+                inputItemListList.append(finalString)
+                if finalText != "":
+                    finalText += ", "
+                finalText += f"#{hexCode}"
+        else:
+            for color, fairyType in fairyColorList:
+                itemList = []
+                if colortype == "Fairy":
+                    itemList = fairyType[0]
+                elif colortype == "OG Fairy":
+                    itemList = fairyType[1]
+                elif colortype == "All Fairy":
+                    itemList = fairyType[0] + fairyType[1]
+                    if len(itemList) == 4:
+                        itemList = ["All"]
 
-        buffer, filePath, colors = GetCombinedArmorSetBuffer(
-            armorType=armorEnum,
-            hexList=hexList,
-            versionType=versionEnum,
-            shapeType=shapeEnum,
-            imageSpacing=20,
-            imageSize=128
-        )
-        finalImageList.append((buffer, filePath, colors))
+                if len(itemList) == 0:
+                    continue
 
-    if len(finalImageList) == 0:
-        await interaction.followup.send(content="Please provide at least one armor color or armor type.", ephemeral = True)
+                hexColor = HexColor(baseHex=color.value[1])
+                hexCode = hexColor.GetHexCode()
+                itemHex = ""
+                itemName = armorEnumString if armorEnumString != "fullset" else ""
+                allItems = ["Helmet", "Chestplate", "Leggings", "Boots"]
+                if itemList == ["All"]:
+                    itemList = allItems
+
+                if finalText != "":
+                    finalText += ", "
+                finalText += f"#{hexCode}"
+                if armorEnum == ArmorType.FullSet:
+                    itemHex = hexCode
+                    if len(itemList) != 4:
+                        for itemType in itemList:
+                            itemName += f"{itemType.lower()}"
+                else:
+                    i = -1
+                    armorData = itemDict[armorEnum]
+                    for armorColorData in armorData[1]:
+                        i += 1
+                        if armorColorData:
+                            if allItems[i] in itemList:
+                                itemHex += f"{hexCode} "
+                            else:
+                                itemHex += "empty "
+
+                if itemHex.replace("empty", "").strip() == "":
+                    continue
+                finalString = f"{itemHex.strip()} {itemName.strip()}".strip()
+                inputItemListList.append(finalString)
+    except Exception as e:
+        await interaction.followup.send(content=f"Unexpected Error parsing input: {e}", ephemeral=True)
         return
 
-    resultImage = Image.new(mode = 'RGBA', size = (0, 0), color = (0, 0, 0, 0))
-    armorSpacing = 10
-    for i, imageData in enumerate(finalImageList):
-        buffer, filePath, colors = imageData
+    try:
+        finalImageList = []
+        for itemList in inputItemListList:
+            if itemList is None:
+                continue
 
-        if shapeEnum == ShapeType.Vertical:
-            if i != 0:
-                resultImage = MergeImagesHorizontal(resultImage, Image.new(mode = 'RGBA', size = (armorSpacing, 0), color = (0, 0, 0, 0)))
-            resultImage = MergeImagesHorizontal(resultImage, Image.open(buffer))
-        elif shapeEnum == ShapeType.Horizontal:
-            if i != 0:
-                resultImage = MergeImagesVertical(resultImage, Image.new(mode = 'RGBA', size = (0, armorSpacing), color = (0, 0, 0, 0)))
-            resultImage = MergeImagesVertical(resultImage, Image.open(buffer))
+            currentWord = ""
+            armorEnum = None
 
-    buffer = io.BytesIO()
-    resultImage.save(buffer, "PNG")
-    buffer.seek(0)
+            reversedItemList = itemList[::-1]
+            armorTypeSplit = re.split(r'(\s)', reversedItemList)
+            armorTypeSplit = [x for i, x in enumerate(armorTypeSplit) if i % 2 == 0]
+            for word in armorTypeSplit:
+                word = word[::-1].strip()
+                currentWord = (currentWord + word).strip()
+                if currentWord in stringToArmorTypeDict:
+                    armorEnum = stringToArmorTypeDict[word]
+                    break
 
-    discordFile = discord.File(buffer, filename = f"armorComparison.png")
-    await interaction.followup.send(content = f"{finalText}", file = discordFile)
+            if armorEnum is None:
+                armorEnum = ArmorType.FullSet
 
-with open('AIToken') as file:
-    aiClient = OpenAI(api_key = file.read().strip(), base_url = "https://api.groq.com/openai/v1")
+            itemList = re.sub(fr' {currentWord}(?!.* {currentWord})', '', itemList, 1)
 
-with open('BotToken') as file:
-    LoadColorNames()
-    LoadDatabase("Database/Combined-S.html")
-    client.run(file.read().strip())
+            hexList = []
+            if itemList is not None:
+                colorSplit = re.split(r'(\s)', itemList)
+                colorSplit = [x for i, x in enumerate(colorSplit) if i % 2 == 0]
+
+                for baseHex in colorSplit:
+                    try:
+                        hexList.append(HexColor(baseHex=baseHex))
+                    except Exception as e:
+                        await interaction.followup.send(content=f"Invalid hex code '{baseHex}' - {e}", ephemeral=True)
+                        return
+
+            buffer, filePath, colors = GetCombinedArmorSetBuffer(
+                armorType=armorEnum,
+                hexList=hexList,
+                versionType=versionEnum,
+                shapeType=shapeEnum,
+                imageSpacing=20,
+                imageSize=128
+            )
+            finalImageList.append((buffer, filePath, colors))
+    except Exception as e:
+        await interaction.followup.send(content=f"Unexpected Error creating armors: {e}", ephemeral=True)
+        return
+
+    try:
+        if len(finalImageList) == 0:
+            await interaction.followup.send(content="Please provide at least one armor color or armor type.", ephemeral = True)
+            return
+
+        resultImage = Image.new(mode = 'RGBA', size = (0, 0), color = (0, 0, 0, 0))
+        armorSpacing = 10
+        for i, imageData in enumerate(finalImageList):
+            buffer, filePath, colors = imageData
+
+            if shapeEnum == ShapeType.Vertical:
+                if i != 0:
+                    resultImage = MergeImagesHorizontal(resultImage, Image.new(mode = 'RGBA', size = (armorSpacing, 0), color = (0, 0, 0, 0)))
+                resultImage = MergeImagesHorizontal(resultImage, Image.open(buffer))
+            elif shapeEnum == ShapeType.Horizontal:
+                if i != 0:
+                    resultImage = MergeImagesVertical(resultImage, Image.new(mode = 'RGBA', size = (0, armorSpacing), color = (0, 0, 0, 0)))
+                resultImage = MergeImagesVertical(resultImage, Image.open(buffer))
+
+        buffer = io.BytesIO()
+        resultImage.save(buffer, "PNG")
+        buffer.seek(0)
+
+        discordFile = discord.File(buffer, filename = f"armorComparison.png")
+
+        try:
+            await interaction.followup.send(content = f"{finalText}", file = discordFile)
+        except Forbidden as e:
+            await interaction.followup.send(content=f"Error: Bot has no permissions to send images.", ephemeral=True)
+    except Exception as e:
+        await interaction.followup.send(content=f"Unexpected Error combining armors: {e}", ephemeral=True)
+
+if __name__ == "__main__":
+    with open('AIToken') as file:
+        aiClient = OpenAI(api_key = file.read().strip(), base_url = "https://api.groq.com/openai/v1")
+
+    with open('BotToken') as file:
+        LoadColorNames()
+        LoadDatabase("Database/Combined-S.html")
+        client.run(file.read().strip())
