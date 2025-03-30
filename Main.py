@@ -593,7 +593,7 @@ async def displayColorStatusExotic(interaction, color: str):
         embed = discord.Embed(
             title = f"__**#{hexColor.GetHexCode()}**__ is {statusString}.",
             description = f"{explanationString}",
-            color = discord.Color(int(f"0x{hexColor.GetHexCode()}", 16))
+            color = discord.Color(MinMaxHexInt(int(f"0x{hexColor.GetHexCode()}", 16)))
         )
 
         colorSquare = CreateColorSquare([hexColor], imageSize = 128)
@@ -650,9 +650,9 @@ async def displayCompareArmor(
 
     if setliststring is not None:
         setList = []
-        if ", " in setliststring:
-            setList = setliststring.split(', ')
-        elif "|" in setliststring:
+        # if ", " in setliststring:
+        #     setList = setliststring.split(', ')
+        if "|" in setliststring:
             setList = setliststring.split('|')
 
         for setItem in setList:
@@ -797,7 +797,7 @@ async def displayHexDifference(interaction, color1: str, color2: str):
 
         embed = discord.Embed(
             title = f"__**#{hex1} vs #{hex2}**__",
-            color = discord.Color(int(f"0x{hex1}", 16))
+            color = discord.Color(MinMaxHexInt(int(f"0x{hex1}", 16)))
         )
         embed.add_field(name = "", value = "", inline = False)
         embed.add_field(
@@ -1004,7 +1004,7 @@ async def displayDatabaseInfo(interaction, color: str = None, itemname: str = No
 
         color = defaultColor
         if hexCode is not None:
-            color = discord.Color(int(f"0x{hexCode}", 16))
+            color = discord.Color(MinMaxHexInt(int(f"0x{hexCode}", 16)))
         embed = discord.Embed(
             title = f"**{descriptionName}**",
             description = f"{combinedItemCounts}{currentDescription}",
@@ -1144,7 +1144,7 @@ async def displaySimilarItems(interaction, color: str, itemname: str, tolerance:
         embed = discord.Embed(
             title = f"**#{hexCode} - {itemID.upper()}**",
             description = f"{currentDescription}",
-            color = discord.Color(int(f"0x{hexCode}", 16))
+            color = discord.Color(MinMaxHexInt(int(f"0x{hexCode}", 16)))
         )
 
         embed.set_footer(text = footerText, icon_url = avatarLink)
@@ -1234,7 +1234,7 @@ async def displayColorInfo(interaction, color: str, showclosestcolor: bool = Fal
         embed = discord.Embed(
             title = f"**{nearestColorName}**",
             description = "",
-            color = discord.Color(int(f"0x{hexCode}", 16))
+            color = discord.Color(MinMaxHexInt(int(f"0x{hexCode}", 16)))
         )
         embed.add_field(name = "", value ="", inline = False)
         embed.add_field(

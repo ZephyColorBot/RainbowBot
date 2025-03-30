@@ -805,3 +805,6 @@ def UpdateItemID(itemString: str):
         itemType = ""
 
     return f"{armorTypeName} {itemType}".strip().replace(" ", "_").upper()
+
+def MinMaxHexInt(hexInt: int):
+    return min(max(hexInt, 0), 16777215)
