@@ -371,6 +371,8 @@ class Color(Enum):
     _632 = _63237D
     _5D1C78 = ("5D1C78", "5D1C78", ColorType.Crystal)
     _5D1 = _5D1C78
+    _54146E = ("54146E", "54146E", ColorType.Crystal)
+    _541 = _54146E
     _46085E = ("46085E", "46085E", ColorType.Crystal)
     _460 = _46085E
     _1F0030 = ("1F0030", "1F0030", ColorType.Crystal)
