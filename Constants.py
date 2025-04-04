@@ -1120,11 +1120,12 @@ class ArmorType(Enum):
     RancherBoot = RancherBoots
     RanchersBoots = RancherBoots
     Ranchers = RancherBoots
-    StereoPants = "Stereo Pants"
-    Stereo = StereoPants
-    StereoLeggings = StereoPants
-    StereoLegs = StereoPants
-    Stereos = StereoPants
+    MusicPants = "Stereo Pants"
+    Stereo = MusicPants
+    StereoLeggings = MusicPants
+    StereoLegs = MusicPants
+    Stereos = MusicPants
+    StereoPants = MusicPants
     SquidBoots = "Squid Boots"
     Squid = SquidBoots
     SquidBoot = SquidBoots
