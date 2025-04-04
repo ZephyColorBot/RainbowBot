@@ -23,6 +23,24 @@ class HexColor:
             self.RGBList = [0, 0, 0]
             return
 
+        if "+" in baseHex:
+            hexList = baseHex.replace(" ", "").split("+")
+
+            finalHex = None
+            hexColorList = []
+            for i, hexCode in enumerate(hexList):
+                hexColor = HexColor(baseHex=hexCode)
+                hexColorList.append(hexColor)
+
+            for hexColor in hexColorList:
+                if finalHex is None:
+                    finalHex = hexColor
+                else:
+                    print(2, finalHex, hexColor)
+                    finalHex = MixHexColorList(finalHex, [hexColor])
+
+            print(3, finalHex)
+
         if baseHex is not None:
             if type(baseHex) is not str:
                 raise ValueError("Hex code must be a string.")
@@ -452,11 +470,17 @@ def ApplyColorTint(
 #     result = MixRGBList(startRGB, rgbList)
 #     return GetHexFromRGB(result)
 def MixHexColorList(startHexColor, hexColorList):
+    for hexColor in hexColorList:
+        print(hexColor)
     startRGB = startHexColor.GetRGBList()
+    print(2)
     rgbList = []
     for hexColor in hexColorList:
+        print(3)
         rgbList.append(hexColor.GetRGBList())
+    print(4, startRGB, rgbList)
     result = MixRGBList(startRGB, rgbList)
+    print(5, result)
     return HexColor(rgb=result)
 def MixRGBList(startRGB, rgbList):
     if len(rgbList) > 8:
