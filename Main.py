@@ -124,6 +124,8 @@ dyeInfoCommandDescription = 'Displays all pure dye hexes.'
 scanPlayerCommandDescription = 'Scan the database for a specific player. (Doesn\'t scan their current items)'
 scanPlayerCommandPlayerDescription = 'Player UUID/Username to scan for.'
 
+allColorsCommandDescription = 'Displays all dye hexes for a specific dye type.'
+
 @client.tree.command(name = 'color', description = colorCommandDescription)
 @app_commands.describe(colors = colorCommandColorsDescription)
 @app_commands.allowed_installs(guilds = True, users = True)
@@ -654,6 +656,8 @@ async def displayCompareArmor(
         #     setList = setliststring.split(', ')
         if "|" in setliststring:
             setList = setliststring.split('|')
+        else:
+            setList = [setliststring]
 
         for setItem in setList:
             setItem = setItem.strip()
@@ -682,6 +686,7 @@ async def displayCompareArmor(
 
     await interaction.response.defer(thinking=True, ephemeral=False)
 
+    finalText = ""
     finalImageList = []
     try:
         lastArmor = None
@@ -715,7 +720,13 @@ async def displayCompareArmor(
 
                 for baseHex in colorSplit:
                     try:
-                        hexList.append(HexColor(baseHex = baseHex))
+                        hexColor = HexColor(baseHex = baseHex)
+                        hexList.append(hexColor)
+
+                        if finalText != "":
+                            finalText += ", "
+                        finalText += f"#{hexColor.GetHexCode()}"
+
                     except Exception as e:
                         await interaction.followup.send(content=f"Invalid hex code '{baseHex}' - {e}", ephemeral = True)
                         return
@@ -758,7 +769,7 @@ async def displayCompareArmor(
 
         discordFile = discord.File(buffer, filename = f"armorComparison.png")
         try:
-            await interaction.followup.send(file = discordFile)
+            await interaction.followup.send(content = f"**{finalText}**", file = discordFile)
         except Forbidden as e:
             await interaction.followup.send(content = f"Error: Bot has no permissions to send images.", ephemeral = True)
     except Exception as e:
@@ -1469,7 +1480,7 @@ async def displayScanPlayer(interaction, player: str):
     except Exception as e:
         await interaction.followup.send(content=f"Unexpected Error combining armors: {e}", ephemeral=True)
 
-@client.tree.command(name = 'allcolors', description = "fuck you")
+@client.tree.command(name = 'allcolors', description = allColorsCommandDescription)
 @app_commands.choices(shape = normalShapeChoices, version = armorVersionChoices, colortype = allColorTypeChoices)
 # @app_commands.autocomplete(armor = armor_type_autocomplete, colors = armor_color_type_autocomplete)
 @app_commands.allowed_installs(guilds = True, users = True)
@@ -1682,7 +1693,7 @@ async def displayAllColors(
         discordFile = discord.File(buffer, filename = f"armorComparison.png")
 
         try:
-            await interaction.followup.send(content = f"{finalText}", file = discordFile)
+            await interaction.followup.send(content = f"**{finalText}**", file = discordFile)
         except Forbidden as e:
             await interaction.followup.send(content=f"Error: Bot has no permissions to send images.", ephemeral=True)
     except Exception as e:
