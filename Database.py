@@ -126,7 +126,8 @@ def GetItemCount(itemID: str = None, itemHex: str = None, isArmorType: bool = Fa
                 for armorType in itemDB[hexCode]:
                     if itemID in armorType:
                         finalCount += len(itemDB[hexCode][armorType])
-        return itemIDToItemCount.get(itemID, -1)
+        else:
+            return itemIDToItemCount.get(itemID, -1)
 
     return finalCount
 
