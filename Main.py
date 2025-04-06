@@ -907,7 +907,7 @@ async def displayDatabaseInfo(interaction, color: str = None, itemname: str = No
 
     isValid, itemID, isArmorType = GetValidItemIDFromItemName(itemname)
     if not isValid and itemname is not None:
-        await interaction.response.send_message(f"Invalid item id '{itemname}'", ephemeral = True)
+        await interaction.response.send_message(f"Item ID '{itemname}' is not valid.", ephemeral = True)
         return
 
     hexCode = hexColor.GetHexCode() if hexColor is not None else None
