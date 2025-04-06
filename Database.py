@@ -146,9 +146,9 @@ def GetValidItemIDFromItemName(itemName):
             isValid = True
             isArmorType = True
             itemID = armorType
-        # elif itemName.lower().replace("_", "").replace(" ", "").strip() == itemName.lower().replace("_", "").replace(" ", "").strip():
-        #     isValid = True
-        #     isArmorType = True
+        elif itemName.lower().replace("_", "").replace(" ", "").strip() == itemName.lower().replace("_", "").replace(" ", "").strip():
+            isValid = True
+            isArmorType = True
 
     return isValid, itemID, isArmorType
 
