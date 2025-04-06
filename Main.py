@@ -924,13 +924,12 @@ async def displayDatabaseInfo(interaction, color: str = None, itemname: str = No
     await interaction.response.defer(thinking=True, ephemeral=False)
 
     try:
-        if itemID not in itemIDToItemCount:
+        itemCount = GetItemCount(itemHex = hexCode, itemID = itemID, isArmorType = isArmorType)
+        if itemCount == -1:
             await interaction.followup.send(f"Invalid item id '{itemname}'", ephemeral = True)
             return
 
-        itemCount = GetItemCount(itemHex = hexCode, itemID = itemID, isArmorType = isArmorType)
         currentDescription = f"Found `{itemCount:,}` matching items."
-
         databasePlayers = GetDatabasePlayers(itemHex = hexCode, itemID = itemID, isArmorType = isArmorType)
 
         combinedItemDict = {}
@@ -1106,12 +1105,12 @@ async def displaySimilarItems(interaction, color: str, itemname: str, tolerance:
 
     await interaction.response.defer(thinking=True, ephemeral=False)
 
-    if itemID not in itemIDToItemCount:
-        await interaction.followup.send(f"Invalid item id '{itemname}'", ephemeral=True)
-        return
-
     try:
         matchingItemsList, matchingItemCount = GetMatchingItems(itemHex = hexColor, itemID = itemID, tolerance = tolerance, isArmorType = isArmorType, visualDistance = visualDistance)
+
+        if matchingItemCount == -1:
+            await interaction.followup.send(f"Invalid item id '{itemname}'", ephemeral = True)
+            return
 
         distanceDescription = "visual distance" if visualDistance else "absolute difference"
         toleranceString = f"{tolerance:.2f}" if visualDistance else f"{tolerance}"

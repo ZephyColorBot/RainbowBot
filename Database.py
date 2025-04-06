@@ -107,32 +107,28 @@ def GetItemCount(itemID: str = None, itemHex: str = None, isArmorType: bool = Fa
     itemID = itemID.upper() if itemID is not None else None
     itemHex = itemHex.upper() if itemHex is not None else None
 
+    finalCount = -1
     if itemHex is not None:
         if itemHex in hexCodeToItemCount:
             if itemID is not None:
                 if itemID in itemDB[itemHex]:
                     return len(itemDB[itemHex][itemID])
                 elif isArmorType:
-                    totalItems = 0
                     for armorType in itemDB[itemHex]:
                         if itemID in armorType:
-                            totalItems += len(itemDB[itemHex][armorType])
-
-                    return totalItems
+                            finalCount += len(itemDB[itemHex][armorType])
             else:
-                return hexCodeToItemCount.get(itemHex, 0)
+                return hexCodeToItemCount.get(itemHex, -1)
 
     elif itemID is not None:
         if isArmorType:
-            totalItems = 0
             for hexCode in itemDB:
                 for armorType in itemDB[hexCode]:
                     if itemID in armorType:
-                        totalItems += len(itemDB[hexCode][armorType])
-            return totalItems
-        return itemIDToItemCount.get(itemID, 0)
+                        finalCount += len(itemDB[hexCode][armorType])
+        return itemIDToItemCount.get(itemID, -1)
 
-    return 0
+    return finalCount
 
 def GetValidItemIDFromItemName(itemName):
     itemID = None
@@ -145,17 +141,20 @@ def GetValidItemIDFromItemName(itemName):
             isValid = True
         elif armorType in itemIDToItemCount:
             isValid = True
-            isArmorType = True
             itemID = armorType
-        elif itemName.lower().replace("_", "").replace(" ", "").strip() == itemName.lower().replace("_", "").replace(" ", "").strip():
+        elif armorType:
             isValid = True
             isArmorType = True
+            itemID = armorType
+        # elif itemName.lower().replace("_", "").replace(" ", "").strip() == itemName.lower().replace("_", "").replace(" ", "").strip():
+        #     isValid = True
+        #     isArmorType = True
 
     return isValid, itemID, isArmorType
 
 def GetMatchingItems(itemID: str, itemHex: HexColor, tolerance: float = 0, isArmorType: bool = False, visualDistance: bool = False):
     matchingItemsList = {}
-    matchingItemCount = 0
+    matchingItemCount = -1
     for hexCode in itemDB:
         if not (itemID in itemDB[hexCode] or itemID == "any" or isArmorType):
             continue
