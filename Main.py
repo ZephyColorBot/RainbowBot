@@ -924,6 +924,10 @@ async def displayDatabaseInfo(interaction, color: str = None, itemname: str = No
     await interaction.response.defer(thinking=True, ephemeral=False)
 
     try:
+        if itemID not in itemIDToItemCount:
+            await interaction.followup.send(f"Invalid item id '{itemname}'", ephemeral = True)
+            return
+
         itemCount = GetItemCount(itemHex = hexCode, itemID = itemID, isArmorType = isArmorType)
         currentDescription = f"Found `{itemCount:,}` matching items."
 
@@ -1101,6 +1105,10 @@ async def displaySimilarItems(interaction, color: str, itemname: str, tolerance:
     hexCode = hexColor.GetHexCode()
 
     await interaction.response.defer(thinking=True, ephemeral=False)
+
+    if itemID not in itemIDToItemCount:
+        await interaction.followup.send(f"Invalid item id '{itemname}'", ephemeral=True)
+        return
 
     try:
         matchingItemsList, matchingItemCount = GetMatchingItems(itemHex = hexColor, itemID = itemID, tolerance = tolerance, isArmorType = isArmorType, visualDistance = visualDistance)
