@@ -907,7 +907,7 @@ async def displayDatabaseInfo(interaction, color: str = None, itemname: str = No
 
     isValid, itemID, isArmorType = GetValidItemIDFromItemName(itemname)
     if not isValid and itemname is not None:
-        await interaction.response.send_message(f"Item ID '{itemname}' is not valid.", ephemeral = True)
+        await interaction.response.send_message(f"Invalid item id '{itemname}'", ephemeral = True)
         return
 
     hexCode = hexColor.GetHexCode() if hexColor is not None else None
@@ -925,9 +925,9 @@ async def displayDatabaseInfo(interaction, color: str = None, itemname: str = No
 
     try:
         itemCount = GetItemCount(itemHex = hexCode, itemID = itemID, isArmorType = isArmorType)
-        if itemCount == -1:
-            await interaction.followup.send(f"Invalid item id '{itemname}'", ephemeral = True)
-            return
+        # if itemCount == -1:
+        #     await interaction.followup.send(f"Invalid item id '{itemname}'", ephemeral = True)
+        #     return
 
         currentDescription = f"Found `{itemCount:,}` matching items."
         databasePlayers = GetDatabasePlayers(itemHex = hexCode, itemID = itemID, isArmorType = isArmorType)
@@ -1095,7 +1095,7 @@ async def displaySimilarItems(interaction, color: str, itemname: str, tolerance:
 
     isValid, itemID, isArmorType = GetValidItemIDFromItemName(itemname)
     if itemname != "any":
-        if not itemID and not isValid:
+        if not isValid and itemname is not None:
             await interaction.response.send_message(f"Invalid item id '{itemname}'", ephemeral = True)
             return
     else:
@@ -1107,10 +1107,9 @@ async def displaySimilarItems(interaction, color: str, itemname: str, tolerance:
 
     try:
         matchingItemsList, matchingItemCount = GetMatchingItems(itemHex = hexColor, itemID = itemID, tolerance = tolerance, isArmorType = isArmorType, visualDistance = visualDistance)
-
-        if matchingItemCount == -1:
-            await interaction.followup.send(f"Invalid item id '{itemname}'", ephemeral = True)
-            return
+        # if matchingItemCount == -1:
+        #     await interaction.followup.send(f"Invalid item id '{itemname}'", ephemeral = True)
+        #     return
 
         distanceDescription = "visual distance" if visualDistance else "absolute difference"
         toleranceString = f"{tolerance:.2f}" if visualDistance else f"{tolerance}"

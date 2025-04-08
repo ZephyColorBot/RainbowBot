@@ -156,7 +156,7 @@ def GetValidItemIDFromItemName(itemName):
 
 def GetMatchingItems(itemID: str, itemHex: HexColor, tolerance: float = 0, isArmorType: bool = False, visualDistance: bool = False):
     matchingItemsList = {}
-    matchingItemCount = -1
+    matchingItemCount = 0
     for hexCode in itemDB:
         if not (itemID in itemDB[hexCode] or itemID == "any" or isArmorType):
             continue

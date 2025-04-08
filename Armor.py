@@ -451,12 +451,12 @@ def ApplyColorTint(
     tinted = Image.new("RGBA", baseImage.size)
     for x in range(baseImage.width):
         for y in range(baseImage.height):
-            orig_r, orig_g, orig_b, orig_a = baseImage.getpixel((x, y))
-            tint_r, tint_g, tint_b, _ = tintImage.getpixel((x, y))
-            new_r = int((orig_r * tint_r) / 255)
-            new_g = int((orig_g * tint_g) / 255)
-            new_b = int((orig_b * tint_b) / 255)
-            tinted.putpixel((x, y), (new_r, new_g, new_b, orig_a))
+            originalR, originalG, originalB, originalA = baseImage.getpixel((x, y))
+            tintR, tintG, tintB, _ = tintImage.getpixel((x, y))
+            newR = int((originalR * tintR) / 255)
+            newG = int((originalG * tintG) / 255)
+            newB = int((originalB * tintB) / 255)
+            tinted.putpixel((x, y), (newR, newG, newB, originalA))
 
     return tinted
 
