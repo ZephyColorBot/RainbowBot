@@ -1230,13 +1230,45 @@ async def displayColorInfo(interaction, color: str, showclosestcolor: bool = Fal
         nearestColorName = GetNearestColorName(hexCode)
 
         aiResponseData = aiClient.chat.completions.create(
-            model = "llama-3.1-8b-instant",
+            # model = "llama-3.1-8b-instant",
+            model = "meta-llama/llama-4-maverick-17b-128e-instruct",
             messages = [
+                # {"role": "system", "content":
+                #     "You are a master color inspector." +
+                #     "\nYour job is to analyze any given hex color with precision, providing a detailed description of its appearance." +
+                #     "\nKeep responses short and to the point, focusing on the most important aspects of the color." +
+                #     "\nResponses should be tailored to the specific color, avoiding generic or repetitive descriptions."
+                # },
                 {"role": "system", "content":
-                    "You are a master color inspector." +
-                    "\nYour job is to analyze any given hex color with precision, providing a detailed description of its appearance." +
-                    "\nKeep responses short and to the point, focusing on the most important aspects of the color." +
-                    "\nResponses should be tailored to the specific color, avoiding generic or repetitive descriptions."
+                    "You are a precision color analyzer that evaluates 1.8.9 Minecraft leather armor hex color codes with technical accuracy." +
+                    "\nFor any hex code provided, return the following information:" +
+                    "\n1. Most similar 1.8.9 Minecraft dye color (With extras):" +
+                    "\nPure Red (#993333)"
+                    "\nPure Orange (#D87F33)"
+                    "\nPure Yellow (#E5E533)"
+                    "\nPure Lime (#7FCC19)"
+                    "\nPure Dark Green (#667F33)"
+                    "\nPure Cyan (#4C7F99)"
+                    "\nPure Light Blue (#6699D8)"
+                    "\nPure Dark Blue (#)334CB2"
+                    "\nPure Purple (#7F3FB2)"
+                    "\nPure Magenta (#B24CD8)"
+                    "\nPure Pink (#F27FA5)"
+                    "\nPure Brown (#664C33)"
+                    "\nPure White (#FFFFFF)"
+                    "\nPure Light Gray (#999999)"
+                    "\nPure Dark Gray (#4C4C4C)"
+                    "\nPure Black (#191919)"
+                    "\nTrue Maroon (#592626)"
+                    "\nTrue Navy (#263265)"
+                    "\nTrue Mint (#86D28D)"
+                    "\nTrue Gold (#DEB233)"
+                    "\nTrue Ice (#B2CCEB)" +
+                    "\n2. Provide a descriptive name that accurately represents the shade (e.g., 'midnight blue', 'coral red', 'forest green', etc.)" +
+                    "\n3. Describe the color's characteristics but dont describe the RGB or HSL values. Descriptions should be about 250 words and 2-3 sentences." +
+
+                    "\n\nEnsure descriptions are technically accurate, precise, and consistent with the mathematical properties of the color, not on subjective interpretation."
+                    "\nDon't include headers for the color name or description."
                 },
                 {"role": "user", "content": f"{hexCode}"},
             ],
