@@ -395,6 +395,7 @@ class Color(Enum):
     Flame = FlameDye
     CopperDye = ("Copper", "B87333", ColorType.HypixelDye)
     Copper = CopperDye
+    PureYellowDye = ("Pure Yellow", "FFF700", ColorType.HypixelDye)
     Treasure = ("Treasure", "FCD12A", ColorType.HypixelDye)
     TreasureDye = Treasure
     MangoDye = ("Mango", "FDBE02", ColorType.HypixelDye)
@@ -423,8 +424,9 @@ class Color(Enum):
     Iceburg = IcebergDye
     TentacleDye = ("Tentacle", "324D6C", ColorType.HypixelDye)
     Tentacle = TentacleDye
-    BingoBlueDye = ("BingoBlue", "002FA7", ColorType.HypixelDye)
+    BingoBlueDye = ("Bingo Blue", "002FA7", ColorType.HypixelDye)
     BingoBlue = BingoBlueDye
+    PureBlueDye = ("Pure Blue", "0013FF", ColorType.HypixelDye)
     MidnightDye = ("Midnight", "50216C", ColorType.HypixelDye)
     Midnight = MidnightDye
     ByzantiumDye = ("Byzantium", "702963", ColorType.HypixelDye)
@@ -435,7 +437,7 @@ class Color(Enum):
     Nadeshiko = NadeshikoDye
     CyclamenDye = ("Cyclamen", "F56FA1", ColorType.HypixelDye)
     Cyclamen = CyclamenDye
-    WildStrawberryDye = ("WildStrawberry", "FF43A4", ColorType.HypixelDye)
+    WildStrawberryDye = ("Wild Strawberry", "FF43A4", ColorType.HypixelDye)
     WildStrawberry = WildStrawberryDye
     BoneDye = ("Bone", "E3DAC9", ColorType.HypixelDye)
     Bone = BoneDye
