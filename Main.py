@@ -12,7 +12,8 @@ defaultColor = discord.Color(0xD2EBEB)
 avatarLink = "https://cdn.discordapp.com/avatars/1000919610251558993/7c7d0e2f2d831a5241b9053fd0ca6fd1.webp"
 footerText = "Made by zeph.y"
 allowedDatabaseUsers = [
-    263058850234499072 # me
+    263058850234499072, # me
+    687154466243477535 # elays
 ]
 
 def AppCommandWithAliases(tree, name, aliases=None, **kwargs):
@@ -69,6 +70,7 @@ allColorTypeChoices = [
     app_commands.Choice(name="True Colors", value="True Colors"),
     app_commands.Choice(name="Pure+True Colors", value="Pure+True Colors"),
     app_commands.Choice(name="Hypixel Dyes", value="Hypixel Dyes"),
+    app_commands.Choice(name="Mix Pure Colors", value="Mix Pure Colors"),
 ]
 visualOrAbsoluteDistanceChoices = [
     app_commands.Choice(name="Visual Distance", value="Visual"),
@@ -197,7 +199,9 @@ async def displayColor(
 
         discordFile = discord.File(buffer, filename="colorSquare.png")
         try:
-            await interaction.followup.send(content=f"**{colorString}**", file=discordFile)
+            if colorString != "":
+                colorString = f"**{colorString}**"
+            await interaction.followup.send(content=colorString, file=discordFile)
         except Forbidden as e:
             await interaction.followup.send(content=f"Error: Bot has no permissions to send images.", ephemeral=True)
     except Exception as e:
@@ -295,7 +299,9 @@ async def displayArmor(
 
         discordFile = discord.File(buffer, filename=filePath)
         try:
-            await interaction.followup.send(content=f"**{colorString}**", file=discordFile)
+            if colorString != "":
+                colorString = f"**{colorString}**"
+            await interaction.followup.send(content=colorString, file=discordFile)
         except Forbidden as e:
             await interaction.followup.send(content=f"Error: Bot has no permissions to send images.", ephemeral=True)
     except Exception as e:
@@ -504,7 +510,9 @@ async def displayMix(
 
         discordFile = discord.File(buffer, filename=filePath)
         try:
-            await interaction.followup.send(content=f"**{colorString}**", file=discordFile)
+            if colorString != "":
+                colorString = f"**{colorString}**"
+            await interaction.followup.send(content=colorString, file=discordFile)
         except Forbidden as e:
             await interaction.followup.send(content=f"Error: Bot has no permissions to send images.", ephemeral=True)
     except Exception as e:
@@ -829,7 +837,9 @@ async def displayCompareArmor(
 
         discordFile = discord.File(buffer, filename=f"armorComparison.png")
         try:
-            await interaction.followup.send(content=f"**{finalText}**", file=discordFile)
+            if finalText != "":
+                finalText = f"**{finalText}**"
+            await interaction.followup.send(content=finalText, file=discordFile)
         except Forbidden as e:
             await interaction.followup.send(content=f"Error: Bot has no permissions to send images.", ephemeral=True)
     except Exception as e:
@@ -1034,13 +1044,34 @@ async def displayDatabaseInfo(
                 tempDescription = ""
                 i = -1
                 currentPlayerUUID = ""
-                for playerUUID in dict(sorted(databasePlayers.items(), key = lambda sortedItem: len(sortedItem[1]), reverse = True)):
+
+                uuidList = dict(sorted(databasePlayers.items(), key = lambda sortedItem: len(sortedItem[1]), reverse = True))
+                shouldShowNames = True if len(uuidList) <= 25 else False
+
+                for playerUUID in uuidList:
                     if currentPlayerUUID != playerUUID:
+                        playerUsername = ""
+                        if shouldShowNames:
+                            async with aiohttp.ClientSession() as session:
+                                try:
+                                    async with session.get(f"https://crafthead.net/profile/{playerUUID}", headers={"Content-Type": "application/json"}) as response:
+                                        if response.status == 200:
+                                            playerInfo = await response.json()
+                                            if "name" in playerInfo:
+                                                playerUsername = f"**" + str(playerInfo["name"]) + f" - {playerUUID}**"
+                                        else:
+                                            print(f"Request failed with status code: {response.status}")
+                                except Exception as error:
+                                    print("1 ERROR", json.dumps(str(error)), error)
+
+                        if playerUsername == "":
+                            playerUsername = f"**{playerUUID}**"
+
                         currentPlayerUUID = playerUUID
                         if i != -1:
                             tempDescription += f"\n"
                         if canListPlayers:
-                            tempDescription += f"\n**{playerUUID.lower()}**"
+                            tempDescription += f"\n{playerUsername}"
                     for item, baseHex in databasePlayers[playerUUID]:
                         i += 1
                         tempDescription += f"\n{extraString}#{baseHex} - {item}"
@@ -1220,12 +1251,32 @@ async def displaySimilarItems(
                     currentOffAmount = offAmount
                     if i != -1:
                         tempDescription += f"\n"
+
+                shouldShowNames = True if len(playerList[1][0]) <= 25 else False
                 for playerData in playerList[1][0]:
                     i += 1
                     if i != 0:
                         tempDescription += f"\n"
 
-                    playerString = f"{playerData[1]}\n" if shouldListPlayers else ""
+                    playerUsername = ""
+                    if shouldShowNames:
+                        async with aiohttp.ClientSession() as session:
+                            try:
+                                async with session.get(f"https://crafthead.net/profile/{playerData[1]}", headers={
+                                    "Content-Type": "application/json"}) as response:
+                                    if response.status == 200:
+                                        playerInfo = await response.json()
+                                        if "name" in playerInfo:
+                                            playerUsername = str(playerInfo["name"]) + f" - {playerData[1]}"
+                                    else:
+                                        print(f"Request failed with status code: {response.status}")
+                            except Exception as error:
+                                print("1 ERROR", json.dumps(str(error)), error)
+
+                    if playerUsername == "":
+                        playerUsername = f"{playerData[1]}"
+
+                    playerString = f"{playerUsername}\n" if shouldListPlayers else ""
 
                     toleranceString = f"{offAmount:.2f}" if visualDistance else f"{offAmount}"
                     tempDescription += f"{playerString}{extraString}#{playerList[0]} - {playerData[0]} - {toleranceString}"
@@ -1588,7 +1639,8 @@ async def displayAllColors(
     colortype: str,
     outputarmor: str = None,
     outputshape: str = None,
-    outputversion: str = None
+    outputversion: str = None,
+    mixcount: int = None
 ):
     if outputarmor is None:
         outputarmor = "Full Set"
@@ -1618,6 +1670,8 @@ async def displayAllColors(
     shapeEnum = stringToShapeTypeDict[outputshape]
     versionEnum = stringToVersionTypeDict[outputversion]
 
+    mixColors = False
+
     inputItemListList = []
     colorList = []
     fairyColorList = []
@@ -1640,18 +1694,29 @@ async def displayAllColors(
             colorList.append(color)
     elif colortype == "Hypixel Dyes":
         colorList = allHypixelDyeHexes.items()
+    elif colortype == "Mix Pure Colors":
+        if mixcount is None:
+            mixcount = 1
+        if mixcount < 1 or mixcount > 8:
+            await interaction.response.send_message("Please provide a valid mix count (1-8).", ephemeral=True)
+            return
+
+        if outputarmor == "fullset":
+            await interaction.response.send_message("Invalid armor type 'fullset' for mix pure colors.", ephemeral=True)
+            return
+
+        mixColors = True
     else:
         await interaction.response.send_message(f"Invalid color type '{colortype}'", ephemeral=True)
         return
 
-    if len(colorList) == 0 and len(fairyColorList) == 0:
+    if len(colorList) == 0 and len(fairyColorList) == 0 and not mixColors:
         await interaction.response.send_message(f"No colors found for '{colortype}'", ephemeral=True)
         return
 
     await interaction.response.defer(thinking=True, ephemeral=False)
 
     try:
-
         armorEnumString = str(armorEnum).replace(" ", "").strip().lower()
         finalText = ""
         if len(colorList) > 0:
@@ -1666,7 +1731,7 @@ async def displayAllColors(
                 if finalText != "":
                     finalText += ", "
                 finalText += f"#{hexCode}"
-        else:
+        elif len(fairyColorList) > 0:
             for color, fairyType in fairyColorList:
                 itemList = []
                 if colortype == "Fairy":
@@ -1712,6 +1777,41 @@ async def displayAllColors(
                     continue
                 finalString = f"{itemHex.strip()} {itemName.strip()}".strip()
                 inputItemListList.append(finalString)
+        else:
+            hexDictionary = {}
+            for color, exoticColorHex in allPureExoticHexes.items():
+                for armorColorHex in itemDict[armorEnum][1]:
+                    if armorColorHex == "":
+                        continue
+                    try:
+                        armorColor = HexColor(baseHex=armorColorHex)
+                    except Exception as e:
+                        await interaction.followup.send(content=f"Invalid hex code '{armorColorHex}' - {e}", ephemeral=True)
+                        return
+
+                    finalHex = armorColor
+                    for i in range(mixcount):
+                        try:
+                            exoticColor = HexColor(baseHex=exoticColorHex)
+                        except Exception as e:
+                            await interaction.followup.send(content=f"Invalid hex code '{exoticColorHex}' - {e}", ephemeral=True)
+                            return
+                        finalHex = MixHexColorList(finalHex, [exoticColor])
+
+                    if color not in hexDictionary:
+                        hexDictionary[color] = []
+                    hexDictionary[color].append(finalHex)
+
+            for color in hexDictionary:
+                finalString = ""
+                for mixHex in hexDictionary[color]:
+                    finalString += f"#{mixHex.GetHexCode().strip()} "
+
+                inputItemListList.append(f"{finalString.strip()} {outputarmor.strip()}".strip())
+                if finalText != "":
+                    finalText += " | "
+                finalText += f"+{mixcount} {pureColorToDiscordEmotes[color]}: {finalString.strip()}"
+
     except Exception as e:
         await interaction.followup.send(content=f"Unexpected Error parsing input: {e}", ephemeral=True)
         return
@@ -1791,7 +1891,9 @@ async def displayAllColors(
         discordFile = discord.File(buffer, filename=f"armorComparison.png")
 
         try:
-            await interaction.followup.send(content=f"**{finalText}**", file=discordFile)
+            if finalText != "":
+                finalText = f"**{finalText}**"
+            await interaction.followup.send(content=finalText, file=discordFile)
         except Forbidden as e:
             await interaction.followup.send(content=f"Error: Bot has no permissions to send images.", ephemeral=True)
     except Exception as e:

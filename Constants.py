@@ -302,6 +302,13 @@ class Color(Enum):
     FinalDestinationLegs = FinalDestinationLeggings
     FinalDestinationBoots = ("Final Destination Boots", "0A0011", ColorType.Armor)
 
+    MusicPants = ("Music Pants", "04CFD3", ColorType.Armor)
+    Stereo = MusicPants
+    StereoLeggings = MusicPants
+    StereoLegs = MusicPants
+    Stereos = MusicPants
+    StereoPants = MusicPants
+
     _330066 = ("330066", "330066", ColorType.Fairy)
     _306 = _330066
     _4C0099 = ("4C0099", "4C0099", ColorType.Fairy)
