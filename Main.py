@@ -1058,14 +1058,14 @@ async def displayDatabaseInfo(
                                         if response.status == 200:
                                             playerInfo = await response.json()
                                             if "name" in playerInfo:
-                                                playerUsername = f"**" + str(playerInfo["name"]) + f" - {playerUUID}**"
+                                                playerUsername = f"**" + str(playerInfo["name"]) + f" - {playerUUID.lower()}**"
                                         else:
                                             print(f"Request failed with status code: {response.status}")
                                 except Exception as error:
                                     print("1 ERROR", json.dumps(str(error)), error)
 
                         if playerUsername == "":
-                            playerUsername = f"**{playerUUID}**"
+                            playerUsername = f"**{playerUUID.lower()}**"
 
                         currentPlayerUUID = playerUUID
                         if i != -1:
@@ -1573,7 +1573,7 @@ async def displayScanPlayer(
                 buffer.write(tempDescription.encode())
                 buffer.seek(0)
 
-                fileName = f"{playerUUID}.txt"
+                fileName = f"{playerUUID.lower()}.txt"
                 discordFile = discord.File(buffer, filename=fileName)
             else:
                 currentDescription += f"{tempDescription}"
@@ -1585,7 +1585,7 @@ async def displayScanPlayer(
         )
         embed.add_field(
             name=f"**UUID:**",
-            value=f"{playerUUID}",
+            value=f"{playerUUID.lower()}",
             inline=False
         )
         embed.add_field(name="", value="", inline=False)
