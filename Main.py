@@ -289,7 +289,8 @@ async def displayArmor(
             hexList=colorList,
             versionType=versionEnum,
             shapeType=shapeEnum,
-            imageSpacing=20,
+            imageXSpacing=0,
+            imageYSpacing=20,
             imageSize=128
         )
         for baseHex in colors:
@@ -498,7 +499,8 @@ async def displayMix(
                 hexList=[finalHex],
                 versionType=versionEnum,
                 shapeType=shapeEnum,
-                imageSpacing=20,
+                imageXSpacing=0,
+                imageYSpacing=20,
                 imageSize=128
             )
         else:
@@ -804,7 +806,8 @@ async def displayCompareArmor(
                 hexList=hexList,
                 versionType=versionEnum,
                 shapeType=shapeEnum,
-                imageSpacing=20,
+                imageXSpacing=0,
+                imageYSpacing=20,
                 imageSize=128
             )
             finalImageList.append((buffer, filePath, colors))
@@ -1716,6 +1719,7 @@ async def displayAllColors(
 
     await interaction.response.defer(thinking=True, ephemeral=False)
 
+    armorSpacing = 10
     try:
         armorEnumString = str(armorEnum).replace(" ", "").strip().lower()
         finalText = ""
@@ -1773,6 +1777,9 @@ async def displayAllColors(
                             else:
                                 itemHex += "empty "
 
+                    if len(armorData) == 3:
+                        armorSpacing = armorData[2]
+
                 if itemHex.replace("empty", "").strip() == "":
                     continue
                 finalString = f"{itemHex.strip()} {itemName.strip()}".strip()
@@ -1780,7 +1787,10 @@ async def displayAllColors(
         else:
             hexDictionary = {}
             for color, exoticColorHex in allPureExoticHexes.items():
-                for armorColorHex in itemDict[armorEnum][1]:
+                armorData = itemDict[armorEnum]
+                if len(armorData) == 3:
+                    armorSpacing = armorData[2]
+                for armorColorHex in armorData[1]:
                     if armorColorHex == "":
                         continue
                     try:
@@ -1857,7 +1867,8 @@ async def displayAllColors(
                 hexList=hexList,
                 versionType=versionEnum,
                 shapeType=shapeEnum,
-                imageSpacing=20,
+                imageXSpacing=0,
+                imageYSpacing=20,
                 imageSize=128
             )
             finalImageList.append((buffer, filePath, colors))
@@ -1871,7 +1882,6 @@ async def displayAllColors(
             return
 
         resultImage = Image.new(mode = 'RGBA', size = (0, 0), color = (0, 0, 0, 0))
-        armorSpacing = 10
         for i, imageData in enumerate(finalImageList):
             buffer, filePath, colors = imageData
 

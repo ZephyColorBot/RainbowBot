@@ -308,6 +308,19 @@ class Color(Enum):
     StereoLegs = MusicPants
     Stereos = MusicPants
     StereoPants = MusicPants
+    ObsidianChestplate = ("Obsidian Chestplate", "000000", ColorType.Armor)
+    ObsidianCP = ObsidianChestplate
+    ObsidianChest = ObsidianChestplate
+    FarmerBoots = ("Farmer Boots", "CC5000", ColorType.Armor)
+    Farmer = FarmerBoots
+    FarmerBoot = FarmerBoots
+    FarmersBoots = FarmerBoots
+    Farmers = FarmerBoots
+    RancherBoots = ("Rancher Boots", "000000", ColorType.Armor)
+    Rancher = RancherBoots
+    RancherBoot = RancherBoots
+    RanchersBoots = RancherBoots
+    Ranchers = RancherBoots
 
     _330066 = ("330066", "330066", ColorType.Fairy)
     _306 = _330066
@@ -1328,27 +1341,32 @@ def PopulateStringDictionaries():
         stringToShapeTypeDict[shapeName] = shapeType
 PopulateStringDictionaries()
 
+helmetSpacing = 20
+chestplateSpacing = 10
+leggingsSpacing = 20
+bootsSpacing = 10
+
 baseArmorSet = ["LeatherChestplate.png", "LeatherLeggings.png", "LeatherBoots.png"]
 fullArmorSet = ["LeatherHelmet.png", "LeatherChestplate.png", "LeatherLeggings.png", "LeatherBoots.png"]
 fermentoArmorColor = ["", Color.FermentoChestplate.value[1], Color.FermentoLeggings.value[1], Color.FermentoBoots.value[1]]
 itemDict = {
     ArmorType.FullSet: (fullArmorSet, [*([Color.Leather.value[1]] * 4)]),
-    ArmorType.Helmet:     (["LeatherHelmet.png"   , "EmptyImageChestplate.png", "EmptyImageLeggings.png", "EmptyImageBoots.png"], [Color.Leather.value[1], "", "", ""]),
-    ArmorType.Chestplate: (["EmptyImageHelmet.png", "LeatherChestplate.png"   , "EmptyImageLeggings.png", "EmptyImageBoots.png"], ["", Color.Leather.value[1], "", ""]),
-    ArmorType.Leggings:   (["EmptyImageHelmet.png", "EmptyImageChestplate.png", "LeatherLeggings.png"   , "EmptyImageBoots.png"], ["", "", Color.Leather.value[1], ""]),
-    ArmorType.Boots:      (["EmptyImageHelmet.png", "EmptyImageChestplate.png", "EmptyImageLeggings.png", "LeatherBoots.png"   ], ["", "", "", Color.Leather.value[1]]),
+    ArmorType.Helmet:     (["LeatherHelmet.png"], [Color.Leather.value[1]], helmetSpacing),
+    ArmorType.Chestplate: (["LeatherChestplate.png"], [Color.Leather.value[1]], chestplateSpacing),
+    ArmorType.Leggings:   (["LeatherLeggings.png"], [Color.Leather.value[1]], leggingsSpacing),
+    ArmorType.Boots:      (["LeatherBoots.png"], [Color.Leather.value[1]], bootsSpacing),
 
-    ArmorType.HelmetChestplate: (["LeatherHelmet.png", "LeatherChestplate.png", "EmptyImageLeggings.png", "EmptyImageBoots.png"], [Color.Leather.value[1], Color.Leather.value[1], "", ""]),
-    ArmorType.HelmetLeggings: (["LeatherHelmet.png", "EmptyImageChestplate.png", "LeatherLeggings.png", "EmptyImageBoots.png"], [Color.Leather.value[1], "", Color.Leather.value[1], ""]),
-    ArmorType.HelmetBoots: (["LeatherHelmet.png", "EmptyImageChestplate.png", "EmptyImageLeggings.png", "LeatherBoots.png"], [Color.Leather.value[1], "", "", Color.Leather.value[1]]),
-    ArmorType.ChestplateLeggings: (["EmptyImageHelmet.png", "LeatherChestplate.png", "LeatherLeggings.png", "EmptyImageBoots.png"], ["", Color.Leather.value[1], Color.Leather.value[1], ""]),
-    ArmorType.ChestplateBoots: (["EmptyImageHelmet.png", "LeatherChestplate.png", "EmptyImageLeggings.png", "LeatherBoots.png"], ["", Color.Leather.value[1], "", Color.Leather.value[1]]),
-    ArmorType.LeggingsBoots: (["EmptyImageHelmet.png", "EmptyImageChestplate.png", "LeatherLeggings.png", "LeatherBoots.png"], ["", "", Color.Leather.value[1], Color.Leather.value[1]]),
+    ArmorType.HelmetChestplate: (["LeatherHelmet.png", "LeatherChestplate.png"], [Color.Leather.value[1], Color.Leather.value[1]], max(helmetSpacing, chestplateSpacing)),
+    ArmorType.HelmetLeggings: (["LeatherHelmet.png""LeatherLeggings.png"], [Color.Leather.value[1], Color.Leather.value[1]], max(helmetSpacing, leggingsSpacing)),
+    ArmorType.HelmetBoots: (["LeatherHelmet.png", "LeatherBoots.png"], [Color.Leather.value[1], Color.Leather.value[1]], max(helmetSpacing, bootsSpacing)),
+    ArmorType.ChestplateLeggings: (["LeatherChestplate.png", "LeatherLeggings.png"], [Color.Leather.value[1], Color.Leather.value[1]], max(chestplateSpacing, leggingsSpacing)),
+    ArmorType.ChestplateBoots: (["LeatherChestplate.png", "LeatherBoots.png"], [Color.Leather.value[1], Color.Leather.value[1]], max(chestplateSpacing, bootsSpacing)),
+    ArmorType.LeggingsBoots: (["LeatherLeggings.png", "LeatherBoots.png"], [Color.Leather.value[1], Color.Leather.value[1]], max(leggingsSpacing, bootsSpacing)),
 
-    ArmorType.HelmetChestplateLeggings: (["LeatherHelmet.png", "LeatherChestplate.png", "LeatherLeggings.png", "EmptyImageBoots.png"], [Color.Leather.value[1], Color.Leather.value[1], Color.Leather.value[1], ""]),
-    ArmorType.HelmetChestplateBoots: (["LeatherHelmet.png", "LeatherChestplate.png",  "EmptyImageLeggings.png", "LeatherBoots.png"], [Color.Leather.value[1], Color.Leather.value[1], "", Color.Leather.value[1]]),
-    ArmorType.HelmetLeggingsBoots: (["LeatherHelmet.png", "EmptyImageChestplate.png", "LeatherLeggings.png", "LeatherBoots.png"], [Color.Leather.value[1], "", Color.Leather.value[1], Color.Leather.value[1]]),
-    ArmorType.ChestplateLeggingsBoots: (["EmptyImageHelmet.png", "LeatherChestplate.png", "LeatherLeggings.png", "LeatherBoots.png"], ["", Color.Leather.value[1], Color.Leather.value[1], Color.Leather.value[1]]),
+    ArmorType.HelmetChestplateLeggings: (["LeatherHelmet.png", "LeatherChestplate.png", "LeatherLeggings.png"], [Color.Leather.value[1], Color.Leather.value[1], Color.Leather.value[1]], max(helmetSpacing, chestplateSpacing, leggingsSpacing)),
+    ArmorType.HelmetChestplateBoots: (["LeatherHelmet.png", "LeatherChestplate.png", "LeatherBoots.png"], [Color.Leather.value[1], Color.Leather.value[1], Color.Leather.value[1]], max(helmetSpacing, chestplateSpacing, bootsSpacing)),
+    ArmorType.HelmetLeggingsBoots: (["LeatherHelmet.png", "LeatherLeggings.png", "LeatherBoots.png"], [Color.Leather.value[1], Color.Leather.value[1], Color.Leather.value[1]], max(helmetSpacing, leggingsSpacing, bootsSpacing)),
+    ArmorType.ChestplateLeggingsBoots: (["LeatherChestplate.png", "LeatherLeggings.png", "LeatherBoots.png"], [Color.Leather.value[1], Color.Leather.value[1], Color.Leather.value[1]], max(chestplateSpacing, leggingsSpacing, bootsSpacing)),
 
     ArmorType.Holy: (["HolyHelmet.webp", *baseArmorSet], ["", *([Color.Holy.value[1]] * 3)]),
     ArmorType.HolyBaby: (["HolyHelmetBaby.webp", *baseArmorSet], ["", *([Color.Holy.value[1]] * 3)]),
@@ -1495,8 +1513,8 @@ itemDict = {
     ArmorType.Cactus: (fullArmorSet, [*([Color.Cactus.value[1]] * 4)]),
     ArmorType.Prospecting: (fullArmorSet, [*([Color.Prospecting.value[1]] * 4)]),
     ArmorType.Growth: (fullArmorSet, [*([Color.Growth.value[1]] * 4)]),
-    ArmorType.GuardianChestplate: (["LeatherChestplate.png"], [Color.GuardianChestplate.value[1]]),
-    ArmorType.CreeperPants: (["LeatherLeggings.png"], [Color.CreeperPants.value[1]]),
+    ArmorType.GuardianChestplate: (["LeatherChestplate.png"], [Color.GuardianChestplate.value[1]], chestplateSpacing),
+    ArmorType.CreeperPants: (["LeatherLeggings.png"], [Color.CreeperPants.value[1]], leggingsSpacing),
     ArmorType.MonsterHunter: (["IronHelmet.webp", "LeatherChestplate.png", "LeatherLeggings.png", "IronBoots.webp"], ["", Color.GuardianChestplate.value[1], Color.CreeperPants.value[1], ""]),
     ArmorType.MonsterRaider: (["IronHelmet.webp", "LeatherChestplate.png", "LeatherLeggings.png", "LeatherBoots.png"], ["", Color.GuardianChestplate.value[1], Color.CreeperPants.value[1], Color.Tarantula.value[1]]),
     ArmorType.ArmorOfMagma: (fullArmorSet, [*([Color.ArmorOfMagma.value[1]] * 4)]),
@@ -1619,4 +1637,9 @@ itemDict = {
     ArmorType.Melon: (["MelonHelmet.webp", *baseArmorSet], ["", *([Color.Melon.value[1]] * 3)]),
     ArmorType.Cropie: (["CropieHelmet.webp", *baseArmorSet], ["", Color.CropieChestplate.value[1], Color.CropieLeggings.value[1], Color.CropieBoots.value[1]]),
     ArmorType.Squash: (["SquashHelmet.webp", *baseArmorSet], ["", Color.SquashChestplate.value[1], Color.SquashLeggings.value[1], Color.SquashBoots.value[1]]),
+
+    ArmorType.ObsidianChestplate: (["LeatherChestplate.png"], [Color.ObsidianChestplate.value[1]], chestplateSpacing),
+    ArmorType.MusicPants: (["LeatherLeggings.png"], [Color.MusicPants.value[1]], leggingsSpacing),
+    ArmorType.FarmerBoots: (["LeatherBoots.png"], [Color.FarmerBoots.value[1]], bootsSpacing),
+    ArmorType.RancherBoots: (["LeatherBoots.png"], [Color.RancherBoots.value[1]], bootsSpacing),
 }

@@ -193,8 +193,9 @@ def CreateArmorSetImage(
         hexList: list[HexColor],
         shapeType: ShapeType = ShapeType.Vertical,
         versionType: VersionType = VersionType._1_8_9,
-        imageSpacing = 20,
-        imageSize = 128
+        imageXSpacing: int = 0,
+        imageYSpacing: int = 20,
+        imageSize: int = 128
 ):
     if armorType not in itemDict:
         raise ValueError(f"Invalid armor type '{armorType}'")
@@ -202,7 +203,8 @@ def CreateArmorSetImage(
     armorType = itemDict[armorType]
     armorImages = armorType[0]
 
-    imageSpacing *= math.ceil(imageSize / 128)
+    imageXSpacing *= math.ceil(imageSize / 128)
+    imageYSpacing *= math.ceil(imageSize / 128)
 
     finalHexColorList = []
     i = 0
@@ -245,16 +247,16 @@ def CreateArmorSetImage(
     for i, croppedImage in enumerate(croppedImageList):
         armorName = armorPaths[i].lower()
         if "helmet" in armorName and not any(item in armorName for item in disallowedNames):
-            heightOffset = imageSpacing // 2
+            heightOffset = imageYSpacing // 2
             break
 
     image = None
     animatedFiles = []
     if shapeType == ShapeType.Vertical:
-        width = max([image.width for image in croppedImageList])
-        height = sum([image.height for image in croppedImageList]) + (len(armorImages) - 1) * imageSpacing
+        width = max([image.width for image in croppedImageList]) + (len(armorImages) - 1) * imageXSpacing
+        height = sum([image.height for image in croppedImageList]) + (len(armorImages) - 1) * imageYSpacing
 
-        image = Image.new("RGBA", (width, height - heightOffset), (0, 0, 0, 0))
+        image = Image.new("RGBA", (width + 2 * 5, height - heightOffset), (0, 0, 0, 0))
 
         y = 0
         for i, croppedImage in enumerate(croppedImageList):
@@ -264,15 +266,15 @@ def CreateArmorSetImage(
             if "a_" in armorPaths[i].lower():
                 animatedFiles.append([croppedImage, armorPaths[i], x_offset, 0, 0, y])
 
-            tempItemSpacing = imageSpacing
+            tempItemSpacing = imageYSpacing
             armorName = armorPaths[i].lower()
             if "helmet" in armorName and not any(item in armorName for item in disallowedNames):
-                tempItemSpacing = imageSpacing // 2
+                tempItemSpacing = imageYSpacing // 2
 
             y += croppedImage.height + tempItemSpacing
 
     elif shapeType == ShapeType.Horizontal:
-        width = sum([image.width for image in croppedImageList]) + (len(armorImages)) * imageSpacing
+        width = sum([image.width for image in croppedImageList]) + (len(armorImages)) * imageXSpacing
         height = max([image.height for image in croppedImageList])
         image = Image.new("RGBA", (width - heightOffset, height), (0, 0, 0, 0))
 
@@ -284,12 +286,12 @@ def CreateArmorSetImage(
             if "a_" in armorPaths[i].lower():
                 animatedFiles.append([croppedImage, armorPaths[i], 0, y_offset, x, 0])
 
-            # tempItemSpacing = imageSpacing
+            # tempItemSpacing = imageXSpacing
             # armorName = armorPaths[i].lower()
             # if "helmet" in armorName and not any(item in armorName for item in disallowedNames):
-            #     tempItemSpacing = imageSpacing // 2
+            #     tempItemSpacing = imageXSpacing // 2
 
-            x += croppedImage.width + imageSpacing
+            x += croppedImage.width + imageXSpacing
 
     elif shapeType == ShapeType.Square:
         num_images = len(croppedImageList)
@@ -297,15 +299,15 @@ def CreateArmorSetImage(
         max_width = max([image.width for image in croppedImageList])
         max_height = max([image.height for image in croppedImageList])
 
-        square_size = grid_size * max(max_width, max_height) + (grid_size - 1) * imageSpacing
+        square_size = grid_size * max(max_width, max_height) + (grid_size - 1) * max(imageXSpacing, imageYSpacing)
         image = Image.new("RGBA", (square_size, square_size), (0, 0, 0, 0))
 
         for i, croppedImage in enumerate(croppedImageList):
             row = i // grid_size
             col = i % grid_size
 
-            x_offset = col * (max_width + imageSpacing) + (max_width - croppedImage.width) // 2
-            y_offset = row * (max_height + imageSpacing) + (max_height - croppedImage.height) // 2
+            x_offset = col * (max_width + imageXSpacing) + (max_width - croppedImage.width) // 2
+            y_offset = row * (max_height + imageYSpacing) + (max_height - croppedImage.height) // 2
 
             image.paste(croppedImage, (x_offset, y_offset), croppedImage)
 
@@ -514,13 +516,22 @@ def MixRGBList(startRGB, rgbList):
 
     return [red, green, blue]
 
-def GetCombinedArmorSetBuffer(armorType, hexList, shapeType, versionType = VersionType._1_8_9, imageSpacing = 20, imageSize = 128):
+def GetCombinedArmorSetBuffer(
+    armorType,
+    hexList,
+    shapeType,
+    versionType = VersionType._1_8_9,
+    imageXSpacing = 0,
+    imageYSpacing = 20,
+    imageSize = 128
+):
     armorSet, colors, duration = CreateArmorSetImage(
         armorType=armorType,
         hexList=hexList,
         versionType=versionType,
         shapeType=shapeType,
-        imageSpacing=imageSpacing,
+        imageXSpacing=imageXSpacing,
+        imageYSpacing=imageYSpacing,
         imageSize=imageSize
     )
     if duration > 0:
